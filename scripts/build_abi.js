@@ -102,8 +102,14 @@ function processInterface(interfaceFile) {
   
   try {
     // Generate ABI using solc
-    const solcCmd = `solc --abi --pretty-json --include-path node_modules/ --base-path . -o ${TEMP_DIR} ${path}`;
-    execSync(solcCmd, { stdio: 'pipe' });
+    let solcCmd = `solc --abi --pretty-json --include-path node_modules/ --base-path . -o ${TEMP_DIR} ${path}`;
+    try {
+      execSync(solcCmd, { stdio: 'pipe' });
+    } catch (solcError) {
+      // If solc fails, try solcjs
+      solcCmd = `solcjs --abi --include-path node_modules/ --base-path . -o ${TEMP_DIR} ${path}`;
+      execSync(solcCmd, { stdio: 'pipe' });
+    }
     
     // Find the generated ABI file
     const abiFiles = readdirSync(TEMP_DIR);
