@@ -1,0 +1,15 @@
+name: Install Dependencies 
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  install:
+    runs-on: ${{ fromJSON(inputs.runner) }}
+    steps:
+      - name: Setup and Install
+        uses: ./actions/install

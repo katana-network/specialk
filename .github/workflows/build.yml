@@ -1,0 +1,24 @@
+name: Build project
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  build:
+    runs-on: ${{ fromJSON(inputs.runner) }}
+    steps:
+      - name: Setup and Install
+        uses: ./actions/install
+
+      - name: Build
+        run: bun run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: dist/
