@@ -26,6 +26,7 @@ This kit provides:
 - Script to generate a single file contract directory with all the ABIs,
   contract names, paths, descriptions, addresses, and context they belong to,
   for directory browsers like the [contract dir](https://contractdir.bruno.id)
+- **Decentralised Hosting** on Arweave Name Service (ArNS) using permaweb deploy package and `deploy-arns.yml` Github Workflow.
 
 Whether you're building **yield strategies, cross-chain intent-based execution,
 or novel DeFi protocols**, this starter kit helps you bootstrap your project
@@ -210,6 +211,34 @@ const morphoAddress = getContractAddress('MorphoBlue', CHAIN_IDS.TATARA);
 
 The address mapping is generated from the Solidity address libraries in the
 interfaces directory.
+
+### 7️⃣ Decentralised Hosting on Arweave Name System (ArNS)
+
+This kit includes the `permaweb-deploy` package and `deploy-arns.yml` Github Workflow for decentralized static hosting on [Arweave Name System (ArNS)](https://ar.io/arns):
+
+To host your app on ArNS follw these steps:
+
+1. **Create & top-up your Arweave Wallet:** head to [Wander](https://www.wander.app/) to create a new wallet and then top up this wallet with [Turbo Credits](https://turbo-topup.com/) using Fiat or AR to pay for uploads.
+2. **Purchase an ArNS Name:**
+    - Head to the [ArNS app](https://arns.app) to purchase a name (supports [ARIO](https://ar.io/token), Credit Card and Turbo Credits)
+    - Optionally purchase a testnet name by requesting `tARIO` tokens from the [faucet](https://faucet.arweave.net/) and follow the "Using arns.app with Testnet" section of [this guide](https://docs.ar.io/guides/testnet) to purchase a testnet name.
+3. **Configure .Github Secrets**
+    - Go to your repository's **Settings > Secrets and variables > Actions**.
+    - Create a new GH secret `DEPLOY_KEY`
+    - Download your wallet keyfile from Wander (**NB: this is your private key and must be kept confidential.**)
+    - Convert this file to base64 and copy to clipboard `base64 -i wallet.json | pbcopy`
+    - Paste this as the value for `DEPLOY_KEY`
+4. **Update deployment script and deploy:**
+    - Replace the value for `<ARNS_NAME>` in `deploy:arweave` script in `package.json` to the name you purchased earlier.
+    - Commit changes to Git and push to Github.
+
+To deploy manually via the CLI build your app locally and then run the following command:
+
+```
+DEPLOY_KEY=$(base64 -i wallet.json) npx permaweb-deploy --arns-name <ARNS_NAME>
+```
+
+NB - To use a testnet ArNS name, update the value for `<ARNS_NAME>` to your testnet name and append `--ario-process testnet` to the end of the `deploy:arweave` script in `package.json` or the CLI Script above.
 
 ---
 
