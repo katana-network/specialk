@@ -1,0 +1,4591 @@
+[
+  {
+    "name": "IAccount",
+    "path": "AAv0.6.0/IERC4337Account.sol",
+    "relativePath": "AAv0.6.0",
+    "description": "ERC-4337 v0.6.0 Account Interface: Interface for accounts that can be validated by the EntryPoint",
+    "metadata": {
+      "title": "ERC-4337 v0.6.0 Account Interface",
+      "notice": "Interface for accounts that can be validated by the EntryPoint",
+      "dev": null
+    },
+    "context": "account-abstraction",
+    "theme": "#ff7a00",
+    "address": null,
+    "abi": [
+      {
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nonce",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "initCode",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "uint256",
+                "name": "callGasLimit",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "verificationGasLimit",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "preVerificationGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "maxFeePerGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "maxPriorityFeePerGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "paymasterAndData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "signature",
+                "type": "bytes"
+              }
+            ],
+            "internalType": "struct UserOperation",
+            "name": "userOp",
+            "type": "tuple"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "userOpHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "missingAccountFunds",
+            "type": "uint256"
+          }
+        ],
+        "name": "validateUserOp",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "validationData",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "validateUserOp",
+        "signature": "validateUserOp(tuple,bytes32,uint256)",
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nonce",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "initCode",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "uint256",
+                "name": "callGasLimit",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "verificationGasLimit",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "preVerificationGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "maxFeePerGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "maxPriorityFeePerGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "paymasterAndData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "signature",
+                "type": "bytes"
+              }
+            ],
+            "internalType": "struct UserOperation",
+            "name": "userOp",
+            "type": "tuple"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "userOpHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "missingAccountFunds",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "validationData",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      }
+    ]
+  },
+  {
+    "name": "IAccount",
+    "path": "AAv0.7.0/IERC4337Account.sol",
+    "relativePath": "AAv0.7.0",
+    "description": "ERC-4337 v0.7.0 Account Interface: Interface for accounts that can be validated by the EntryPoint",
+    "metadata": {
+      "title": "ERC-4337 v0.7.0 Account Interface",
+      "notice": "Interface for accounts that can be validated by the EntryPoint",
+      "dev": null
+    },
+    "context": "account-abstraction",
+    "theme": "#ff7a00",
+    "address": null,
+    "abi": [
+      {
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nonce",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "initCode",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "accountGasLimits",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "uint256",
+                "name": "preVerificationGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "gasFees",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes",
+                "name": "paymasterAndData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "signature",
+                "type": "bytes"
+              }
+            ],
+            "internalType": "struct PackedUserOperation",
+            "name": "userOp",
+            "type": "tuple"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "userOpHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "missingAccountFunds",
+            "type": "uint256"
+          }
+        ],
+        "name": "validateUserOp",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "validationData",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "validateUserOp",
+        "signature": "validateUserOp(tuple,bytes32,uint256)",
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nonce",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "initCode",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "accountGasLimits",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "uint256",
+                "name": "preVerificationGas",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "gasFees",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes",
+                "name": "paymasterAndData",
+                "type": "bytes"
+              },
+              {
+                "internalType": "bytes",
+                "name": "signature",
+                "type": "bytes"
+              }
+            ],
+            "internalType": "struct PackedUserOperation",
+            "name": "userOp",
+            "type": "tuple"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "userOpHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "missingAccountFunds",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "validationData",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      }
+    ]
+  },
+  {
+    "name": "IAggregatorV3Interface",
+    "path": "IAggregatorV3Interface.sol",
+    "relativePath": "",
+    "description": "IAggregatorV3Interface: Interface for Chainlink price feed aggregators",
+    "metadata": {
+      "title": "IAggregatorV3Interface",
+      "notice": "Interface for Chainlink price feed aggregators",
+      "dev": null
+    },
+    "context": "general",
+    "theme": "#6b7280",
+    "address": null,
+    "abi": [
+      {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "description",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint80",
+            "name": "_roundId",
+            "type": "uint80"
+          }
+        ],
+        "name": "getRoundData",
+        "outputs": [
+          {
+            "internalType": "uint80",
+            "name": "roundId",
+            "type": "uint80"
+          },
+          {
+            "internalType": "int256",
+            "name": "answer",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "updatedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint80",
+            "name": "answeredInRound",
+            "type": "uint80"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "latestRoundData",
+        "outputs": [
+          {
+            "internalType": "uint80",
+            "name": "roundId",
+            "type": "uint80"
+          },
+          {
+            "internalType": "int256",
+            "name": "answer",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "updatedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint80",
+            "name": "answeredInRound",
+            "type": "uint80"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "version",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "decimals",
+        "signature": "decimals()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "description",
+        "signature": "description()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getRoundData",
+        "signature": "getRoundData(uint80)",
+        "inputs": [
+          {
+            "internalType": "uint80",
+            "name": "_roundId",
+            "type": "uint80"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint80",
+            "name": "roundId",
+            "type": "uint80"
+          },
+          {
+            "internalType": "int256",
+            "name": "answer",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "updatedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint80",
+            "name": "answeredInRound",
+            "type": "uint80"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "latestRoundData",
+        "signature": "latestRoundData()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint80",
+            "name": "roundId",
+            "type": "uint80"
+          },
+          {
+            "internalType": "int256",
+            "name": "answer",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "updatedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint80",
+            "name": "answeredInRound",
+            "type": "uint80"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "version",
+        "signature": "version()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      }
+    ]
+  },
+  {
+    "name": "IAUSD",
+    "path": "tokens/IAUSD.sol",
+    "relativePath": "tokens",
+    "description": "IAUSD: Interface for Agora USD (AUSD), the stablecoin on Katana (AUSD implements the standard ERC-20 interface)",
+    "metadata": {
+      "title": "IAUSD",
+      "notice": "Interface for Agora USD (AUSD), the stablecoin on Katana",
+      "dev": "AUSD implements the standard ERC-20 interface"
+    },
+    "context": "token",
+    "theme": "#10b981",
+    "address": {
+      "tatara": "0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Approval",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Transfer",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          }
+        ],
+        "name": "allowance",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "approve",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "transferFrom",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "allowance",
+        "signature": "allowance(address,address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "approve",
+        "signature": "approve(address,uint256)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "balanceOf",
+        "signature": "balanceOf(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "decimals",
+        "signature": "decimals()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "name",
+        "signature": "name()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "symbol",
+        "signature": "symbol()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "totalSupply",
+        "signature": "totalSupply()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "transfer",
+        "signature": "transfer(address,uint256)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "transferFrom",
+        "signature": "transferFrom(address,address,uint256)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      }
+    ]
+  },
+  {
+    "name": "IBridgeL2SovereignChain",
+    "path": "agglayer/IBridgeL2SovereignChain.sol",
+    "relativePath": "agglayer",
+    "description": "IBridgeL2SovereignChain: Interface for the BridgeL2SovereignChain contract which handles cross-chain message passing (Implementation address: 0x8BD36ca1A55e389335004872aA3C3Be0969D3aA7)",
+    "metadata": {
+      "title": "IBridgeL2SovereignChain",
+      "notice": "Interface for the BridgeL2SovereignChain contract which handles cross-chain message passing",
+      "dev": "Implementation address: 0x8BD36ca1A55e389335004872aA3C3Be0969D3aA7"
+    },
+    "context": "bridge",
+    "theme": "#e20b8c",
+    "address": {
+      "tatara": "0x528e26b25a34a4A5d0dbDa1d57D318153d2ED582",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint32",
+            "name": "originNetwork",
+            "type": "uint32"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "originAddress",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint32",
+            "name": "depositCount",
+            "type": "uint32"
+          }
+        ],
+        "name": "BridgeEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint32",
+            "name": "originNetwork",
+            "type": "uint32"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "originAddress",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint32",
+            "name": "depositCount",
+            "type": "uint32"
+          }
+        ],
+        "name": "ClaimEvent",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "permitData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          }
+        ],
+        "name": "bridgeAsset",
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          }
+        ],
+        "name": "bridgeMessage",
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32[]",
+            "name": "smtProof",
+            "type": "bytes32[]"
+          },
+          {
+            "internalType": "uint32",
+            "name": "index",
+            "type": "uint32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "mainnetExitRoot",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "rollupExitRoot",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "originNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "originAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          }
+        ],
+        "name": "claimMessage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "depositCount",
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "globalExitRootManager",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "_networkID",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "_globalExitRootManager",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_polygonZkEVMaddress",
+            "type": "address"
+          }
+        ],
+        "name": "initialize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "originNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "originAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          },
+          {
+            "internalType": "uint32",
+            "name": "depositCount",
+            "type": "uint32"
+          }
+        ],
+        "name": "isClaimed",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "networkID",
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "polygonZkEVMaddress",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "bridgeAsset",
+        "signature": "bridgeAsset(uint32,address,uint256,address,bytes,bytes)",
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "permitData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "bridgeMessage",
+        "signature": "bridgeMessage(uint32,address,bytes)",
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "claimMessage",
+        "signature": "claimMessage(bytes32[],uint32,bytes32,bytes32,uint32,address,uint32,address,uint256,bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes32[]",
+            "name": "smtProof",
+            "type": "bytes32[]"
+          },
+          {
+            "internalType": "uint32",
+            "name": "index",
+            "type": "uint32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "mainnetExitRoot",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "rollupExitRoot",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "originNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "originAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "depositCount",
+        "signature": "depositCount()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "globalExitRootManager",
+        "signature": "globalExitRootManager()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "initialize",
+        "signature": "initialize(uint32,address,address)",
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "_networkID",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "_globalExitRootManager",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_polygonZkEVMaddress",
+            "type": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "isClaimed",
+        "signature": "isClaimed(uint32,address,uint32,address,uint256,bytes,uint32)",
+        "inputs": [
+          {
+            "internalType": "uint32",
+            "name": "originNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "originAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "destinationNetwork",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "destinationAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "metadata",
+            "type": "bytes"
+          },
+          {
+            "internalType": "uint32",
+            "name": "depositCount",
+            "type": "uint32"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "networkID",
+        "signature": "networkID()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "uint32",
+            "name": "",
+            "type": "uint32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "polygonZkEVMaddress",
+        "signature": "polygonZkEVMaddress()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      }
+    ]
+  },
+  {
+    "name": "IBundler3",
+    "path": "IBundler3.sol",
+    "relativePath": "",
+    "description": "IBundler3: Interface for the Bundler3 contract, which enables batching multiple calls in a single transaction",
+    "metadata": {
+      "title": "IBundler3",
+      "notice": "Interface for the Bundler3 contract, which enables batching multiple calls in a single transaction",
+      "dev": null
+    },
+    "context": "utility",
+    "theme": "#00b7c5",
+    "address": {
+      "tatara": "0xD0bDf3E62F6750Bd83A50b4001743898Af287009",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "inputs": [],
+        "name": "initiator",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
+              {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "skipRevert",
+                "type": "bool"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "callbackHash",
+                "type": "bytes32"
+              }
+            ],
+            "internalType": "struct IBundler3.Call[]",
+            "name": "bundle",
+            "type": "tuple[]"
+          }
+        ],
+        "name": "multicall",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
+              {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "skipRevert",
+                "type": "bool"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "callbackHash",
+                "type": "bytes32"
+              }
+            ],
+            "internalType": "struct IBundler3.Call[]",
+            "name": "bundle",
+            "type": "tuple[]"
+          }
+        ],
+        "name": "reenter",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "reenterHash",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "initiator",
+        "signature": "initiator()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "multicall",
+        "signature": "multicall(tuple[])",
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
+              {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "skipRevert",
+                "type": "bool"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "callbackHash",
+                "type": "bytes32"
+              }
+            ],
+            "internalType": "struct IBundler3.Call[]",
+            "name": "bundle",
+            "type": "tuple[]"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "reenter",
+        "signature": "reenter(tuple[])",
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
+              {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "skipRevert",
+                "type": "bool"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "callbackHash",
+                "type": "bytes32"
+              }
+            ],
+            "internalType": "struct IBundler3.Call[]",
+            "name": "bundle",
+            "type": "tuple[]"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "reenterHash",
+        "signature": "reenterHash()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      }
+    ]
+  },
+  {
+    "name": "IConduit",
+    "path": "IConduit.sol",
+    "relativePath": "",
+    "description": "IConduit: Interface for OpenSea's Conduit contracts that enable transferring approved tokens (Conduits are deployed by the ConduitController and can transfer ERC20/721/1155 tokens)",
+    "metadata": {
+      "title": "IConduit",
+      "notice": "Interface for OpenSea's Conduit contracts that enable transferring approved tokens",
+      "dev": "Conduits are deployed by the ConduitController and can transfer ERC20/721/1155 tokens"
+    },
+    "context": "seaport",
+    "theme": "#2081e2",
+    "address": {
+      "tatara": "0x00000000F9490004C11Cef243f5400493c00Ad63",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "enum IConduit.ItemType",
+                "name": "itemType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "identifier",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IConduit.TransferItem[]",
+            "name": "transferItems",
+            "type": "tuple[]"
+          }
+        ],
+        "name": "execute",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "ids",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "amounts",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "executeBatch1155",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "isOpen",
+            "type": "bool"
+          }
+        ],
+        "name": "updateChannel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "execute",
+        "signature": "execute(tuple[])",
+        "inputs": [
+          {
+            "components": [
+              {
+                "internalType": "enum IConduit.ItemType",
+                "name": "itemType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "from",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "identifier",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IConduit.TransferItem[]",
+            "name": "transferItems",
+            "type": "tuple[]"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "executeBatch1155",
+        "signature": "executeBatch1155(address,address,address,uint256[],uint256[])",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "ids",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "amounts",
+            "type": "uint256[]"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "updateChannel",
+        "signature": "updateChannel(address,bool)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "isOpen",
+            "type": "bool"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      }
+    ]
+  },
+  {
+    "name": "IConduitController",
+    "path": "IConduitController.sol",
+    "relativePath": "",
+    "description": "IConduitController: Interface for OpenSea's Conduit Controller system that enables deploying and managing conduits (Conduits allow registered callers (channels) to transfer approved ERC20/721/1155 tokens on their behalf)",
+    "metadata": {
+      "title": "IConduitController",
+      "notice": "Interface for OpenSea's Conduit Controller system that enables deploying and managing conduits",
+      "dev": "Conduits allow registered callers (channels) to transfer approved ERC20/721/1155 tokens on their behalf"
+    },
+    "context": "seaport",
+    "theme": "#2081e2",
+    "address": {
+      "tatara": "0x00000000F9490004C11Cef243f5400493c00Ad63",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "acceptOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "cancelOwnershipTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "conduitKey",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "initialOwner",
+            "type": "address"
+          }
+        ],
+        "name": "createConduit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "channelIndex",
+            "type": "uint256"
+          }
+        ],
+        "name": "getChannel",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          }
+        ],
+        "name": "getChannelStatus",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "isOpen",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "getChannels",
+        "outputs": [
+          {
+            "internalType": "address[]",
+            "name": "channels",
+            "type": "address[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "conduitKey",
+            "type": "bytes32"
+          }
+        ],
+        "name": "getConduit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "exists",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getConduitCodeHashes",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "creationCodeHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "runtimeCodeHash",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "getKey",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "conduitKey",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "getPotentialOwner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "potentialOwner",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "getTotalChannels",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "totalChannels",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "name": "ownerOf",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "newPotentialOwner",
+            "type": "address"
+          }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "isOpen",
+            "type": "bool"
+          }
+        ],
+        "name": "updateChannel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "acceptOwnership",
+        "signature": "acceptOwnership(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "cancelOwnershipTransfer",
+        "signature": "cancelOwnershipTransfer(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "createConduit",
+        "signature": "createConduit(bytes32,address)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "conduitKey",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "initialOwner",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "getChannel",
+        "signature": "getChannel(address,uint256)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "channelIndex",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getChannelStatus",
+        "signature": "getChannelStatus(address,address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "isOpen",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getChannels",
+        "signature": "getChannels(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address[]",
+            "name": "channels",
+            "type": "address[]"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getConduit",
+        "signature": "getConduit(bytes32)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "conduitKey",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "exists",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getConduitCodeHashes",
+        "signature": "getConduitCodeHashes()",
+        "inputs": [],
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "creationCodeHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "runtimeCodeHash",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getKey",
+        "signature": "getKey(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "conduitKey",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getPotentialOwner",
+        "signature": "getPotentialOwner(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "potentialOwner",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "getTotalChannels",
+        "signature": "getTotalChannels(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "totalChannels",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "ownerOf",
+        "signature": "ownerOf(address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "transferOwnership",
+        "signature": "transferOwnership(address,address)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "newPotentialOwner",
+            "type": "address"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "updateChannel",
+        "signature": "updateChannel(address,address,bool)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "conduit",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "channel",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "isOpen",
+            "type": "bool"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      }
+    ]
+  },
+  {
+    "name": "ICreate2Deployer",
+    "path": "ICreate2Deployer.sol",
+    "relativePath": "",
+    "description": "ICreate2Deployer: Helper contract for using CREATE2 opcode with additional safety features and utilities (Interface for the Create2Deployer contract on Katana)",
+    "metadata": {
+      "title": "ICreate2Deployer",
+      "notice": "Helper contract for using CREATE2 opcode with additional safety features and utilities",
+      "dev": "Interface for the Create2Deployer contract on Katana"
+    },
+    "context": "utility",
+    "theme": "#00b7c5",
+    "address": {
+      "tatara": "0x13b0D85CcB8bf860b6b79AF3029fCA081AE9beF2",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+          }
+        ],
+        "name": "computeAddress",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          }
+        ],
+        "name": "computeAddressWithDeployer",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "code",
+            "type": "bytes"
+          }
+        ],
+        "name": "deploy",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          }
+        ],
+        "name": "deployERC1820Implementer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "pause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "unpause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "computeAddress",
+        "signature": "computeAddress(bytes32,bytes32)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "computeAddressWithDeployer",
+        "signature": "computeAddressWithDeployer(bytes32,bytes32,address)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "codeHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "pure"
+      },
+      {
+        "name": "deploy",
+        "signature": "deploy(uint256,bytes32,bytes)",
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "code",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "deployERC1820Implementer",
+        "signature": "deployERC1820Implementer(uint256,bytes32)",
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "pause",
+        "signature": "pause()",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "name": "unpause",
+        "signature": "unpause()",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      }
+    ]
+  },
+  {
+    "name": "ICreateX",
+    "path": "ICreateX.sol",
+    "relativePath": "",
+    "description": "CreateX Factory Interface Definition: Advanced contract deployment factory supporting CREATE, CREATE2, and CREATE3 deployment patterns",
+    "metadata": {
+      "title": "CreateX Factory Interface Definition",
+      "notice": "Advanced contract deployment factory supporting CREATE, CREATE2, and CREATE3 deployment patterns",
+      "dev": null
+    },
+    "context": "deployment",
+    "theme": "#8b5cf6",
+    "address": {
+      "tatara": "0xba5Ed099633D3B313e4D5F7bdc1305d3c28ba5Ed",
+      "mainnet": null
+    },
+    "abi": [
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "emitter",
+            "type": "address"
+          }
+        ],
+        "name": "FailedContractCreation",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "emitter",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "revertData",
+            "type": "bytes"
+          }
+        ],
+        "name": "FailedContractInitialisation",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "emitter",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "revertData",
+            "type": "bytes"
+          }
+        ],
+        "name": "FailedEtherTransfer",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "emitter",
+            "type": "address"
+          }
+        ],
+        "name": "InvalidNonceValue",
+        "type": "error"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "emitter",
+            "type": "address"
+          }
+        ],
+        "name": "InvalidSalt",
+        "type": "error"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          }
+        ],
+        "name": "ContractCreation",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "name": "ContractCreation",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          }
+        ],
+        "name": "Create3ProxyContractCreation",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "initCodeHash",
+            "type": "bytes32"
+          }
+        ],
+        "name": "computeCreate2Address",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "initCodeHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          }
+        ],
+        "name": "computeCreate2Address",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          }
+        ],
+        "name": "computeCreate3Address",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          }
+        ],
+        "name": "computeCreate3Address",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          }
+        ],
+        "name": "computeCreateAddress",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          }
+        ],
+        "name": "computeCreateAddress",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate2",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate2",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "name": "deployCreate2AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "name": "deployCreate2AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "name": "deployCreate2AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "name": "deployCreate2AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate2Clone",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "proxy",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate2Clone",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "proxy",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate3",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreate3",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "name": "deployCreate3AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "name": "deployCreate3AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "name": "deployCreate3AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "name": "deployCreate3AndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "name": "deployCreateAndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "name": "deployCreateAndInit",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "name": "deployCreateClone",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "proxy",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ],
+    "functionSignatures": [
+      {
+        "name": "computeCreate2Address",
+        "signature": "computeCreate2Address(bytes32,bytes32)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "initCodeHash",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "computeCreate2Address",
+        "signature": "computeCreate2Address(bytes32,bytes32,address)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "initCodeHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "pure"
+      },
+      {
+        "name": "computeCreate3Address",
+        "signature": "computeCreate3Address(bytes32,address)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "pure"
+      },
+      {
+        "name": "computeCreate3Address",
+        "signature": "computeCreate3Address(bytes32)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "computeCreateAddress",
+        "signature": "computeCreateAddress(uint256)",
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "computeCreateAddress",
+        "signature": "computeCreateAddress(address,uint256)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "deployer",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "computedAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "name": "deployCreate",
+        "signature": "deployCreate(bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2",
+        "signature": "deployCreate2(bytes32,bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2",
+        "signature": "deployCreate2(bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2AndInit",
+        "signature": "deployCreate2AndInit(bytes32,bytes,bytes,tuple,address)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2AndInit",
+        "signature": "deployCreate2AndInit(bytes,bytes,tuple)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2AndInit",
+        "signature": "deployCreate2AndInit(bytes,bytes,tuple,address)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2AndInit",
+        "signature": "deployCreate2AndInit(bytes32,bytes,bytes,tuple)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2Clone",
+        "signature": "deployCreate2Clone(bytes32,address,bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "proxy",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate2Clone",
+        "signature": "deployCreate2Clone(address,bytes)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "proxy",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate3",
+        "signature": "deployCreate3(bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate3",
+        "signature": "deployCreate3(bytes32,bytes)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate3AndInit",
+        "signature": "deployCreate3AndInit(bytes32,bytes,bytes,tuple)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate3AndInit",
+        "signature": "deployCreate3AndInit(bytes,bytes,tuple)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate3AndInit",
+        "signature": "deployCreate3AndInit(bytes32,bytes,bytes,tuple,address)",
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "salt",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreate3AndInit",
+        "signature": "deployCreate3AndInit(bytes,bytes,tuple,address)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreateAndInit",
+        "signature": "deployCreateAndInit(bytes,bytes,tuple)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreateAndInit",
+        "signature": "deployCreateAndInit(bytes,bytes,tuple,address)",
+        "inputs": [
+          {
+            "internalType": "bytes",
+            "name": "initCode",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "constructorAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "initCallAmount",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ICreateX.Values",
+            "name": "values",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address",
+            "name": "refundAddress",
+            "type": "address"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "newContract",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      },
+      {
+        "name": "deployCreateClone",
+        "signature": "deployCreateClone(address,bytes)",
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "proxy",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "payable"
+      }
+    ]
+  }
+]

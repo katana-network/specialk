@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katana Demo app</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Katana Demo app</h1>
+      <div class="network-status">
+        <span id="network-indicator"></span>
+        <span id="network-name">Connecting...</span>
+      </div>
+    </header>
+
+    <main>
+      <section id="wallet-section">
+        <h2>Wallet Connection</h2>
+        <div class="card">
+          <div id="wallet-status">Not connected</div>
+          <button id="connect-wallet" class="primary-button">Connect Wallet</button>
+        </div>
+      </section>
+
+      <section id="contracts-section">
+        <h2>Tatara Contracts</h2>
+        
+        <!-- AUSD Token -->
+        <div class="card">
+          <h3>AUSD Token</h3>
+          <div class="contract-address">
+            <span>Address:</span>
+            <code>0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC</code>
+          </div>
+          <div class="contract-data" id="ausd-data">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        </div>
+
+        <!-- WETH Token -->
+        <div class="card">
+          <h3>WETH Token</h3>
+          <div class="contract-address">
+            <span>Address:</span>
+            <code>0x17B8Ee96E3bcB3b04b3e8334de4524520C51caB4</code>
+          </div>
+          <div class="contract-data" id="weth-data">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        </div>
+
+        <!-- MorphoBlue -->
+        <div class="card">
+          <h3>MorphoBlue Protocol</h3>
+          <div class="contract-address">
+            <span>Address:</span>
+            <code>0xC263190b99ceb7e2b7409059D24CB573e3bB9021</code>
+          </div>
+          <div class="contract-data" id="morpho-data">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built with Katana Development Starter Kit</p>
+      <p>Using local Tatara fork at http://localhost:8545</p>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
