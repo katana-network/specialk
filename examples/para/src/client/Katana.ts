@@ -23,7 +23,7 @@ const clientId = import.meta.env.VITE_CLIENT
 
 const transport = http(`https://747474.rpc.thirdweb.com/${clientId}`); // https://rpc.katana.network
 
-import AUSD_ABI from '../abis/tokens/IAUSD.json'
+import AUSD_ABI from '../abiss/tokens/IAUSD.json'
 
 export async function initialize(para: ParaWeb) {
     try {
