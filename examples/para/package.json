@@ -1,0 +1,43 @@
+{
+  "name": "para-specialk",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@getpara/evm-wallet-connectors": "^1.18.1",
+    "@getpara/react-sdk": "^1.18.1",
+    "@getpara/viem-v2-integration": "^1.18.1",
+    "@modelcontextprotocol/sdk": "^1.15.1",
+    "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/react-query": "^5.82.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5",
+    "solc": "^0.8.30",
+    "tailwindcss": "^4.1.11",
+    "viem": "^2.31.7",
+    "zod": "^4.0.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/node": "^24.0.13",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "path": "^0.12.7",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.22.0",
+    "vite": "^6.1.0",
+    "vite-plugin-node-polyfills": "^0.24.0"
+  }
+}
