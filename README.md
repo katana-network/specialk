@@ -263,7 +263,8 @@ contracts on Katana.
 
 ## Foundry commands (run from repo root)
 
-The following convenience commands are available via Bun scripts in `package.json` and run from the repository root:
+The following convenience commands are available via Bun scripts in
+`package.json` and run from the repository root:
 
 - **forge:deps**: Set up Foundry dependencies (clones `forge-std` if missing)
 
@@ -290,26 +291,46 @@ The following convenience commands are available via Bun scripts in `package.jso
 - **forge:deploy**: Deploy a Foundry script target using a wrapper around `forge script`
 
   Defaults if not provided:
-  - **RPC URL**: `http://localhost:8545`
-  - **Private key**: `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` (unlocked Anvil demo account)
 
-  Usage (the `@script/` prefix is optional):
+- **RPC URL**: `http://localhost:8545`
+- **Private key**: `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` (unlocked Anvil demo account)
+
+  Chain-aware usage (the `@script/` prefix is optional):
 
   ```sh
-  # Use defaults (localhost Anvil, demo key)
-  bun run forge:deploy @script/Counter.s.sol:CounterScript
+  # Local anvil (uses defaults shown above)
+  bun run forge:deploy -- @script/DaikatanaPayments.s.sol:DaikatanaPaymentsScript --chain local
 
-  # Specify RPC URL and private key
-  bun run forge:deploy Counter.s.sol:CounterScript \
-    --rpc-url https://your.rpc/ \
+  # Katana mainnet (reads KATANA_RPC_URL and KATANA_DEPLOYER_KEY from .env)
+  bun run forge:deploy -- @script/DaikatanaPayments.s.sol:DaikatanaPaymentsScript --chain katana
+
+  # Tatara/Bokuto testnets
+  bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain tatara
+  bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain bokuto
+
+  # Override only the private key while keeping chain RPC from .env
+  bun run forge:deploy -- @script/DaikatanaPayments.s.sol:DaikatanaPaymentsScript \
+    --chain katana \
     --private-key 0xYOUR_PRIVATE_KEY
 
+  # Override both explicitly (bypasses .env values for the chain)
+  bun run forge:deploy -- @script/Counter.s.sol:CounterScript \
+    --rpc-url https://your.rpc/ \
+    --private-key 0xYOUR_PRIVATE_KEY
   ```
 
   Notes:
-  - The wrapper auto-adds `--broadcast` unless you already provided it.
-  - Extra flags are forwarded to `forge script` as-is.
-  - Script path is normalized to `forge/script/...` under the `forge/` workspace.
+
+- The wrapper auto-adds `--broadcast` unless you already provided it.
+- Extra flags are forwarded to `forge script` as-is.
+- Script path is normalized to `forge/script/...` under the `forge/` workspace.
+- When using `--sig`, put it after a literal `--` and quote the signature to avoid shell parsing:
+
+    ```sh
+    bun run forge:deploy -- @script/DaikatanaPayments.s.sol:DaikatanaPaymentsScript \
+      --chain local \
+      --sig 'run(uint256,uint256,bool)' 5000000000000000 100 true
+    ```
 
 ### 6️⃣ **Contract Address Mapping**
 
