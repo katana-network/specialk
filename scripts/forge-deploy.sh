@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Re-exec under bash if not already, or if POSIX mode is on
+if [ -z "${BASH_VERSION:-}" ]; then exec /usr/bin/env bash "$0" "$@"; fi
+if (set -o | grep -q 'posix[[:space:]]*on'); then exec /usr/bin/env bash "$0" "$@"; fi
 
 set -euo pipefail
 
@@ -68,12 +71,16 @@ cd "$(dirname "$0")/.."/forge
 
 # Avoid duplicating --broadcast if already provided
 broadcast_flag="--broadcast"
-for arg in "${passthrough_args[@]}"; do
-  if [[ "$arg" == "--broadcast" ]]; then
-    broadcast_flag=""
-    break
-  fi
-done
+if [ "${#passthrough_args[@]:-0}" -gt 0 ] 2>/dev/null; then
+  for arg in "${passthrough_args[@]}"; do
+    if [[ "$arg" == "--broadcast" ]]; then
+      broadcast_flag=""
+      break
+    fi
+  done
+fi
+
+forge script "$target" ${broadcast_flag} --rpc-url "$rpc_url" --private-key "$private_key" ${passthrough_args+"${passthrough_args[@]}"}
 
 set -x
 forge script "$target" ${broadcast_flag} --rpc-url "$rpc_url" --private-key "$private_key" "${passthrough_args[@]}"

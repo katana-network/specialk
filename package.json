@@ -12,10 +12,10 @@
     "build:addressutils": "bun scripts/build_address_utils.js",
     "build:mcpserver": "bun build.js --mcp-only",
     "build:examples": "bun build.js --examples-only",
-    "forge:deps": "mkdir -p forge/lib && [ -d forge/lib/forge-std/.git ] || git clone --depth 1 https://github.com/foundry-rs/forge-std forge/lib/forge-std",
+    "forge:deps": "mkdir -p forge/lib && [ -d forge/lib/forge-std/.git ] || git clone --depth 1 https://github.com/foundry-rs/forge-std forge/lib/forge-std && chmod +x scripts/forge-deploy.sh",
     "forge:build": "cd forge && forge build && cd ..",
     "forge:test": "cd forge && forge test && cd ..",
-    "forge:deploy": "scripts/forge-deploy.sh",
+    "forge:deploy": "bash scripts/forge-deploy.sh",
     "build:all": "bun run forge:deps && bun run build:addressutils && bun run build:abi && bun run build:contractdir && bun run build && bun run build:mcpserver",
     "start:mcp": "bun dist-mcp/index.js"
   },
