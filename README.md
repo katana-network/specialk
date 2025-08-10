@@ -261,6 +261,56 @@ The MCP server provides a seamless interface between AI tools and Foundry's
 blockchain development toolkit, making it easier to build and interact with
 contracts on Katana.
 
+## Foundry commands (run from repo root)
+
+The following convenience commands are available via Bun scripts in `package.json` and run from the repository root:
+
+- **forge:deps**: Set up Foundry dependencies (clones `forge-std` if missing)
+
+  ```sh
+  bun run forge:deps
+  ```
+
+  You don't need to generally run this ever - it's automatic during `build:all`.
+
+- **forge:build**: Build the contracts in the `forge/` workspace
+
+  ```sh
+  bun run forge:build
+  ```
+
+  Compiles your contracts, creating deployable artifacts.
+
+- **forge:test**: Run the Foundry test suite in the `forge/` workspace
+
+  ```sh
+  bun run forge:test
+  ```
+
+- **forge:deploy**: Deploy a Foundry script target using a wrapper around `forge script`
+
+  Defaults if not provided:
+  - **RPC URL**: `http://localhost:8545`
+  - **Private key**: `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` (unlocked Anvil demo account)
+
+  Usage (the `@script/` prefix is optional):
+
+  ```sh
+  # Use defaults (localhost Anvil, demo key)
+  bun run forge:deploy @script/Counter.s.sol:CounterScript
+
+  # Specify RPC URL and private key
+  bun run forge:deploy Counter.s.sol:CounterScript \
+    --rpc-url https://your.rpc/ \
+    --private-key 0xYOUR_PRIVATE_KEY
+
+  ```
+
+  Notes:
+  - The wrapper auto-adds `--broadcast` unless you already provided it.
+  - Extra flags are forwarded to `forge script` as-is.
+  - Script path is normalized to `forge/script/...` under the `forge/` workspace.
+
 ### 6️⃣ **Contract Address Mapping**
 
 The kit includes a utility to generate a JavaScript mapping of all contract

@@ -63,3 +63,6 @@ temp/
 tutorials/
 utils/addresses/mapping.ts
 utils/contractdir*.json
+
+# Not using submodules anymore
+.gitmodules
