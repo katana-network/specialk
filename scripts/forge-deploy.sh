@@ -81,7 +81,3 @@ if [ "${#passthrough_args[@]:-0}" -gt 0 ] 2>/dev/null; then
 fi
 
 forge script "$target" ${broadcast_flag} --rpc-url "$rpc_url" --private-key "$private_key" ${passthrough_args+"${passthrough_args[@]}"}
-
-set -x
-forge script "$target" ${broadcast_flag} --rpc-url "$rpc_url" --private-key "$private_key" "${passthrough_args[@]}"
-
