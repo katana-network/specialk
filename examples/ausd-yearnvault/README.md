@@ -24,7 +24,7 @@ A simple, clean interface for interacting with the Yearn AUSD vault on Tatara te
 cd examples/ausd-yearnvault
 
 # Install required packages
-npm install --legacy-peer-deps
+bun install --legacy-peer-deps
 ```
 
 ### 3. Environment Setup
@@ -71,7 +71,7 @@ src/
 ### 6. Run the Application
 
 ```bash
-npm start
+bun start
 ```
 
 The app will open at `http://localhost:3000`
