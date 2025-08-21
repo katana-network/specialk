@@ -1,0 +1,26 @@
+name: Arweave Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - deploy-to-arns
+
+jobs:
+  Arweave-build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run deployment script
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          bun install
+          bun run deploy:arns

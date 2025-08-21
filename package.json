@@ -18,7 +18,8 @@
     "forge:test": "cd forge && forge test && cd ..",
     "forge:deploy": "bash scripts/forge-deploy.sh",
     "build:all": "bun run forge:deps && bun run build:addressutils && bun run build:abi && bun run build:contractdir && bun run build && bun run build:mcpserver",
-    "start:mcp": "bun dist-mcp/index.js"
+    "start:mcp": "bun dist-mcp/index.js",
+    "deploy:arns": "bun run build:all && permaweb-deploy --arns-name <ARNS_NAME> --sig-type ethereum"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
@@ -27,8 +28,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "esbuild": "^0.24.0",
     "@types/node": "^20.11.25",
+    "esbuild": "^0.24.0",
+    "permaweb-deploy": "^2.5.1",
     "typescript": "^5.4.2"
   },
   "type": "module"
