@@ -64,3 +64,19 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+# Forge Scripts
+
+## Requesting Funds from AgoraFaucet
+
+You can request funds using the AgoraFaucet script with Forge. Make sure you have a `.env` file in the `forge/` directory containing your `PRIVATE_KEY`:
+
+```
+PRIVATE_KEY=your_private_key_here
+```
+
+Then run the following command from the `forge/` directory:
+
+```
+forge script script/AgoraFaucet.s.sol --rpc-url tatara
+```

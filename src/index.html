@@ -26,14 +26,14 @@
       </section>
 
       <section id="contracts-section">
-        <h2>Tatara Contracts</h2>
+        <h2>Chain Contracts</h2>
         
         <!-- AUSD Token -->
         <div class="card">
           <h3>AUSD Token</h3>
-          <div class="contract-address">
+          <div class="contract-address" id="ausd-address">
             <span>Address:</span>
-            <code>0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC</code>
+            <code>Loading...</code>
           </div>
           <div class="contract-data" id="ausd-data">
             <div class="spinner"></div>
@@ -41,12 +41,12 @@
           </div>
         </div>
 
-        <!-- WETH Token -->
+        <!-- bvbEth Token -->
         <div class="card">
-          <h3>WETH Token</h3>
-          <div class="contract-address">
+          <h3>bvbEth Token (Bridged Vault Bridge ETH)</h3>
+          <div class="contract-address" id="weth-address">
             <span>Address:</span>
-            <code>0x17B8Ee96E3bcB3b04b3e8334de4524520C51caB4</code>
+            <code>Loading...</code>
           </div>
           <div class="contract-data" id="weth-data">
             <div class="spinner"></div>
@@ -57,11 +57,42 @@
         <!-- MorphoBlue -->
         <div class="card">
           <h3>MorphoBlue Protocol</h3>
-          <div class="contract-address">
+          <div class="contract-address" id="morpho-address">
             <span>Address:</span>
-            <code>0xC263190b99ceb7e2b7409059D24CB573e3bB9021</code>
+            <code>Loading...</code>
           </div>
           <div class="contract-data" id="morpho-data">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="origin-contracts-section">
+        <h2>Origin Chain Contracts</h2>
+        <p class="section-description">Cross-chain contracts deployed on origin chains (Ethereum/Sepolia) accessible from the current chain context.</p>
+        
+        <!-- VB USDC Origin -->
+        <div class="card">
+          <h3>vbUSDC (Vault Bridge USDC)</h3>
+          <div class="contract-address" id="vbusdc-origin-address">
+            <span>Origin Address:</span>
+            <code>Loading...</code>
+          </div>
+          <div class="contract-data" id="vbusdc-origin-data">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        </div>
+
+        <!-- VB ETH Origin -->
+        <div class="card">
+          <h3>vbETH (Vault Bridge ETH)</h3>
+          <div class="contract-address" id="vbeth-origin-address">
+            <span>Origin Address:</span>
+            <code>Loading...</code>
+          </div>
+          <div class="contract-data" id="vbeth-origin-data">
             <div class="spinner"></div>
             <p>Loading data...</p>
           </div>
@@ -70,8 +101,9 @@
     </main>
 
     <footer>
-      <p>Built with Katana Development Starter Kit</p>
-      <p>Using local Tatara fork at http://localhost:8545</p>
+      <p>
+        Built with <a href="https://github.com/katana-network/specialk" target="_blank" rel="noopener noreferrer">Katana Development Starter Kit</a>
+      </p>
     </footer>
   </div>
 

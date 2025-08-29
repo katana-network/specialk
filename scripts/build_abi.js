@@ -5,13 +5,13 @@ import { existsSync, mkdirSync, rmSync, readdirSync, statSync, writeFileSync, re
 import { join, relative, dirname, basename } from 'node:path';
 
 // Paths
-const INTERFACES_DIR = join(process.cwd(), 'interfaces');
+const CONTRACTS_DIR = join(process.cwd(), 'contracts');
 const ABIS_DIR = join(process.cwd(), 'abis');
 const TEMP_DIR = join(process.cwd(), 'temp_abis');
 
-// Check if interfaces directory exists
-if (!existsSync(INTERFACES_DIR)) {
-  console.error('Interfaces directory not found');
+// Check if contracts directory exists
+if (!existsSync(CONTRACTS_DIR)) {
+  console.error('Contracts directory not found');
   process.exit(1);
 }
 
@@ -30,8 +30,8 @@ console.log('Creating directories');
 mkdirSync(ABIS_DIR);
 mkdirSync(TEMP_DIR);
 
-// Get all interface files
-function getAllInterfaceFiles(dir, relativePath = '', result = []) {
+// Get all contract files (interfaces and contracts)
+function getAllContractFiles(dir, relativePath = '', result = []) {
   const files = readdirSync(dir);
   
   for (const file of files) {
@@ -39,8 +39,14 @@ function getAllInterfaceFiles(dir, relativePath = '', result = []) {
     const stats = statSync(filePath);
     
     if (stats.isDirectory()) {
+      // Skip the utils directory since those are generated files
+      if (file === 'utils') {
+        console.log(`Skipping generated directory: ${join(relativePath, file)}`);
+        continue;
+      }
+      
       const newRelativePath = join(relativePath, file);
-      getAllInterfaceFiles(filePath, newRelativePath, result);
+      getAllContractFiles(filePath, newRelativePath, result);
     } else if (file.endsWith('.sol')) {
       result.push({
         path: filePath,
@@ -52,8 +58,8 @@ function getAllInterfaceFiles(dir, relativePath = '', result = []) {
   return result;
 }
 
-// Extract interface name from file content
-function extractInterfaceName(filePath) {
+// Extract contract/interface name from file content
+function extractContractName(filePath) {
   try {
     const content = readFileSync(filePath, 'utf8');
     
@@ -63,16 +69,18 @@ function extractInterfaceName(filePath) {
       return interfaceMatch[1];
     }
     
-    // Try to match the file name (remove the 'I' prefix if exists)
-    const fileName = basename(filePath, '.sol');
-    if (fileName.startsWith('I')) {
-      return fileName;
+    // Try to match contract definition
+    const contractMatch = content.match(/contract\s+(\w+)/);
+    if (contractMatch && contractMatch[1]) {
+      return contractMatch[1];
     }
     
-    return null;
+    // Fallback to filename
+    const fileName = basename(filePath, '.sol');
+    return fileName;
   } catch (error) {
     console.error(`Error reading file ${filePath}:`, error.message);
-    return null;
+    return basename(filePath, '.sol'); // Fallback to filename even on error
   }
 }
 
@@ -86,9 +94,9 @@ function formatJson(jsonStr) {
   }
 }
 
-// Process a single interface file to extract ABI
-function processInterface(interfaceFile) {
-  const { path, relativePath } = interfaceFile;
+// Process a single contract/interface file to extract ABI
+function processContract(contractFile) {
+  const { path, relativePath } = contractFile;
   const fileName = basename(path, '.sol');
   const outDir = join(ABIS_DIR, relativePath);
   
@@ -98,7 +106,7 @@ function processInterface(interfaceFile) {
   }
   
   const outputPath = join(outDir, `${fileName}.json`);
-  console.log(`Processing ${relative(INTERFACES_DIR, path)}`);
+  console.log(`Processing ${relative(CONTRACTS_DIR, path)}`);
   
   try {
     // Generate ABI using solc
@@ -108,16 +116,21 @@ function processInterface(interfaceFile) {
     } catch (solcError) {
       // If solc fails, try solcjs
       solcCmd = `solcjs --abi --include-path node_modules/ --base-path . -o ${TEMP_DIR} ${path}`;
-      execSync(solcCmd, { stdio: 'pipe' });
+      try{
+        execSync(solcCmd, { stdio: 'pipe' });
+      } catch (solcjsError){
+        console.error(`  - Error generating ABI for ${fileName}: ${solcjsError.message}`);
+      }
+      
     }
     
     // Find the generated ABI file
     const abiFiles = readdirSync(TEMP_DIR);
     let abiFile = null;
     
-    const interfaceName = extractInterfaceName(path);
+    const contractName = extractContractName(path);
     for (const file of abiFiles) {
-      if (interfaceName && file.includes(interfaceName)) {
+      if (contractName && file.includes(contractName)) {
         abiFile = file;
         break;
       } else if (file.includes(fileName)) {
@@ -150,13 +163,13 @@ function processInterface(interfaceFile) {
 }
 
 // Main execution
-console.log('Scanning interfaces...');
-const interfaceFiles = getAllInterfaceFiles(INTERFACES_DIR);
-console.log(`Found ${interfaceFiles.length} interface files`);
+console.log('Scanning contracts...');
+const contractFiles = getAllContractFiles(CONTRACTS_DIR);
+console.log(`Found ${contractFiles.length} contract files`);
 
 console.log('Generating ABIs...');
-for (const interfaceFile of interfaceFiles) {
-  processInterface(interfaceFile);
+for (const contractFile of contractFiles) {
+  processContract(contractFile);
 }
 
 // Clean up temp directory
@@ -164,4 +177,42 @@ if (existsSync(TEMP_DIR)) {
   rmSync(TEMP_DIR, { recursive: true, force: true });
 }
 
-console.log('ABI generation complete'); 
+console.log('ABI generation complete');
+
+// Validation function
+function countFilesRecursively(dir, extension, skipDirs = []) {
+  let count = 0;
+  const items = readdirSync(dir);
+  
+  for (const item of items) {
+    const fullPath = join(dir, item);
+    const stats = statSync(fullPath);
+    
+    if (stats.isDirectory()) {
+      // Skip specified directories
+      if (skipDirs.includes(item)) {
+        continue;
+      }
+      count += countFilesRecursively(fullPath, extension, skipDirs);
+    } else if (item.endsWith(extension)) {
+      count++;
+    }
+  }
+  
+  return count;
+}
+
+// Validate the generated ABIs
+console.log('\nValidation Check:');
+const contractCount = countFilesRecursively(CONTRACTS_DIR, '.sol', ['utils']);
+const abiCount = countFilesRecursively(ABIS_DIR, '.json');
+
+console.log(`  - Total contract files: ${contractCount}`);
+console.log(`  - Total generated ABIs: ${abiCount}`);
+
+if (abiCount === contractCount) {
+  console.log('\n✅ OK: The number of generated ABIs matches the number of contract files.');
+} else {
+  console.log('\n❌ NOK: The number of generated ABIs does not match the number of contract files.');
+  process.exit(1); // Exit with error code if validation fails
+} 
