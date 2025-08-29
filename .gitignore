@@ -32,6 +32,7 @@ yarn.lock
 
 # Build output
 dist/
+dist-examples/
 build/
 out/
 
@@ -60,6 +61,9 @@ temp/
 
 .cursor
 tutorials/
-utils/addresses.ts
-utils/contractdir.json
-utils/contractdir_sample.json
+utils/addresses/mapping.ts
+utils/contractdir*.json
+
+# Not using submodules anymore
+.gitmodules
+mintlify_context/

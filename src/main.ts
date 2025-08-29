@@ -1,13 +1,21 @@
 import { createPublicClient, createWalletClient, http, custom, formatEther, formatUnits, PublicClient, WalletClient } from 'viem';
-import getContractAddress, { CHAIN_IDS } from '../utils/addresses';
+import { addresses, CHAIN_IDS } from '../utils/addresses/index.js';
 
 // Import ABIs from their respective locations
 import AUSD_ABI from '../abis/tokens/IAUSD.json';
-import WETH_ABI from '../abis/vb/IWETH.json';
-import MORPHO_BLUE_ABI from '../abis/IMorphoBlue.json';
+import WETH_ABI from '../abis/vb/tokens/IbvbEth.json';
+import MORPHO_BLUE_ABI from '../abis/morpho/IMorphoBlue.json';
 
-// Get addresses based on chain ID
-const TATARA_CHAIN_ID = CHAIN_IDS.TATARA;
+// Chain information
+const CHAIN_INFO = {
+  [CHAIN_IDS.TATARA]: { name: 'Tatara', symbol: 'ETH' },
+  [CHAIN_IDS.KATANA]: { name: 'Katana', symbol: 'ETH' },
+  [CHAIN_IDS.BOKUTO]: { name: 'Bokuto', symbol: 'ETH' }
+};
+
+// Current chain context - will be set dynamically
+let currentChainId: number | null = null;
+let currentChainInfo: { name: string; symbol: string } | null = null;
 
 // DOM Elements
 const networkIndicator = document.getElementById('network-indicator') as HTMLElement;
@@ -17,6 +25,17 @@ const connectWalletButton = document.getElementById('connect-wallet') as HTMLBut
 const ausdDataElement = document.getElementById('ausd-data') as HTMLElement;
 const wethDataElement = document.getElementById('weth-data') as HTMLElement;
 const morphoDataElement = document.getElementById('morpho-data') as HTMLElement;
+
+// Address display elements
+const ausdAddressElement = document.getElementById('ausd-address') as HTMLElement;
+const wethAddressElement = document.getElementById('weth-address') as HTMLElement;
+const morphoAddressElement = document.getElementById('morpho-address') as HTMLElement;
+
+// Origin contract elements
+const vbusdcOriginDataElement = document.getElementById('vbusdc-origin-data') as HTMLElement;
+const vbethOriginDataElement = document.getElementById('vbeth-origin-data') as HTMLElement;
+const vbusdcOriginAddressElement = document.getElementById('vbusdc-origin-address') as HTMLElement;
+const vbethOriginAddressElement = document.getElementById('vbeth-origin-address') as HTMLElement;
 
 // Check for wallet
 const hasEthereum = typeof window !== 'undefined' && window.ethereum;
@@ -55,44 +74,70 @@ async function initialize() {
       // Ping the RPC with a simple request before attempting more complex calls
       await publicClient.getBlockNumber();
       
-      // Then try to get chain ID
+      // Then try to get chain ID and detect which chain we're connected to
       const chainId = await publicClient.getChainId();
+      const chainInfo = CHAIN_INFO[chainId as keyof typeof CHAIN_INFO];
       
-      if (chainId === TATARA_CHAIN_ID) {
-        updateNetworkStatus('connected', 'Tatara');
-        
-        // Get AUSD address dynamically
-        const ausdAddress = getContractAddress('AUSD', TATARA_CHAIN_ID);
-        
-        // Validate that we can read contract data before attempting to load everything
-        if (!ausdAddress) {
-          throw new Error('AUSD address not found');
-        }
-        
-        // This acts as a sanity check
+      if (!chainInfo) {
+        const validChainIds = Object.keys(CHAIN_INFO).join(', ');
+        updateNetworkStatus('error', `Unknown network: ${chainId}`);
+        displayRpcError(`Connected to unknown network. Expected one of: ${validChainIds}`);
+        return;
+      }
+      
+      // Set the global chain context
+      currentChainId = chainId;
+      currentChainInfo = chainInfo;
+      
+      // Set the address context for this chain
+      addresses.setChain(chainId);
+      
+      updateNetworkStatus('connected', chainInfo.name);
+      console.log(`✅ Connected to ${chainInfo.name} (Chain ID: ${chainId})`);
+      
+      // Test if we have contracts available on this chain
+      const availableContracts = addresses.getAllContracts();
+      console.log(`📋 Found ${availableContracts.length} contracts available on ${chainInfo.name}`);
+      
+      // Check if we have the key contracts we want to display
+      const hasAUSD = addresses.hasContract('AUSD');
+      const hasWETH = addresses.hasContract('bvbEth');
+      const hasMorpho = addresses.hasContract('MorphoBlue');
+      
+      if (!hasAUSD && !hasWETH && !hasMorpho) {
+        updateNetworkStatus('warning', `${chainInfo.name} (No contracts)`);
+        displayRpcError(`No key contracts (AUSD, bvbEth, MorphoBlue) found on ${chainInfo.name}. The contracts may not be deployed on this chain yet.`);
+        return;
+      }
+      
+      // Test reading a contract to validate the connection
+      if (hasAUSD) {
         try {
+          const ausdAddress = addresses.getAddress('AUSD');
           const ausdSymbol = await publicClient.readContract({
             address: ausdAddress,
             abi: AUSD_ABI,
             functionName: 'symbol'
           });
           console.log(`Connected and able to read contracts. AUSD symbol: ${ausdSymbol}`);
-          
-          // Now load all contract data
-          loadContractData();
         } catch (contractError) {
           console.error('Contract read test failed:', contractError);
           updateNetworkStatus('error', 'Contract read failed');
           displayRpcError('Contract read error. The fork might not have the contract state loaded correctly.');
+          return;
         }
-      } else {
-        updateNetworkStatus('error', `Wrong network: ${chainId}`);
-        displayRpcError(`Connected to wrong network. Expected ${TATARA_CHAIN_ID} (Tatara), got ${chainId}`);
       }
+      
+      // Update address displays
+      updateAddressDisplays();
+      
+      // Now load all contract data
+      loadContractData();
+        
     } catch (error) {
       console.error('RPC connection error:', error);
       updateNetworkStatus('error', 'Fork not running');
-      displayRpcError('Unable to connect to local Tatara fork');
+      displayRpcError('Unable to connect to local chain fork');
     }
   } catch (error) {
     console.error('Initialization error:', error);
@@ -110,10 +155,10 @@ async function initialize() {
 function displayRpcError(customMessage?: string) {
   const errorMessage = `
     <div class="error-message">
-      <h4>⚠️ RPC Connection Error</h4>
+      <h4>⚠️ Connection Error</h4>
       ${customMessage ? `<p>${customMessage}</p>` : ''}
-      <p>Make sure you've started the local Tatara fork with:</p>
-      <pre>bun run start:anvil:tatara</pre>
+      <p>Make sure you've started a local chain fork with:</p>
+      <pre>bun run start:anvil tatara   # or bokuto/katana</pre>
       <p>Your local RPC should be running at http://localhost:8545</p>
     </div>
   `;
@@ -122,12 +167,62 @@ function displayRpcError(customMessage?: string) {
   ausdDataElement.innerHTML = errorMessage;
   wethDataElement.innerHTML = errorMessage;
   morphoDataElement.innerHTML = errorMessage;
+  vbusdcOriginDataElement.innerHTML = errorMessage;
+  vbethOriginDataElement.innerHTML = errorMessage;
 }
 
 // Update network status indicator
 function updateNetworkStatus(status: 'connected' | 'error' | 'warning', name: string) {
   networkIndicator.className = status;
   networkName.textContent = name;
+}
+
+// Update address displays
+function updateAddressDisplays() {
+  try {
+    // Update regular contract addresses
+    if (addresses.hasContract('AUSD')) {
+      const ausdAddress = addresses.getAddress('AUSD');
+      ausdAddressElement.querySelector('code')!.textContent = ausdAddress;
+    } else {
+      ausdAddressElement.querySelector('code')!.textContent = 'Not deployed on this chain';
+    }
+
+    if (addresses.hasContract('bvbEth')) {
+      const wethAddress = addresses.getAddress('bvbEth');
+      wethAddressElement.querySelector('code')!.textContent = wethAddress;
+    } else {
+      wethAddressElement.querySelector('code')!.textContent = 'Not deployed on this chain';
+    }
+
+    if (addresses.hasContract('MorphoBlue')) {
+      const morphoAddress = addresses.getAddress('MorphoBlue');
+      morphoAddressElement.querySelector('code')!.textContent = morphoAddress;
+    } else {
+      morphoAddressElement.querySelector('code')!.textContent = 'Not deployed on this chain';
+    }
+
+    // Update origin contract addresses
+    if (addresses.hasOriginContract('vbUSDC')) {
+      const vbusdcOriginAddress = addresses.getOriginAddress('vbUSDC');
+      const originChain = currentChainId === CHAIN_IDS.KATANA ? 'Ethereum' : 'Sepolia';
+      vbusdcOriginAddressElement.querySelector('code')!.textContent = vbusdcOriginAddress;
+      vbusdcOriginAddressElement.querySelector('span')!.textContent = `${originChain} Address:`;
+    } else {
+      vbusdcOriginAddressElement.querySelector('code')!.textContent = 'Not available in this context';
+    }
+
+    if (addresses.hasOriginContract('vbETH')) {
+      const vbethOriginAddress = addresses.getOriginAddress('vbETH');
+      const originChain = currentChainId === CHAIN_IDS.KATANA ? 'Ethereum' : 'Sepolia';
+      vbethOriginAddressElement.querySelector('code')!.textContent = vbethOriginAddress;
+      vbethOriginAddressElement.querySelector('span')!.textContent = `${originChain} Address:`;
+    } else {
+      vbethOriginAddressElement.querySelector('code')!.textContent = 'Not available in this context';
+    }
+  } catch (error) {
+    console.error('Error updating address displays:', error);
+  }
 }
 
 // Connect wallet
@@ -176,12 +271,14 @@ async function safeContractCall<T>(
 
 // Load AUSD Token data
 async function loadAUSDData() {
-  // Get AUSD address
-  const ausdAddress = getContractAddress('AUSD', TATARA_CHAIN_ID);
-  if (!ausdAddress) {
-    ausdDataElement.innerHTML = '<p>Error: AUSD address not found</p>';
+  // Check if AUSD is available on current chain
+  if (!addresses.hasContract('AUSD')) {
+    ausdDataElement.innerHTML = `<p>AUSD not available on ${currentChainInfo?.name || 'this chain'}</p>`;
     return;
   }
+
+  // Get AUSD address dynamically
+  const ausdAddress = addresses.getAddress('AUSD');
 
   // Clear previous content and show loading state
   ausdDataElement.innerHTML = '<div class="spinner"></div><p>Loading data...</p>';
@@ -266,18 +363,20 @@ async function loadAUSDData() {
     });
   } catch (error) {
     console.error('Error loading AUSD data:', error);
-    ausdDataElement.innerHTML = '<p>Error loading data. Make sure the Tatara fork is running.</p>';
+    ausdDataElement.innerHTML = `<p>Error loading data. Make sure the ${currentChainInfo?.name || 'chain'} fork is running.</p>`;
   }
 }
 
-// Load WETH Token data
+// Load bvbEth Token data
 async function loadWETHData() {
-  // Get WETH address
-  const wethAddress = getContractAddress('WETH', TATARA_CHAIN_ID);
-  if (!wethAddress) {
-    wethDataElement.innerHTML = '<p>Error: WETH address not found</p>';
+  // Check if bvbEth is available on current chain
+  if (!addresses.hasContract('bvbEth')) {
+    wethDataElement.innerHTML = `<p>bvbEth not available on ${currentChainInfo?.name || 'this chain'}</p>`;
     return;
   }
+
+  // Get bvbEth address dynamically
+  const wethAddress = addresses.getAddress('bvbEth');
 
   // Clear previous content and show loading state
   wethDataElement.innerHTML = '<div class="spinner"></div><p>Loading data...</p>';
@@ -290,7 +389,7 @@ async function loadWETHData() {
         abi: WETH_ABI,
         functionName: 'name'
       }),
-      (error) => console.error('Error reading WETH name:', error)
+              (error) => console.error('Error reading bvbEth name:', error)
     );
     
     const symbol = await safeContractCall(
@@ -299,7 +398,7 @@ async function loadWETHData() {
         abi: WETH_ABI,
         functionName: 'symbol'
       }),
-      (error) => console.error('Error reading WETH symbol:', error)
+              (error) => console.error('Error reading bvbEth symbol:', error)
     );
     
     const totalSupply = await safeContractCall(
@@ -308,12 +407,12 @@ async function loadWETHData() {
         abi: WETH_ABI,
         functionName: 'totalSupply'
       }),
-      (error) => console.error('Error reading WETH totalSupply:', error)
+              (error) => console.error('Error reading bvbEth totalSupply:', error)
     );
 
     // If we couldn't get any data, show error
     if (!name && !symbol && !totalSupply) {
-      throw new Error('Failed to load any WETH data');
+      throw new Error('Failed to load any bvbEth data');
     }
 
     // Format and display data
@@ -328,7 +427,7 @@ async function loadWETHData() {
         const supplyBigInt = typeof totalSupply === 'bigint' ? totalSupply : BigInt(0);
         formattedSupply = `${formatEther(supplyBigInt)} ${symbol || ''}`;
       } catch (e) {
-        console.error('Error formatting WETH supply:', e);
+        console.error('Error formatting bvbEth supply:', e);
       }
     }
 
@@ -350,19 +449,21 @@ async function loadWETHData() {
       wethDataElement.appendChild(dataItem);
     });
   } catch (error) {
-    console.error('Error loading WETH data:', error);
-    wethDataElement.innerHTML = '<p>Error loading data. Make sure the Tatara fork is running.</p>';
+    console.error('Error loading bvbEth data:', error);
+    wethDataElement.innerHTML = `<p>Error loading data. Make sure the ${currentChainInfo?.name || 'chain'} fork is running.</p>`;
   }
 }
 
 // Load MorphoBlue data
 async function loadMorphoData() {
-  // Get MorphoBlue address
-  const morphoAddress = getContractAddress('MorphoBlue', TATARA_CHAIN_ID);
-  if (!morphoAddress) {
-    morphoDataElement.innerHTML = '<p>Error: MorphoBlue address not found</p>';
+  // Check if MorphoBlue is available on current chain
+  if (!addresses.hasContract('MorphoBlue')) {
+    morphoDataElement.innerHTML = `<p>MorphoBlue not available on ${currentChainInfo?.name || 'this chain'}</p>`;
     return;
   }
+
+  // Get MorphoBlue address dynamically
+  const morphoAddress = addresses.getAddress('MorphoBlue');
 
   // Clear previous content and show loading state
   morphoDataElement.innerHTML = '<div class="spinner"></div><p>Loading data...</p>';
@@ -428,23 +529,128 @@ async function loadMorphoData() {
     });
   } catch (error) {
     console.error('Error loading MorphoBlue data:', error);
-    morphoDataElement.innerHTML = '<p>Error loading data. Make sure the Tatara fork is running.</p>';
+    morphoDataElement.innerHTML = `<p>Error loading data. Make sure the ${currentChainInfo?.name || 'chain'} fork is running.</p>`;
+  }
+}
+
+// Load origin contract data for vbUSDC
+async function loadVBUSDCOriginData() {
+  if (!addresses.hasOriginContract('vbUSDC')) {
+    const originChain = currentChainId === CHAIN_IDS.KATANA ? 'Ethereum' : 'Sepolia';
+    vbusdcOriginDataElement.innerHTML = `<p>vbUSDC not available on ${originChain} in this context</p>`;
+    return;
+  }
+
+  vbusdcOriginDataElement.innerHTML = '<div class="spinner"></div><p>Loading origin data...</p>';
+  
+  try {
+    const vbusdcOriginAddress = addresses.getOriginAddress('vbUSDC');
+    const originChain = currentChainId === CHAIN_IDS.KATANA ? 'Ethereum' : 'Sepolia';
+    
+    // Since we're demonstrating cross-chain addresses, we can't actually read from origin contracts
+    // via the local fork, but we can show the address and explain the concept
+    vbusdcOriginDataElement.innerHTML = '';
+    vbusdcOriginDataElement.classList.add('loaded');
+
+    const formattedData = [
+      { label: 'Origin Chain', value: originChain },
+      { label: 'Contract Type', value: 'Vault Bridge USDC Token' },
+      { label: 'Purpose', value: 'Cross-chain yield-bearing USDC' },
+      { label: 'Origin Address', value: vbusdcOriginAddress },
+      { label: 'Note', value: 'This contract exists on the origin chain and cannot be read directly from the destination chain fork.' }
+    ];
+
+    formattedData.forEach(item => {
+      const dataItem = document.createElement('div');
+      dataItem.className = 'data-item';
+      dataItem.innerHTML = `
+        <div class="label">${item.label}</div>
+        <div class="value">${item.value}</div>
+      `;
+      vbusdcOriginDataElement.appendChild(dataItem);
+    });
+  } catch (error) {
+    console.error('Error loading vbUSDC origin data:', error);
+    vbusdcOriginDataElement.innerHTML = `<p>Error loading origin data.</p>`;
+  }
+}
+
+// Load origin contract data for vbETH
+async function loadVBETHOriginData() {
+  if (!addresses.hasOriginContract('vbETH')) {
+    const originChain = currentChainId === CHAIN_IDS.KATANA ? 'Ethereum' : 'Sepolia';
+    vbethOriginDataElement.innerHTML = `<p>vbETH not available on ${originChain} in this context</p>`;
+    return;
+  }
+
+  vbethOriginDataElement.innerHTML = '<div class="spinner"></div><p>Loading origin data...</p>';
+  
+  try {
+    const vbethOriginAddress = addresses.getOriginAddress('vbETH');
+    const originChain = currentChainId === CHAIN_IDS.KATANA ? 'Ethereum' : 'Sepolia';
+    
+    vbethOriginDataElement.innerHTML = '';
+    vbethOriginDataElement.classList.add('loaded');
+
+    const formattedData = [
+      { label: 'Origin Chain', value: originChain },
+      { label: 'Contract Type', value: 'Vault Bridge ETH Token' },
+      { label: 'Purpose', value: 'Cross-chain yield-bearing ETH' },
+      { label: 'Origin Address', value: vbethOriginAddress },
+      { label: 'Note', value: 'This contract exists on the origin chain and cannot be read directly from the destination chain fork.' }
+    ];
+
+    formattedData.forEach(item => {
+      const dataItem = document.createElement('div');
+      dataItem.className = 'data-item';
+      dataItem.innerHTML = `
+        <div class="label">${item.label}</div>
+        <div class="value">${item.value}</div>
+      `;
+      vbethOriginDataElement.appendChild(dataItem);
+    });
+  } catch (error) {
+    console.error('Error loading vbETH origin data:', error);
+    vbethOriginDataElement.innerHTML = `<p>Error loading origin data.</p>`;
   }
 }
 
 // Load all contract data
 async function loadContractData() {
-  // Load data sequentially to avoid overloading TEVM server
+  // Load data sequentially to avoid overloading the server
+  // Only load contracts that are available on the current chain
   try {
-    await loadAUSDData();
-    await loadWETHData();
-    await loadMorphoData();
+    console.log(`📊 Loading contract data for ${currentChainInfo?.name}...`);
+    
+    if (addresses.hasContract('AUSD')) {
+      await loadAUSDData();
+    } else {
+      ausdDataElement.innerHTML = `<p>AUSD not deployed on ${currentChainInfo?.name}</p>`;
+    }
+    
+    if (addresses.hasContract('bvbEth')) {
+      await loadWETHData();
+    } else {
+      wethDataElement.innerHTML = `<p>bvbEth not deployed on ${currentChainInfo?.name}</p>`;
+    }
+    
+    if (addresses.hasContract('MorphoBlue')) {
+      await loadMorphoData();
+    } else {
+      morphoDataElement.innerHTML = `<p>MorphoBlue not deployed on ${currentChainInfo?.name}</p>`;
+    }
+
+    // Load origin contract data
+    await loadVBUSDCOriginData();
+    await loadVBETHOriginData();
+    
+    console.log('✅ Contract data loading complete');
   } catch (error) {
     console.error('Failed to load contract data:', error);
   }
 }
 
-// Add error styles
+// Add error styles and section styling
 const style = document.createElement('style');
 style.textContent = `
   .error-message {
@@ -466,6 +672,23 @@ style.textContent = `
     border-radius: 4px;
     margin: 8px 0;
     overflow-x: auto;
+  }
+  
+  .section-description {
+    color: #6b7280;
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  
+  #origin-contracts-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  #origin-contracts-section .card {
+    border-left: 3px solid #10b981;
   }
 `;
 document.head.appendChild(style);

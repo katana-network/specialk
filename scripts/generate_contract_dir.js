@@ -1,22 +1,26 @@
 #!/usr/bin/env node
 
-import { existsSync, readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync, statSync, mkdirSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
-import { execSync } from 'node:child_process';
 
 // Constants
-const INTERFACES_DIR = join(process.cwd(), 'interfaces');
+const CONTRACTS_DIR = join(process.cwd(), 'contracts');
 const ABIS_DIR = join(process.cwd(), 'abis');
-const KATANA_ADDRESS_FILE = join(INTERFACES_DIR, 'utils', 'KatanaAddresses.sol');
-const TATARA_ADDRESS_FILE = join(INTERFACES_DIR, 'utils', 'TataraAddresses.sol');
+const ADDRESSES_DIR = join(process.cwd(), 'utils', 'addresses');
 const OUTPUT_DIR = join(process.cwd(), 'utils');
 const FULL_OUTPUT = join(OUTPUT_DIR, 'contractdir.json');
 const SAMPLE_OUTPUT = join(OUTPUT_DIR, 'contractdir_sample.json');
+const SCHEMA_OUTPUT = join(OUTPUT_DIR, 'contractdir_schema.json');
+const DIVERSE_OUTPUT = join(OUTPUT_DIR, 'contractdir_diverse.json');
 const SAMPLE_SIZE = 10; // Number of contracts to include in the sample
+const DIVERSE_SIZE = 4; // Number of diverse contracts for LLM analysis
+
+// Network mappings
+const NETWORKS = ['tatara', 'katana', 'bokuto'];
 
 // Check that required directories exist
-if (!existsSync(INTERFACES_DIR)) {
-  console.error('Error: Interfaces directory does not exist');
+if (!existsSync(CONTRACTS_DIR)) {
+  console.error('Error: Contracts directory does not exist');
   process.exit(1);
 }
 
@@ -25,169 +29,177 @@ if (!existsSync(ABIS_DIR)) {
   process.exit(1);
 }
 
-if (!existsSync(KATANA_ADDRESS_FILE)) {
-  console.error('Error: KatanaAddresses.sol file does not exist');
+if (!existsSync(ADDRESSES_DIR)) {
+  console.error('Error: Addresses directory does not exist. Run "bun run build:addressutils" first.');
   process.exit(1);
 }
 
-if (!existsSync(TATARA_ADDRESS_FILE)) {
-  console.warn('Warning: TataraAddresses.sol file does not exist. Will only use KatanaAddresses.sol.');
-}
-
 if (!existsSync(OUTPUT_DIR)) {
-  execSync(`mkdir -p ${OUTPUT_DIR}`);
+  mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
 console.log('Generating contract directory files...');
 
-// Define contexts and their theme colors
+// Define contexts and their theme colors based on tags
 const CONTEXTS = {
   "morpho": {
     name: "morpho",
-    color: "#6f4ff2" // Purple
+    color: "#6f4ff2", // Purple
+    priority: 1
   },
   "yearn": {
-    name: "yearn",
-    color: "#0657F9" // Blue
+    name: "yearn", 
+    color: "#0657F9", // Blue
+    priority: 2
   },
-  "sushi": {
-    name: "sushi",
-    color: "#fa52a0" // Pink
+  "vaultbridge": {
+    name: "vaultbridge",
+    color: "#f59e0b", // Amber
+    priority: 3
   },
-  "seaport": {
-    name: "seaport",
-    color: "#2081e2" // OpenSea blue
+  "oracle": {
+    name: "oracle",
+    color: "#8b5cf6", // Violet
+    priority: 4
   },
-  "gnosis": {
-    name: "gnosis",
-    color: "#028390" // Teal
+  "chainlink": {
+    name: "chainlink",
+    color: "#3b82f6", // Blue
+    priority: 5
+  },
+  "redstone": {
+    name: "redstone",
+    color: "#ef4444", // Red
+    priority: 6
+  },
+  "opensea": {
+    name: "opensea",
+    color: "#2081e2", // OpenSea blue
+    priority: 7
   },
   "account-abstraction": {
     name: "account-abstraction",
-    color: "#ff7a00" // Orange
+    color: "#ff7a00", // Orange
+    priority: 8
   },
-  "bridge": {
-    name: "bridge",
-    color: "#e20b8c" // Magenta
+  "agglayer": {
+    name: "agglayer",
+    color: "#8b46ff", // Purple
+    priority: 9
+  },
+  "nft": {
+    name: "nft",
+    color: "#ec4899", // Pink
+    priority: 10
+  },
+  "erc20": {
+    name: "erc20",
+    color: "#10b981", // Green
+    priority: 11
+  },
+  "defi": {
+    name: "defi",
+    color: "#6366f1", // Indigo
+    priority: 12
   },
   "utility": {
     name: "utility",
-    color: "#00b7c5" // Cyan
+    color: "#00b7c5", // Cyan
+    priority: 13
   },
-  "deployment": {
-    name: "deployment",
-    color: "#8b5cf6" // Indigo
-  },
-  "token": {
-    name: "token",
-    color: "#10b981" // Green
+  "bridge": {
+    name: "bridge",
+    color: "#e20b8c", // Magenta
+    priority: 14
   },
   "general": {
     name: "general",
-    color: "#6b7280" // Gray
+    color: "#6b7280", // Gray
+    priority: 999
   }
 };
 
-// Extract addresses from KatanaAddresses.sol
-function extractKatanaAddresses() {
+// Load addresses from the new address utility system
+function loadAddresses() {
   try {
-    const addressContent = readFileSync(KATANA_ADDRESS_FILE, 'utf8');
-    const addressMap = {};
-    
-    // Look for getter function patterns like getSeaportAddress, getMorphoBlueAddress, etc.
-    const functionMatches = addressContent.match(/function\s+get(\w+)Address\(\)/g) || [];
-    
-    for (const functionMatch of functionMatches) {
-      // Extract the contract name from the function name
-      const nameMatch = functionMatch.match(/get(\w+)Address/);
-      if (!nameMatch) continue;
-      
-      const contractName = nameMatch[1];
-      
-      // Find the Katana mainnet address for this contract
-      const pattern = new RegExp(`function\\s+get${contractName}Address\\(\\)[\\s\\S]*?if\\s*\\([^)]*\\)\\s*{[\\s\\S]*?return\\s+(0x[a-fA-F0-9]{40}|address\\(0\\))`);
-      const addressMatch = addressContent.match(pattern);
-      
-      let mainnetAddress = null;
-      if (addressMatch && addressMatch[1] && addressMatch[1] !== 'address(0)') {
-        mainnetAddress = addressMatch[1];
-      }
-      
-      addressMap[contractName] = {
-        tatara: null, // We'll fill this from TataraAddresses.sol
-        mainnet: mainnetAddress
-      };
-    }
-    
-    console.log('Found Katana addresses for the following contracts:', Object.keys(addressMap));
-    return addressMap;
-  } catch (error) {
-    console.error('Error extracting Katana addresses:', error);
-    return {};
-  }
-}
-
-// Extract addresses from TataraAddresses.sol
-function extractTataraAddresses() {
-  try {
-    if (!existsSync(TATARA_ADDRESS_FILE)) {
+    const addressMappingFile = join(ADDRESSES_DIR, 'mapping.ts');
+    if (!existsSync(addressMappingFile)) {
+      console.warn('Warning: Address mapping file not found. Addresses will not be included.');
       return {};
     }
+
+    const mappingContent = readFileSync(addressMappingFile, 'utf8');
     
-    const addressContent = readFileSync(TATARA_ADDRESS_FILE, 'utf8');
-    const addressMap = {};
-    
-    // Look for getter function patterns
-    const functionMatches = addressContent.match(/function\s+get(\w+)Address\(\)/g) || [];
-    
-    for (const functionMatch of functionMatches) {
-      // Extract the contract name from the function name
-      const nameMatch = functionMatch.match(/get(\w+)Address/);
-      if (!nameMatch) continue;
-      
-      const contractName = nameMatch[1];
-      
-      // Extract the address from the return statement
-      const pattern = new RegExp(`function\\s+get${contractName}Address\\(\\)[^{]*{[^}]*return\\s+(0x[a-fA-F0-9]{40})`);
-      const addressMatch = addressContent.match(pattern);
-      
-      if (addressMatch && addressMatch[1]) {
-        addressMap[contractName] = addressMatch[1];
-      }
+    // Extract the CONTRACT_ADDRESSES object
+    const contractAddressMatch = mappingContent.match(/export const CONTRACT_ADDRESSES = ({[\s\S]*?}) as const;/);
+    if (!contractAddressMatch) {
+      console.warn('Warning: Could not parse CONTRACT_ADDRESSES from mapping.ts');
+      return {};
     }
+
+    // Convert TypeScript object to JSON-parseable format
+    let addressDataStr = contractAddressMatch[1];
     
-    console.log('Found Tatara addresses for the following contracts:', Object.keys(addressMap));
-    return addressMap;
+    // Replace TypeScript syntax with JSON syntax
+    addressDataStr = addressDataStr
+      .replace(/(\w+):/g, '"$1":')  // Add quotes around keys
+      .replace(/'/g, '"')          // Replace single quotes with double quotes
+      .replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
+
+    try {
+      const addressData = JSON.parse(addressDataStr);
+      console.log(`Loaded addresses for ${Object.keys(addressData).length} contracts`);
+      return addressData;
+    } catch (parseError) {
+      console.warn('Warning: Could not parse address data:', parseError.message);
+      return {};
+    }
   } catch (error) {
-    console.error('Error extracting Tatara addresses:', error);
+    console.error('Error loading addresses:', error);
     return {};
   }
 }
 
-// Merge Katana and Tatara addresses
-function mergeAddresses() {
-  const katanaAddresses = extractKatanaAddresses();
-  const tataraAddresses = extractTataraAddresses();
-  
-  // Merge the two address maps
-  const mergedAddresses = { ...katanaAddresses };
-  
-  // Add Tatara addresses to the merged map
-  for (const [contractName, tataraAddress] of Object.entries(tataraAddresses)) {
-    if (mergedAddresses[contractName]) {
-      mergedAddresses[contractName].tatara = tataraAddress;
-    } else {
-      mergedAddresses[contractName] = {
-        tatara: tataraAddress,
-        mainnet: null
-      };
+// Load origin addresses from the new address utility system  
+function loadOriginAddresses() {
+  try {
+    const addressMappingFile = join(ADDRESSES_DIR, 'mapping.ts');
+    if (!existsSync(addressMappingFile)) {
+      return {};
     }
+
+    const mappingContent = readFileSync(addressMappingFile, 'utf8');
+    
+    // Extract the ORIGIN_CONTRACT_ADDRESSES object
+    const originAddressMatch = mappingContent.match(/export const ORIGIN_CONTRACT_ADDRESSES = ({[\s\S]*?}) as const;/);
+    if (!originAddressMatch) {
+      return {};
+    }
+
+    // Convert TypeScript object to JSON-parseable format
+    let originDataStr = originAddressMatch[1];
+    
+    // Replace TypeScript syntax with JSON syntax
+    originDataStr = originDataStr
+      .replace(/(\w+):/g, '"$1":')  // Add quotes around keys
+      .replace(/'/g, '"')          // Replace single quotes with double quotes
+      .replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
+
+    try {
+      const originData = JSON.parse(originDataStr);
+      console.log(`Loaded origin addresses for ${Object.keys(originData).length} contracts`);
+      return originData;
+    } catch (parseError) {
+      console.warn('Warning: Could not parse origin address data:', parseError.message);
+      return {};
+    }
+  } catch (error) {
+    console.error('Error loading origin addresses:', error);
+    return {};
   }
-  
-  return mergedAddresses;
 }
 
-// Get all interface files recursively
+// Get all contract files recursively (excluding utils)
 function getAllFiles(dir, relativePath = '', fileMap = {}) {
   const files = readdirSync(dir);
   
@@ -196,6 +208,12 @@ function getAllFiles(dir, relativePath = '', fileMap = {}) {
     const stats = statSync(filePath);
     
     if (stats.isDirectory()) {
+      // Skip the utils directory since those are generated files
+      if (file === 'utils') {
+        console.log(`Skipping generated directory: ${join(relativePath, file)}`);
+        continue;
+      }
+      
       getAllFiles(filePath, join(relativePath, file), fileMap);
     } else if (file.endsWith('.sol')) {
       const key = join(relativePath, file).replace(/\\/g, '/');
@@ -257,10 +275,10 @@ function extractFunctionSignatures(abi) {
   return signatures;
 }
 
-// Extract documentation comments from interface file
-function extractInterfaceDescription(content) {
-  // Find the main comment block before the interface declaration
-  const commentBlockRegex = /\/\*\*([\s\S]*?)\*\/\s*interface\s+\w+/;
+// Extract documentation comments, network addresses, and tags from contract file
+function extractContractMetadata(content) {
+  // Find the main comment block before the interface/contract declaration
+  const commentBlockRegex = /\/\*\*([\s\S]*?)\*\/\s*(?:interface|contract)\s+\w+/;
   const commentMatch = content.match(commentBlockRegex);
   
   if (!commentMatch) return null;
@@ -271,7 +289,35 @@ function extractInterfaceDescription(content) {
   const titleMatches = commentBlock.match(/@title\s+(.*?)(?=\s*\*\s*@|\s*\*\/)/gs) || [];
   const noticeMatches = commentBlock.match(/@notice\s+(.*?)(?=\s*\*\s*@|\s*\*\/)/gs) || [];
   const devMatches = commentBlock.match(/@dev\s+(.*?)(?=\s*\*\s*@|\s*\*\/)/gs) || [];
-  const customAddressMatches = commentBlock.match(/@custom:address\s+(0x[a-fA-F0-9]{40})(?=\s*\*\s*@|\s*\*\/)/gs) || [];
+  
+  // Extract network addresses (new format)
+  const networkAddresses = {};
+  const originAddresses = {};
+  
+  for (const network of NETWORKS) {
+    // Regular network addresses: @custom:tatara 0x123...
+    const networkRegex = new RegExp(`@custom:${network}\\s+(0x[a-fA-F0-9]{40})`, 'gi');
+    const networkMatch = networkRegex.exec(commentBlock);
+    if (networkMatch && networkMatch[1]) {
+      networkAddresses[network] = networkMatch[1];
+    }
+    
+    // Origin chain addresses: @custom:tatara ethereum:0x123...
+    const originRegex = new RegExp(`@custom:${network}\\s+(ethereum|sepolia):(0x[a-fA-F0-9]{40})`, 'gi');
+    const originMatch = originRegex.exec(commentBlock);
+    if (originMatch && originMatch[2]) {
+      originAddresses[network] = {
+        originChain: originMatch[1],
+        address: originMatch[2]
+      };
+    }
+  }
+  
+  // Extract tags
+  const tagsMatches = commentBlock.match(/@custom:tags\s+([^\n\r]*)/g) || [];
+  const tags = tagsMatches.length > 0 
+    ? tagsMatches[0].replace(/@custom:tags\s+/g, '').trim().split(',').map(tag => tag.trim())
+    : [];
   
   // Clean up the extracted comments
   const titles = titleMatches.map(title => 
@@ -286,162 +332,122 @@ function extractInterfaceDescription(content) {
     dev.replace(/@dev\s+/g, '').replace(/\s*\*\s*/g, ' ').trim()
   );
   
-  const customAddresses = customAddressMatches.map(addr => 
-    addr.replace(/@custom:address\s+/g, '').replace(/\s*\*\s*/g, ' ').trim()
-  );
-  
   // Combine all information in a structured way
-  const description = {
+  const metadata = {
     title: titles.length > 0 ? titles[0] : null,
     notice: notices.length > 0 ? notices.join(' ') : null,
     dev: devs.length > 0 ? devs.join(' ') : null,
-    customAddress: customAddresses.length > 0 ? customAddresses[0] : null,
+    tags: tags,
+    networkAddresses: networkAddresses,
+    originAddresses: originAddresses,
     full: ''
   };
   
   // Build a full text description
   let fullText = '';
   
-  if (description.title) {
-    fullText += description.title;
+  if (metadata.title) {
+    fullText += metadata.title;
   }
   
-  if (description.notice) {
+  if (metadata.notice) {
     if (fullText) fullText += ': ';
-    fullText += description.notice;
+    fullText += metadata.notice;
   }
   
-  if (description.dev) {
+  if (metadata.dev) {
     if (fullText) fullText += ' ';
-    fullText += '(' + description.dev + ')';
+    fullText += '(' + metadata.dev + ')';
   }
   
-  description.full = fullText.trim() || null;
+  metadata.full = fullText.trim() || null;
   
-  return description;
+  return metadata;
 }
 
-// Determine the context for a contract based on its name, path, etc.
-function determineContext(name, path, relativePath, description) {
-  // Convert to lowercase for case-insensitive matching
+// Determine the context for a contract based on tags (primary) and fallback to name/path matching
+function determineContext(name, path, relativePath, tags = [], description) {
+  // First priority: use tags to determine context
+  if (tags && tags.length > 0) {
+    // Find the highest priority context from tags
+    let bestContext = null;
+    let bestPriority = 999;
+    
+    for (const tag of tags) {
+      const tagLower = tag.toLowerCase();
+      
+      // Check if this tag matches any context
+      for (const [contextKey, contextData] of Object.entries(CONTEXTS)) {
+        if (tagLower === contextKey || tagLower.includes(contextKey)) {
+          if (contextData.priority < bestPriority) {
+            bestContext = contextData;
+            bestPriority = contextData.priority;
+          }
+        }
+      }
+      
+      // Special mappings for common tag variations
+      if (tagLower === 'erc4337') {
+        if (CONTEXTS["account-abstraction"].priority < bestPriority) {
+          bestContext = CONTEXTS["account-abstraction"];
+          bestPriority = CONTEXTS["account-abstraction"].priority;
+        }
+      }
+      
+      if (tagLower === 'token' && !bestContext) {
+        if (CONTEXTS["erc20"].priority < bestPriority) {
+          bestContext = CONTEXTS["erc20"];
+          bestPriority = CONTEXTS["erc20"].priority;
+        }
+      }
+    }
+    
+    if (bestContext) {
+      return bestContext;
+    }
+  }
+  
+  // Fallback: determine context based on name, path, etc.
   const nameLower = name.toLowerCase();
   const pathLower = path.toLowerCase();
   const relativeLower = relativePath ? relativePath.toLowerCase() : '';
   const desc = description ? description.toLowerCase() : '';
   
-  // Morpho-related contracts
-  if (
-    nameLower.includes('morpho') || 
-    pathLower.includes('morpho') || 
-    desc.includes('morpho')
-  ) {
-    return CONTEXTS["morpho"];
+  // Check against each context
+  for (const [contextKey, contextData] of Object.entries(CONTEXTS)) {
+    if (contextKey === 'general') continue; // Skip general for fallback matching
+    
+    const contextLower = contextKey.toLowerCase();
+    
+    if (
+      nameLower.includes(contextLower) || 
+      pathLower.includes(contextLower) || 
+      relativeLower.includes(contextLower) ||
+      desc.includes(contextLower)
+    ) {
+      return contextData;
+    }
   }
   
-  // Yearn-related contracts
-  if (
-    nameLower.includes('yearn') || 
-    nameLower.includes('yv') || 
-    relativeLower.includes('yearn') ||
-    desc.includes('yearn')
-  ) {
-    return CONTEXTS["yearn"];
-  }
-  
-  // Sushi-related contracts
-  if (
-    nameLower.includes('sushi') || 
-    pathLower.includes('sushi') ||
-    desc.includes('sushi')
-  ) {
-    return CONTEXTS["sushi"];
-  }
-  
-  // Seaport/OpenSea-related contracts
-  if (
-    nameLower.includes('seaport') || 
-    nameLower.includes('conduit') || 
-    pathLower.includes('seaport') ||
-    desc.includes('seaport') ||
-    desc.includes('opensea')
-  ) {
-    return CONTEXTS["seaport"];
-  }
-  
-  // Gnosis Safe-related contracts
-  if (
-    nameLower.includes('gnosis') || 
-    nameLower.includes('safe') || 
-    pathLower.includes('gnosis') ||
-    desc.includes('gnosis') ||
-    desc.includes('multisig')
-  ) {
-    return CONTEXTS["gnosis"];
-  }
-  
-  // Account Abstraction/ERC-4337-related contracts
-  if (
-    nameLower.includes('entrypoint') || 
-    nameLower.includes('erc4337') || 
-    pathLower.includes('aav0') ||
-    relativeLower.includes('aav0') ||
-    desc.includes('erc-4337') ||
-    desc.includes('account abstraction')
-  ) {
+  // Special cases for common patterns not captured by tags
+  if (nameLower.includes('erc4337') || pathLower.includes('aav0') || relativeLower.includes('aav0')) {
     return CONTEXTS["account-abstraction"];
   }
   
-  // Bridge-related contracts
-  if (
-    nameLower.includes('bridge') || 
-    nameLower.includes('sovereign') || 
-    nameLower.includes('l2') ||
-    pathLower.includes('bridge') ||
-    desc.includes('bridge') ||
-    desc.includes('cross-chain')
-  ) {
-    return CONTEXTS["bridge"];
+  if (nameLower.includes('seaport') || nameLower.includes('conduit') || desc.includes('opensea')) {
+    return CONTEXTS["opensea"];
   }
   
-  // Utility contracts
-  if (
-    nameLower.includes('multicall') || 
-    nameLower.includes('permit2') || 
-    nameLower.includes('bundler') ||
-    nameLower.includes('rip7212') ||
-    desc.includes('utility') ||
-    desc.includes('helper')
-  ) {
+  if (nameLower.includes('create2') || nameLower.includes('createx') || nameLower.includes('deploy')) {
     return CONTEXTS["utility"];
   }
   
-  // Deployment-related contracts
-  if (
-    nameLower.includes('deploy') || 
-    nameLower.includes('create2') || 
-    nameLower.includes('createx') ||
-    nameLower.includes('deterministic') ||
-    desc.includes('deploy') ||
-    desc.includes('creation')
-  ) {
-    return CONTEXTS["deployment"];
+  if (nameLower.includes('multicall') || nameLower.includes('permit2') || nameLower.includes('bundler')) {
+    return CONTEXTS["utility"];
   }
   
-  // Token-related contracts
-  if (
-    nameLower.includes('token') || 
-    nameLower.includes('erc20') || 
-    nameLower.includes('weth') ||
-    nameLower.includes('ausd') ||
-    nameLower.includes('usdc') ||
-    nameLower.includes('usdt') ||
-    nameLower.includes('dai') ||
-    nameLower.includes('wbtc') ||
-    nameLower.includes('yb') ||
-    desc.includes('token') ||
-    desc.includes('stablecoin')
-  ) {
-    return CONTEXTS["token"];
+  if (nameLower.includes('bridge') || nameLower.includes('sovereign') || nameLower.includes('l2')) {
+    return CONTEXTS["bridge"];
   }
   
   // Default context for anything else
@@ -450,26 +456,28 @@ function determineContext(name, path, relativePath, description) {
 
 // Generate the contract directory
 function generateContractDirectory() {
-  const addresses = mergeAddresses();
-  const interfaceFiles = getAllFiles(INTERFACES_DIR);
+  const addresses = loadAddresses();
+  const originAddresses = loadOriginAddresses();
+  const contractFiles = getAllFiles(CONTRACTS_DIR);
   const abiFiles = getAllABIs(ABIS_DIR);
   
   const contractDir = [];
   
-  // Process each interface file
-  for (const [key, interfaceInfo] of Object.entries(interfaceFiles)) {
+  // Process each contract file
+  for (const [key, contractInfo] of Object.entries(contractFiles)) {
     const fileName = basename(key, '.sol');
-    const abiKey = join(interfaceInfo.relativePath, `${fileName}.json`).replace(/\\/g, '/');
+    const abiKey = join(contractInfo.relativePath, `${fileName}.json`).replace(/\\/g, '/');
     
-    // Get the interface content
-    const interfaceContent = readFileSync(interfaceInfo.path, 'utf8');
+    // Get the contract content
+    const contractContent = readFileSync(contractInfo.path, 'utf8');
     
-    // Extract interface name - improved regex to match actual interface declarations not comments
-    const interfaceMatch = interfaceContent.match(/(?:^|\n)\s*interface\s+(\w+)/);
-    const interfaceName = interfaceMatch ? interfaceMatch[1] : fileName;
+    // Extract contract/interface name - improved regex to match actual declarations not comments
+    const interfaceMatch = contractContent.match(/(?:^|\n)\s*interface\s+(\w+)/);
+    const contractMatch = contractContent.match(/(?:^|\n)\s*contract\s+(\w+)/);
+    const contractName = interfaceMatch ? interfaceMatch[1] : (contractMatch ? contractMatch[1] : fileName);
     
-    // Extract interface description
-    const description = extractInterfaceDescription(interfaceContent);
+    // Extract contract metadata (description, tags, addresses)
+    const metadata = extractContractMetadata(contractContent);
     
     // Try to find matching ABI
     let abi = null;
@@ -483,103 +491,213 @@ function generateContractDirectory() {
       }
     }
     
-    // Find if we have an address for this contract
-    let address = null;
+    // Get addresses for this contract
+    let contractAddresses = {};
+    let contractOriginAddresses = {};
     
-    // Try to match by name (remove leading 'I' if present)
-    let contractName = interfaceName;
-    if (contractName.startsWith('I')) {
-      contractName = contractName.substring(1);
+    // Try to match by name (remove leading 'I' if present for interfaces)
+    let addressMatchName = contractName;
+    if (addressMatchName.startsWith('I')) {
+      addressMatchName = addressMatchName.substring(1);
     }
     
-    // Enhanced name matching
-    for (const [addrContractName, addrInfo] of Object.entries(addresses)) {
-      // Case 1: Direct match after removing 'I' prefix
-      if (contractName === addrContractName) {
-        address = addrInfo;
-        console.log(`Found exact address match: ${contractName} -> ${addrContractName}`);
-        break;
-      }
-      
-      // Case 2: Contract name contains our address name or vice versa (case insensitive)
-      const lowerContractName = contractName.toLowerCase();
-      const lowerAddrName = addrContractName.toLowerCase();
-      
-      if (lowerContractName.includes(lowerAddrName) || lowerAddrName.includes(lowerContractName)) {
-        address = addrInfo;
-        console.log(`Found partial address match: ${contractName} -> ${addrContractName}`);
-        break;
-      }
-      
-      // Case 3: Special case for file-based matching with IMorphoBlue.sol
-      if (key === 'IMorphoBlue.sol' && addrContractName === 'MorphoBlue') {
-        address = addrInfo;
-        console.log(`Found special case match for: ${key} -> ${addrContractName}`);
-        break;
-      }
-
-      // Case 4: Special case for fuzzy matching - "combines" is actually IMorphoBlue
-      if (interfaceName === 'combines' && key === 'IMorphoBlue.sol' && addrContractName === 'MorphoBlue') {
-        address = addrInfo;
-        console.log(`Found special fuzzy match for: ${interfaceName} (${key}) -> ${addrContractName}`);
-        break;
-      }
+    // Look up in the address utilities
+    if (addresses[contractName] || addresses[addressMatchName]) {
+      contractAddresses = addresses[contractName] || addresses[addressMatchName];
+      console.log(`Found addresses for ${contractName}: ${JSON.stringify(contractAddresses)}`);
     }
     
-    // If we still don't have an address, check if there's a custom address in the comments
-    if (!address && description && description.customAddress) {
-      address = {
-        tatara: description.customAddress,
-        mainnet: description.customAddress // Assuming same address for both networks if specified in comments
-      };
-      console.log(`Found custom address for ${interfaceName} in comments: ${description.customAddress}`);
+    // Look up origin addresses
+    if (originAddresses[contractName] || originAddresses[addressMatchName]) {
+      contractOriginAddresses = originAddresses[contractName] || originAddresses[addressMatchName];
+      console.log(`Found origin addresses for ${contractName}: ${JSON.stringify(contractOriginAddresses)}`);
     }
     
-    // Create contract entry with updated structure
-    const context = determineContext(interfaceName, key, interfaceInfo.relativePath, description ? description.full : null);
+    // If we didn't find addresses in utilities but found them in doccomments, use those
+    if (Object.keys(contractAddresses).length === 0 && metadata && Object.keys(metadata.networkAddresses).length > 0) {
+      contractAddresses = metadata.networkAddresses;
+      console.log(`Using doccomment addresses for ${contractName}: ${JSON.stringify(contractAddresses)}`);
+    }
+    
+    if (Object.keys(contractOriginAddresses).length === 0 && metadata && Object.keys(metadata.originAddresses).length > 0) {
+      contractOriginAddresses = metadata.originAddresses;
+      console.log(`Using doccomment origin addresses for ${contractName}: ${JSON.stringify(contractOriginAddresses)}`);
+    }
+    
+    // Determine context using tags as primary method
+    const context = determineContext(
+      contractName, 
+      key, 
+      contractInfo.relativePath, 
+      metadata ? metadata.tags : [], 
+      metadata ? metadata.full : null
+    );
+    
+    // Create contract entry with enhanced structure
     const contract = {
-      name: interfaceName,
+      name: contractName,
       path: key,
-      relativePath: interfaceInfo.relativePath,
-      description: description ? description.full : null,
+      relativePath: contractInfo.relativePath,
+      description: metadata ? metadata.full : null,
       metadata: {
-        title: description ? description.title : null,
-        notice: description ? description.notice : null,
-        dev: description ? description.dev : null
+        title: metadata ? metadata.title : null,
+        notice: metadata ? metadata.notice : null,
+        dev: metadata ? metadata.dev : null,
+        tags: metadata ? metadata.tags : []
       },
       context: context.name,
       theme: context.color,
-      address,
+      addresses: contractAddresses,
+      originAddresses: contractOriginAddresses,
       abi,
-      functionSignatures
+      functionSignatures,
+      // Add some computed fields for easier filtering
+      hasAddresses: Object.keys(contractAddresses).length > 0,
+      hasOriginAddresses: Object.keys(contractOriginAddresses).length > 0,
+      hasAbi: abi !== null,
+      functionCount: functionSignatures.length
     };
     
     contractDir.push(contract);
   }
   
-  // Sort contracts by name for consistency
-  contractDir.sort((a, b) => a.name.localeCompare(b.name));
+  // Sort contracts by context priority, then by name
+  contractDir.sort((a, b) => {
+    const contextA = CONTEXTS[a.context] || CONTEXTS["general"];
+    const contextB = CONTEXTS[b.context] || CONTEXTS["general"];
+    
+    if (contextA.priority !== contextB.priority) {
+      return contextA.priority - contextB.priority;
+    }
+    
+    return a.name.localeCompare(b.name);
+  });
   
   return contractDir;
 }
 
+// Generate schema file
+function generateSchema() {
+  return {
+    version: "2.0",
+    description: "Katana Contract Directory Schema",
+    generatedAt: new Date().toISOString(),
+    networks: NETWORKS,
+    contexts: Object.keys(CONTEXTS),
+    contractStructure: {
+      name: "string - Contract or interface name",
+      path: "string - Relative path from contracts/ directory", 
+      relativePath: "string - Parent directory path",
+      description: "string|null - Combined title, notice, and dev comments",
+      metadata: {
+        title: "string|null - @title doccomment",
+        notice: "string|null - @notice doccomment", 
+        dev: "string|null - @dev doccomment",
+        tags: "string[] - @custom:tags doccomment"
+      },
+      context: "string - Primary context/category based on tags",
+      theme: "string - Hex color for UI theming",
+      addresses: "object - Network addresses {tatara?, katana?, bokuto?}",
+      originAddresses: "object - Origin chain addresses for cross-chain operations", 
+      abi: "array|null - Contract ABI if available",
+      functionSignatures: "array - Parsed function signatures from ABI",
+      hasAddresses: "boolean - Whether contract has any network addresses",
+      hasOriginAddresses: "boolean - Whether contract has origin addresses",
+      hasAbi: "boolean - Whether ABI is available",
+      functionCount: "number - Number of functions in ABI"
+    }
+  };
+}
+
+// Generate diverse sample for LLM analysis
+function generateDiverseSample(contractDir) {
+  const diverseContracts = [];
+  const usedContexts = new Set();
+  
+  // Try to get one contract from each major context
+  const priorityContexts = ['morpho', 'vaultbridge', 'oracle', 'erc20', 'account-abstraction', 'nft', 'utility'];
+  
+  for (const targetContext of priorityContexts) {
+    const contractInContext = contractDir.find(c => 
+      c.context === targetContext && 
+      !usedContexts.has(c.context) &&
+      c.hasAbi && 
+      c.functionCount > 0
+    );
+    
+    if (contractInContext) {
+      diverseContracts.push(contractInContext);
+      usedContexts.add(contractInContext.context);
+      
+      if (diverseContracts.length >= DIVERSE_SIZE) break;
+    }
+  }
+  
+  // Fill remaining slots with any interesting contracts
+  while (diverseContracts.length < DIVERSE_SIZE) {
+    const remaining = contractDir.find(c => 
+      !diverseContracts.includes(c) &&
+      c.hasAbi && 
+      c.functionCount > 2
+    );
+    
+    if (!remaining) break;
+    diverseContracts.push(remaining);
+  }
+  
+  return diverseContracts;
+}
+
 // Main execution
+console.log('Generating contract directory...');
 const contractDir = generateContractDirectory();
 
 // Write full directory
 writeFileSync(FULL_OUTPUT, JSON.stringify(contractDir, null, 2));
-console.log(`Full contract directory written to ${FULL_OUTPUT}`);
+console.log(`✅ Full contract directory written to ${FULL_OUTPUT}`);
 
-// Write sample directory (first SAMPLE_SIZE entries)
-const sampleDir = contractDir.slice(0, SAMPLE_SIZE);
-writeFileSync(SAMPLE_OUTPUT, JSON.stringify(sampleDir, null, 2));
-console.log(`Sample contract directory written to ${SAMPLE_OUTPUT}`);
+// Write sample directory (first SAMPLE_SIZE entries with good coverage)
+const sampleContracts = contractDir.filter(c => c.hasAbi).slice(0, SAMPLE_SIZE);
+writeFileSync(SAMPLE_OUTPUT, JSON.stringify(sampleContracts, null, 2));
+console.log(`✅ Sample contract directory written to ${SAMPLE_OUTPUT}`);
 
-// Print some stats
-console.log('\nDirectory Statistics:');
+// Write schema file
+const schema = generateSchema();
+writeFileSync(SCHEMA_OUTPUT, JSON.stringify(schema, null, 2));
+console.log(`✅ Schema written to ${SCHEMA_OUTPUT}`);
+
+// Write diverse sample for LLM analysis
+const diverseContracts = generateDiverseSample(contractDir);
+writeFileSync(DIVERSE_OUTPUT, JSON.stringify(diverseContracts, null, 2));
+console.log(`✅ Diverse sample written to ${DIVERSE_OUTPUT}`);
+
+// Print detailed statistics
+console.log('\n📊 Directory Statistics:');
 console.log(`  - Total contracts: ${contractDir.length}`);
-console.log(`  - Contracts with ABIs: ${contractDir.filter(c => c.abi !== null).length}`);
-console.log(`  - Contracts with Tatara addresses: ${contractDir.filter(c => c.address !== null).length}`);
-console.log(`  - Total function signatures: ${contractDir.reduce((sum, c) => sum + c.functionSignatures.length, 0)}`);
+console.log(`  - Contracts with ABIs: ${contractDir.filter(c => c.hasAbi).length}`);
+console.log(`  - Contracts with addresses: ${contractDir.filter(c => c.hasAddresses).length}`);
+console.log(`  - Contracts with origin addresses: ${contractDir.filter(c => c.hasOriginAddresses).length}`);
+console.log(`  - Total function signatures: ${contractDir.reduce((sum, c) => sum + c.functionCount, 0)}`);
 
-console.log('\nGeneration complete!'); 
+// Context breakdown
+console.log('\n📂 Context Breakdown:');
+const contextStats = {};
+contractDir.forEach(c => {
+  contextStats[c.context] = (contextStats[c.context] || 0) + 1;
+});
+
+Object.entries(contextStats)
+  .sort(([,a], [,b]) => b - a)
+  .forEach(([context, count]) => {
+    console.log(`  - ${context}: ${count} contracts`);
+  });
+
+// Network coverage
+console.log('\n🌐 Network Coverage:');
+NETWORKS.forEach(network => {
+  const withAddress = contractDir.filter(c => c.addresses[network]).length;
+  const withOrigin = contractDir.filter(c => c.originAddresses[network]).length;
+  console.log(`  - ${network}: ${withAddress} regular, ${withOrigin} origin addresses`);
+});
+
+console.log('\n🎉 Generation complete!'); 
