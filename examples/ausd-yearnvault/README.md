@@ -1,6 +1,6 @@
 # YvAUSD Vault Frontend
 
-A simple, clean interface for interacting with the Yearn AUSD vault on Tatara testnet.
+A simple, clean interface for interacting with the Yearn AUSD vault on Katana Mainnet.
 
 ## Features
 
@@ -16,7 +16,7 @@ A simple, clean interface for interacting with the Yearn AUSD vault on Tatara te
 
 - Node.js 16+ installed
 - MetaMask browser extension
-- Access to Tatara testnet
+- Access to Katana Mainnet
 
 ### 2. Installation
 
@@ -41,16 +41,16 @@ REACT_APP_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id_here
 3. Create a new project
 4. Copy the Project ID
 
-### 4. MetaMask Tatara Testnet Setup
+### 4. MetaMask Katana Mainnet Setup
 
-Add Tatara testnet to MetaMask:
+Add Katana Mainnet to MetaMask:
 
 **Network Details:**
-- **Network Name**: Tatara Testnet
-- **RPC URL**: `https://rpc.tatara.katanarpc.com`
-- **Chain ID**: `167009`
+- **Network Name**: Katana Mainnet
+- **RPC URL**: `https://rpc.katana.network/`
+- **Chain ID**: `747474`
 - **Currency Symbol**: `ETH`
-- **Block Explorer**: `https://explorer.tatara.katanarpc.com`
+- **Block Explorer**: `https://katanascan.com/`
 
 ### 5. File Structure
 
@@ -81,7 +81,7 @@ The app will open at `http://localhost:3000`
 ### Step 1: Connect Wallet
 - Click "Connect Wallet" in the navbar
 - Select MetaMask
-- Ensure you're on Tatara testnet
+- Ensure you're on Katana Mainnet
 
 ### Step 2: Get Test Tokens
 You'll need AUSD tokens to interact with the vault. If you don't have any, you'll need to:
@@ -112,8 +112,8 @@ You'll need AUSD tokens to interact with the vault. If you don't have any, you'l
 
 ## Contract Addresses
 
-- **AUSD Token**: `0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC`
-- **YvAUSD Vault**: `0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60`
+- **AUSD Token**: `0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a`
+- **YvAUSD Vault**: `0x93Fec6639717b6215A48E5a72a162C50DCC40d68`
 
 ## Cast Commands (For Testing)
 
@@ -121,14 +121,14 @@ If you have a private key with AUSD tokens, you can use these commands:
 
 ```bash
 # Approve AUSD
-cast send 0xa9012a055bd4e0eDfF8Ce09f960291C09D5322dC "approve(address,uint256)" 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60 1000000 \
+cast send 0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a "approve(address,uint256)" 0x93Fec6639717b6215A48E5a72a162C50DCC40d68 1000000 \
     --private-key $PRIVATE_KEY \
-    --rpc-url https://rpc.tatara.katanarpc.com
+    --rpc-url https://rpc.katana.network/
 
 # Deposit AUSD
-cast send 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60 "deposit(uint256,address)" 1000000 YOUR_ADDRESS \
+cast send 0x93Fec6639717b6215A48E5a72a162C50DCC40d68 "deposit(uint256,address)" 1000000 YOUR_ADDRESS \
     --private-key $PRIVATE_KEY \
-    --rpc-url https://rpc.tatara.katanarpc.com
+    --rpc-url https://rpc.katana.network/
 ```
 
 ## Technical Notes
@@ -144,7 +144,7 @@ cast send 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60 "deposit(uint256,address)" 
 
 1. **"Cannot connect to wallet"**
    - Ensure MetaMask is installed and unlocked
-   - Check you're on the correct network (Tatara testnet)
+   - Check you're on the correct network (Katana mainnet)
 
 2. **"Transaction failed"**
    - Check you have enough ETH for gas fees
@@ -152,7 +152,7 @@ cast send 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60 "deposit(uint256,address)" 
    - Ensure you have enough AUSD balance
 
 3. **"Network error"**
-   - Verify Tatara testnet RPC is working
+   - Verify Katana mainnet RPC is working
    - Try refreshing the page
 
 4. **Missing WalletConnect Project ID**
@@ -161,7 +161,7 @@ cast send 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60 "deposit(uint256,address)" 
 
 ### Getting Test ETH
 
-You'll need ETH for gas fees on Tatara testnet. Contact the Tatara testnet team or check their documentation for faucet information.
+You'll need ETH for gas fees on Katana mainnet. Contact the Katana team or check their documentation for faucet information.
 
 ## Development
 
@@ -184,4 +184,4 @@ If you encounter issues:
 1. Check the browser console for error messages
 2. Verify all environment variables are set correctly
 3. Ensure you're using the correct contract addresses
-4. Check MetaMask is connected to Tatara testnet
+4. Check MetaMask is connected to Katana Mainnet

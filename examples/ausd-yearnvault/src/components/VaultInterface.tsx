@@ -127,7 +127,7 @@ export const VaultInterface: React.FC = () => {
   };
 
   const getExplorerLink = (hash: string) => {
-    return `https://explorer.tatara.katana.network/tx/${hash}`;
+    return `https://katanascan.com/tx/${hash}`;
   };
 
   const getButtonText = () => {

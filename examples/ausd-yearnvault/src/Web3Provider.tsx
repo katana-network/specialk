@@ -4,27 +4,27 @@ import { WagmiProvider, createConfig, http } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
-const tataraTestnet = {
-  id: 129399,
-  name: 'Tatara Testnet',
+const katana = {
+  id: 747474,
+  name: 'Katana Testnet',
   nativeCurrency: {
     decimals: 18,
     name: 'ETH',
     symbol: 'ETH',
   },
   rpcUrls: {
-    default: { http: ['https://rpc.tatara.katanarpc.com'] },
+    default: { http: ['https://rpc.katana.network/'] },
   },
   blockExplorers: {
-    default: { name: 'Tatara Explorer', url: 'https://explorer.tatara.katanarpc.com' },
+    default: { name: 'Katana Explorer', url: 'https://katanascan.com/' },
   },
 } as const;
 
 const config = createConfig(
   getDefaultConfig({
-    chains: [tataraTestnet],
+    chains: [katana],
     transports: {
-      [tataraTestnet.id]: http('https://rpc.tatara.katanarpc.com'),
+      [katana.id]: http('https://rpc.katana.network/'),
     },
 
     walletConnectProjectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID || '',

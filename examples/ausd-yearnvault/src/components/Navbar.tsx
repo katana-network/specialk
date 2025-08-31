@@ -7,8 +7,8 @@ export const Navbar: React.FC = () => {
       <div className="navbar-content">
         <div className="navbar-brand">
           <h1>YvAUSD Vault</h1>
-          <span className="network-badge">Tatara Testnet</span>
-          <span className="badge">Yearn Finance AUSD Vaults on Katana Testnet</span>
+          <span className="network-badge">Katana Network</span>
+          <span className="badge">Yearn Finance AUSD Vaults on Katana Mainnet</span>
         </div>
         <div className="navbar-actions">
           <ConnectKitButton />
