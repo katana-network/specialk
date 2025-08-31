@@ -1,6 +1,10 @@
 import { build } from 'esbuild';
 import fs from 'node:fs';
 import path from 'node:path';
+import { exec } from 'node:child_process';
+import { promisify } from 'node:util';
+
+const execAsync = promisify(exec);
 
 async function buildProject() {
   console.log('🏗️ Building project...');
@@ -128,6 +132,150 @@ the RPC URL will default to http://localhost:8545.
   }
 }
 
+// Check if a directory is a bun project
+function isBunProject(examplePath) {
+  const packageJsonPath = path.join(examplePath, 'package.json');
+  if (!fs.existsSync(packageJsonPath)) {
+    return false;
+  }
+
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson.scripts && packageJson.scripts.build;
+  } catch {
+    return false;
+  }
+}
+
+// Build a bun project
+async function buildBunProject(example, examplePath, outputPath) {
+  console.log(`🔨 Building bun project: ${example}`);
+  
+  try {
+    // First, install dependencies in the example directory
+    console.log(`📦 Installing dependencies in ${example}`);
+    await execAsync('bun install', { cwd: examplePath });
+    
+    // Run the build script if it exists
+    console.log(`⚡ Running bun build in ${example}`);
+    await execAsync('bun run build', { cwd: examplePath });
+    
+    // Check if the build output exists (usually in dist folder)
+    const buildOutputDir = path.join(examplePath, 'dist');
+    const buildOutputDir2 = path.join(examplePath, 'build');
+    const buildOutputDir3 = path.join(examplePath, 'out');
+    
+    let sourceBuildDir = null;
+    if (fs.existsSync(buildOutputDir)) {
+      sourceBuildDir = buildOutputDir;
+    } else if (fs.existsSync(buildOutputDir2)) {
+      sourceBuildDir = buildOutputDir2;
+    } else if (fs.existsSync(buildOutputDir3)) {
+      sourceBuildDir = buildOutputDir3;
+    }
+    
+    // Always copy the HTML file first
+    const htmlPath = path.join(examplePath, 'index.html');
+    if (fs.existsSync(htmlPath)) {
+      fs.copyFileSync(htmlPath, path.join(outputPath, 'index.html'));
+      console.log(`✅ HTML copied for ${example}`);
+    }
+    
+    if (sourceBuildDir) {
+      // Copy build output to our dist-examples directory
+      console.log(`📋 Copying build output from ${sourceBuildDir}`);
+      await copyDirectoryRecursive(sourceBuildDir, outputPath);
+    } else {
+      console.log(`⚠️  No build output found, trying direct compilation for ${example}`);
+      
+      // Try to build directly with esbuild as fallback
+      const srcIndexPath = path.join(examplePath, 'src', 'index.ts');
+      if (fs.existsSync(srcIndexPath)) {
+        await build({
+          entryPoints: [srcIndexPath],
+          outfile: path.join(outputPath, 'dist', 'index.js'),
+          bundle: true,
+          minify: true,
+          format: 'esm',
+          platform: 'browser',
+          loader: {
+            '.ts': 'ts',
+          },
+          define: {
+            'process.env.NODE_ENV': '"production"',
+          }
+        });
+        
+        // Ensure dist directory exists
+        const distDir = path.join(outputPath, 'dist');
+        if (!fs.existsSync(distDir)) {
+          fs.mkdirSync(distDir, { recursive: true });
+        }
+        
+        console.log(`✅ Direct compilation successful for ${example}`);
+      }
+    }
+    
+    // Copy any additional static files
+    const staticFiles = ['package.json', 'tsconfig.json', 'README.md'];
+    for (const file of staticFiles) {
+      const srcPath = path.join(examplePath, file);
+      const destPath = path.join(outputPath, file);
+      
+      if (fs.existsSync(srcPath)) {
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
+    
+    // Create a specific README for this bun project
+    const exampleReadme = `# ${example.charAt(0).toUpperCase() + example.slice(1)} Example
+
+This is a bun-based TypeScript frontend project demonstrating Katana's Usecase and integration.
+
+## Running the Demo
+
+This project was built with Bun and includes all dependencies.
+
+\`\`\`bash
+npx http-server .
+\`\`\`
+
+## Network Details
+
+- **Chain ID**: 747474 (Katana Testnet)
+- **RPC URL**: https://rpc.katana.network/
+- **Explorer**: https://katanascan.com/
+`;
+
+    fs.writeFileSync(path.join(outputPath, 'README.md'), exampleReadme);
+    console.log(`✅ Bun project ${example} built successfully`);
+    
+  } catch (error) {
+    console.error(`❌ Failed to build bun project ${example}:`, error);
+    // Don't throw - continue with other examples
+  }
+}
+
+// Utility function to copy directory recursively
+async function copyDirectoryRecursive(source, destination) {
+  if (!fs.existsSync(destination)) {
+    fs.mkdirSync(destination, { recursive: true });
+  }
+  
+  const files = fs.readdirSync(source);
+  
+  for (const file of files) {
+    const sourcePath = path.join(source, file);
+    const destPath = path.join(destination, file);
+    
+    if (fs.statSync(sourcePath).isDirectory()) {
+      await copyDirectoryRecursive(sourcePath, destPath);
+    } else {
+      fs.copyFileSync(sourcePath, destPath);
+    }
+  }
+}
+
 async function buildExamples() {
   console.log('🏗️ Building examples...');
 
@@ -160,16 +308,23 @@ async function buildExamples() {
     const examplePath = path.join(examplesDir, example);
     const outputPath = path.join('./dist-examples', example);
     
-    console.log(`🔨 Building example: ${example}`);
-    
     // Create output directory for this example
     fs.mkdirSync(outputPath, { recursive: true });
     
     try {
+      // Check if this is a bun project
+      if (isBunProject(examplePath)) {
+        await buildBunProject(example, examplePath, outputPath);
+        continue;
+      }
+      
+      // Original logic for main.ts projects
+      console.log(`🔨 Building TypeScript project: ${example}`);
+      
       // Check if main.ts exists
       const mainTsPath = path.join(examplePath, 'main.ts');
       if (!fs.existsSync(mainTsPath)) {
-        console.log(`⚠️  Skipping ${example}: no main.ts found`);
+        console.log(`⚠️  Skipping ${example}: no main.ts found and not a bun project`);
         continue;
       }
 
@@ -220,7 +375,7 @@ async function buildExamples() {
       // Create a README for this example
       const exampleReadme = `# ${example.charAt(0).toUpperCase() + example.slice(1)} Example
 
-This is a demo application showing how to use Katana blockchain features.
+This is a demo application showing how to use Katana features.
 
 ## Running the Demo
 
@@ -258,4 +413,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
 }
 
-export { buildProject, buildMcpServer, buildExamples }; 
+export { buildProject, buildMcpServer, buildExamples };

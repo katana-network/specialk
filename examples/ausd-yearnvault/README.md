@@ -14,7 +14,6 @@ A simple, clean interface for interacting with the Yearn AUSD vault on Katana Ma
 
 ### 1. Prerequisites
 
-- Node.js 16+ installed
 - MetaMask browser extension
 - Access to Katana Mainnet
 
