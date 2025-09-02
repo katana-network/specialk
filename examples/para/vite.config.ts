@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), nodePolyfills()],
   server: {
     allowedHosts: [
-      
+      '5173-manyrios-specialk-mpp53hm78zz.ws-us121.gitpod.io'
     ],
     host: true,
   }
