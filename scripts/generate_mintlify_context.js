@@ -39,7 +39,7 @@ function loadContractDirectory() {
   if (!existsSync(CONTRACT_DIR_JSON)) {
     console.log('contractdir.json not found. Generating it first...');
     try {
-      execSync('bun scripts/generate_contract_dir.js', { stdio: 'inherit' });
+      execSync('node scripts/generate_contract_dir.js', { stdio: 'inherit' });
     } catch (err) {
       console.error('Error running generate_contract_dir:', err.message);
       process.exit(1);

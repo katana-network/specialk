@@ -103,7 +103,7 @@ To use this MCP server with Cursor, add the following to your Cursor config:
 \`\`\`json
 "mcpServers": {
   "foundry": {
-    "command": "bun",
+    "command": "node",
     "args": [
       "${path.resolve('./dist-mcp/index.js')}"
     ],

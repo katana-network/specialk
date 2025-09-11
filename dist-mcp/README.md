@@ -10,7 +10,7 @@ To use this MCP server with Cursor, add the following to your Cursor config:
 ```json
 "mcpServers": {
   "foundry": {
-    "command": "bun",
+    "command": "node",
     "args": [
       "/home/runner/work/specialk/specialk/dist-mcp/index.js"
     ],
