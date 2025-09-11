@@ -289,15 +289,15 @@ library TataraAddresses {
      * @return The ISenderCreator contract address
      */
     function getSenderCreatorAddress() internal pure returns (address) {
-        return 0xEFC2c1444eBCC4Db75e7613d20C6a62fF67A167C;
+        return 0x7fc98430eAEdbb6070B35B39D798725049088348;
     }
 
     /**
-     * @notice Returns the address of ISenderCreator_AAv0_6_0_ISenderCreator
-     * @return The ISenderCreator_AAv0_6_0_ISenderCreator contract address
+     * @notice Returns the address of ISenderCreator_AAv0_7_0_ISenderCreator
+     * @return The ISenderCreator_AAv0_7_0_ISenderCreator contract address
      */
-    function getSenderCreator_AAv0_6_0_ISenderCreatorAddress() internal pure returns (address) {
-        return 0x7fc98430eAEdbb6070B35B39D798725049088348;
+    function getSenderCreator_AAv0_7_0_ISenderCreatorAddress() internal pure returns (address) {
+        return 0xEFC2c1444eBCC4Db75e7613d20C6a62fF67A167C;
     }
 
     /**

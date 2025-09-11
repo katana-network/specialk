@@ -33,15 +33,15 @@ library KatanaAddresses {
      * @return The IAUSDUSDOracle contract address
      */
     function getAUSDUSDOracleAddress() internal pure returns (address) {
-        return 0x53bB139e962ee0AC6477F40D0352e8dAF0480b70;
+        return 0x3A49D4e23868222785f148BA2bd0bAEc80d36a2A;
     }
 
     /**
-     * @notice Returns the address of IAUSDUSDOracle_oracles_chainlink_IAUSDUSDOracle
-     * @return The IAUSDUSDOracle_oracles_chainlink_IAUSDUSDOracle contract address
+     * @notice Returns the address of IAUSDUSDOracle_oracles_redstone_IAUSDUSDOracle
+     * @return The IAUSDUSDOracle_oracles_redstone_IAUSDUSDOracle contract address
      */
-    function getAUSDUSDOracle_oracles_chainlink_IAUSDUSDOracleAddress() internal pure returns (address) {
-        return 0x3A49D4e23868222785f148BA2bd0bAEc80d36a2A;
+    function getAUSDUSDOracle_oracles_redstone_IAUSDUSDOracleAddress() internal pure returns (address) {
+        return 0x53bB139e962ee0AC6477F40D0352e8dAF0480b70;
     }
 
     /**
@@ -81,15 +81,15 @@ library KatanaAddresses {
      * @return The IBTCUSDOracle contract address
      */
     function getBTCUSDOracleAddress() internal pure returns (address) {
-        return 0xb67047eDF6204F4C81333248dA71F8387050790C;
+        return 0x41DdB7F8F5e1b2bD28193B84C1C36Be698dEd162;
     }
 
     /**
-     * @notice Returns the address of IBTCUSDOracle_oracles_chainlink_IBTCUSDOracle
-     * @return The IBTCUSDOracle_oracles_chainlink_IBTCUSDOracle contract address
+     * @notice Returns the address of IBTCUSDOracle_oracles_redstone_IBTCUSDOracle
+     * @return The IBTCUSDOracle_oracles_redstone_IBTCUSDOracle contract address
      */
-    function getBTCUSDOracle_oracles_chainlink_IBTCUSDOracleAddress() internal pure returns (address) {
-        return 0x41DdB7F8F5e1b2bD28193B84C1C36Be698dEd162;
+    function getBTCUSDOracle_oracles_redstone_IBTCUSDOracleAddress() internal pure returns (address) {
+        return 0xb67047eDF6204F4C81333248dA71F8387050790C;
     }
 
     /**
@@ -177,15 +177,15 @@ library KatanaAddresses {
      * @return The IETHUSDOracle contract address
      */
     function getETHUSDOracleAddress() internal pure returns (address) {
-        return 0xE94c9f9A1893f23be38A5C0394E46Ac05e8a5f8C;
+        return 0x7BdBDB772f4a073BadD676A567C6ED82049a8eEE;
     }
 
     /**
-     * @notice Returns the address of IETHUSDOracle_oracles_chainlink_IETHUSDOracle
-     * @return The IETHUSDOracle_oracles_chainlink_IETHUSDOracle contract address
+     * @notice Returns the address of IETHUSDOracle_oracles_redstone_IETHUSDOracle
+     * @return The IETHUSDOracle_oracles_redstone_IETHUSDOracle contract address
      */
-    function getETHUSDOracle_oracles_chainlink_IETHUSDOracleAddress() internal pure returns (address) {
-        return 0x7BdBDB772f4a073BadD676A567C6ED82049a8eEE;
+    function getETHUSDOracle_oracles_redstone_IETHUSDOracleAddress() internal pure returns (address) {
+        return 0xE94c9f9A1893f23be38A5C0394E46Ac05e8a5f8C;
     }
 
     /**
@@ -233,15 +233,15 @@ library KatanaAddresses {
      * @return The ILBTCBTCOracle contract address
      */
     function getLBTCBTCOracleAddress() internal pure returns (address) {
-        return 0xb9D0073aCb296719C26a8BF156e4b599174fe1d5;
+        return 0x6830BfE63F8804B4972D92826b9088d2fb6AFe5b;
     }
 
     /**
-     * @notice Returns the address of ILBTCBTCOracle_oracles_chainlink_ILBTCBTCOracle
-     * @return The ILBTCBTCOracle_oracles_chainlink_ILBTCBTCOracle contract address
+     * @notice Returns the address of ILBTCBTCOracle_oracles_redstone_ILBTCBTCOracle
+     * @return The ILBTCBTCOracle_oracles_redstone_ILBTCBTCOracle contract address
      */
-    function getLBTCBTCOracle_oracles_chainlink_ILBTCBTCOracleAddress() internal pure returns (address) {
-        return 0x6830BfE63F8804B4972D92826b9088d2fb6AFe5b;
+    function getLBTCBTCOracle_oracles_redstone_ILBTCBTCOracleAddress() internal pure returns (address) {
+        return 0xb9D0073aCb296719C26a8BF156e4b599174fe1d5;
     }
 
     /**
@@ -465,15 +465,15 @@ library KatanaAddresses {
      * @return The IWBTCUSDOracle contract address
      */
     function getWBTCUSDOracleAddress() internal pure returns (address) {
-        return 0xE5E307A3aEDf4e8eF60E1bfCc9ccD477dFad93ce;
+        return 0x0D03E26E0B5D09E24E5a45696D0FcA12E9648FBB;
     }
 
     /**
-     * @notice Returns the address of IWBTCUSDOracle_oracles_chainlink_IWBTCUSDOracle
-     * @return The IWBTCUSDOracle_oracles_chainlink_IWBTCUSDOracle contract address
+     * @notice Returns the address of IWBTCUSDOracle_oracles_redstone_IWBTCUSDOracle
+     * @return The IWBTCUSDOracle_oracles_redstone_IWBTCUSDOracle contract address
      */
-    function getWBTCUSDOracle_oracles_chainlink_IWBTCUSDOracleAddress() internal pure returns (address) {
-        return 0x0D03E26E0B5D09E24E5a45696D0FcA12E9648FBB;
+    function getWBTCUSDOracle_oracles_redstone_IWBTCUSDOracleAddress() internal pure returns (address) {
+        return 0xE5E307A3aEDf4e8eF60E1bfCc9ccD477dFad93ce;
     }
 
     /**
@@ -489,15 +489,15 @@ library KatanaAddresses {
      * @return The IweETHETHOracle contract address
      */
     function getIweETHETHOracleAddress() internal pure returns (address) {
-        return 0xe8D9FbC10e00ecc9f0694617075fDAF657a76FB2;
+        return 0x3Eae75C0a2f9b1038C7c9993C1Da36281E838811;
     }
 
     /**
-     * @notice Returns the address of IweETHETHOracle_oracles_chainlink_IweETHETHOracle
-     * @return The IweETHETHOracle_oracles_chainlink_IweETHETHOracle contract address
+     * @notice Returns the address of IweETHETHOracle_oracles_redstone_IweETHETHOracle
+     * @return The IweETHETHOracle_oracles_redstone_IweETHETHOracle contract address
      */
-    function getIweETHETHOracle_oracles_chainlink_IweETHETHOracleAddress() internal pure returns (address) {
-        return 0x3Eae75C0a2f9b1038C7c9993C1Da36281E838811;
+    function getIweETHETHOracle_oracles_redstone_IweETHETHOracleAddress() internal pure returns (address) {
+        return 0xe8D9FbC10e00ecc9f0694617075fDAF657a76FB2;
     }
 
     /**
