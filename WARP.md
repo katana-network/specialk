@@ -208,6 +208,83 @@ For AI-assisted development with Cursor, add to `.cursor/mcp.json`:
 - **Build order matters**: Run `build:addressutils` before other build steps when adding new contracts
 - **MCP server requires absolute paths**: Use full paths in MCP configuration files
 
+## Anonymous Telemetry (Opt-in)
+
+On the first interactive run of any `bun run` script, the kit may prompt:
+
+> "Help improve Katana Starter Kit by sending anonymous usage (event name,
+> version, OS)? [y/N]"
+
+- Consent is stored in `.phonehome/config.json` along with:
+  - `repoId`: random UUID for this clone
+  - `deviceId`: random UUID, generated once per device (stored under
+    `~/.katana-phonehome/device-id`)
+- Non-blocking and offline-safe: events are written to `.phonehome/queue/` and
+  occasionally flushed in the background with an ~800ms network timeout.
+- Disabled automatically in CI (`CI`, `GITHUB_ACTIONS`) and with
+  `DO_NOT_TRACK=1`.
+
+Environment overrides:
+
+```bash
+# Force disable telemetry
+KATANA_PHONEHOME=0 bun run build
+
+# Force enable telemetry
+KATANA_PHONEHOME=1 bun run build
+```
+
+### Implementation details
+
+- Event collector: `utils/phonehome.ts`
+- Background flusher: `utils/phonehome_flush.ts`
+- Config and queue: `.phonehome/config.json`, `.phonehome/queue/`
+- Endpoint override: `PHONEHOME_ENDPOINT` (default
+  `https://telemetry.katana.tools/v1/events`)
+
+### Wiring via pre-scripts
+
+Telemetry hooks are attached using npm-style pre-scripts which Bun supports. For
+each script `name`, adding `pre{name}` will auto-run before `bun run {name}`.
+
+Examples already wired:
+
+```json
+{
+  "scripts": {
+    "prebuild": "bun utils/phonehome.ts --event build",
+    "build": "bun build.js",
+
+    "predev": "bun utils/phonehome.ts --event dev",
+    "dev": "cd dist && npx http-server",
+
+    "prestart:anvil": "bun utils/phonehome.ts --event start:anvil",
+    "start:anvil": "chmod +x scripts/start_anvil.sh && scripts/start_anvil.sh"
+  }
+}
+```
+
+The pre-script exits immediately if consent is off. When enabled, it only writes
+to a local queue and spawns a detached flusher; the main command never waits on
+network.
+
+### Tip for LLMs and contributors
+
+- When adding a new script to `package.json`, also add the matching `pre...`
+  hook to keep telemetry coverage in sync. Example:
+
+```json
+{
+  "scripts": {
+    "premy:new:cmd": "bun utils/phonehome.ts --event my:new:cmd",
+    "my:new:cmd": "bun scripts/my_cmd.js"
+  }
+}
+```
+
+This ensures telemetry evolves with the project without altering developer
+workflows.
+
 ## Txtx Integration
 
 The project includes txtx runbooks in `runbooks/` for infrastructure-as-code blockchain operations. Use `txtx ls` to see available runbooks and `txtx run <runbook-id>` to execute them.

@@ -3,21 +3,32 @@
   "version": "0.1.0",
   "description": "Development starter kit for Katana and Tatara",
   "scripts": {
+    "prebuild": "bun utils/phonehome.ts --event build",
     "build": "bun build.js",
+    "predev": "bun utils/phonehome.ts --event dev",
     "dev": "cd dist && npx http-server",
+    "prestart:anvil": "bun utils/phonehome.ts --event start:anvil",
     "start:anvil": "chmod +x scripts/start_anvil.sh && scripts/start_anvil.sh",
+    "preverify:anvil": "bun utils/phonehome.ts --event verify:anvil",
     "verify:anvil": "bun scripts/verify_anvil.js",
     "build:abi": "bun scripts/build_abi.js",
     "build:contractdir": "bun scripts/generate_contract_dir.js",
     "build:addressutils": "bun scripts/build_address_utils.js",
+    "prebuild:mcpserver": "bun utils/phonehome.ts --event build:mcpserver",
     "build:mcpserver": "bun build.js --mcp-only",
+    "prebuild:examples": "bun utils/phonehome.ts --event build:examples",
     "build:examples": "bun build.js --examples-only",
     "generate_mintlify_context": "bun scripts/generate_mintlify_context.js",
+    "prebuild:all": "bun utils/phonehome.ts --event build:all",
     "forge:deps": "mkdir -p forge/lib && [ -d forge/lib/forge-std/.git ] || git clone --depth 1 https://github.com/foundry-rs/forge-std forge/lib/forge-std && chmod +x scripts/forge-deploy.sh",
+    "preforge:build": "bun utils/phonehome.ts --event forge:build",
     "forge:build": "cd forge && forge build && cd ..",
+    "preforge:test": "bun utils/phonehome.ts --event forge:test",
     "forge:test": "cd forge && forge test && cd ..",
+    "preforge:deploy": "bun utils/phonehome.ts --event forge:deploy",
     "forge:deploy": "bash scripts/forge-deploy.sh",
     "build:all": "bun run forge:deps && bun run build:addressutils && bun run build:abi && bun run build:contractdir && bun run build && bun run build:mcpserver",
+    "prestart:mcp": "bun utils/phonehome.ts --event start:mcp",
     "start:mcp": "bun dist-mcp/index.js"
   },
   "dependencies": {
@@ -29,7 +40,8 @@
   "devDependencies": {
     "esbuild": "^0.24.0",
     "@types/node": "^20.11.25",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "bun-types": "latest"
   },
   "type": "module"
 }

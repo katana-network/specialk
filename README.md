@@ -458,6 +458,33 @@ The address mapping is generated from the `@custom:tatara`, `@custom:katana`, an
 
 ---
 
+## Anonymous telemetry (opt-in)
+
+On first run of any `bun run` script, the starter kit may ask:
+
+> "Help improve Katana Starter Kit by sending anonymous usage (event name,
+> version, OS)? [y/N]"
+
+- If you opt in, a local `.phonehome/config.json` is created with:
+  - `consent`: `yes` or `no`
+  - `repoId`: random ID for this clone
+  - `deviceId`: random ID for this device
+- The `deviceId` is generated once per machine and cached, so multiple clones on
+  the same device share the same ID. No personal data is collected.
+- Telemetry is non-blocking and offline-safe: events are queued in
+  `.phonehome/queue` and occasionally flushed in the background with strict
+  timeouts.
+
+Control via environment variables:
+
+- `KATANA_PHONEHOME=0` disables telemetry
+- `KATANA_PHONEHOME=1` enables telemetry
+- Telemetry is automatically disabled in CI and when `DO_NOT_TRACK=1`.
+
+You can change your choice anytime by editing `.phonehome/config.json`.
+
+---
+
 ## 🔗 Smart Contract Development
 
 See [interfaces](interfaces).

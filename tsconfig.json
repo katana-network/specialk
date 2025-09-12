@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["node"],
     "outDir": "./dist",
     "rootDir": "./"
   },
