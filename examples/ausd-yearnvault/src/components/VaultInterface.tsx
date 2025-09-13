@@ -71,9 +71,10 @@ export const VaultInterface: React.FC = () => {
     return amount && !isNaN(Number(amount)) && Number(amount) > 0;
   };
 
-  const hasAllowance = allowance && depositAmount && isValidAmount(depositAmount) 
-    ? Number(formatUnits(allowance, 6)) >= Number(depositAmount)
-    : false;
+  const hasAllowance =
+    typeof allowance === 'bigint' && depositAmount && isValidAmount(depositAmount)
+      ? Number(formatUnits(allowance, 6)) >= Number(depositAmount)
+      : false;
 
   // Auto-switch to deposit step when approval is sufficient
   useEffect(() => {
@@ -206,25 +207,25 @@ export const VaultInterface: React.FC = () => {
             <div className="stat-card">
               <h3>Your AUSD Balance</h3>
               <p className="stat-value">
-                {ausdBalance ? formatUnits(ausdBalance, 6) : '0'} AUSD
+                {typeof ausdBalance === 'bigint' ? formatUnits(ausdBalance, 6) : '0'} AUSD
               </p>
             </div>
             <div className="stat-card">
               <h3>Your YvAUSD Balance</h3>
               <p className="stat-value">
-                {yvausdBalance ? formatUnits(yvausdBalance, 6) : '0'} YvAUSD
+                {typeof yvausdBalance === 'bigint' ? formatUnits(yvausdBalance, 6) : '0'} YvAUSD
               </p>
             </div>
             <div className="stat-card">
               <h3>Vault Total Assets</h3>
               <p className="stat-value">
-                {totalAssets ? formatUnits(totalAssets, 6) : '0'} AUSD
+                {typeof totalAssets === 'bigint' ? formatUnits(totalAssets, 6) : '0'} AUSD
               </p>
             </div>
             <div className="stat-card">
               <h3>Current Allowance</h3>
               <p className="stat-value">
-                {allowance ? formatUnits(allowance, 6) : '0'} AUSD
+                {typeof allowance === 'bigint' ? formatUnits(allowance, 6) : '0'} AUSD
               </p>
             </div>
           </div>
@@ -281,7 +282,7 @@ export const VaultInterface: React.FC = () => {
                 />
               </div>
 
-              {depositAmount && previewDeposit?.toString() && isValidAmount(depositAmount) && (
+              {depositAmount && typeof previewDeposit === 'bigint' && isValidAmount(depositAmount) && (
                 <div className="preview">
                   You'll receive: {formatUnits(previewDeposit, 6)} YvAUSD
                 </div>
@@ -303,6 +304,7 @@ export const VaultInterface: React.FC = () => {
               <h3>Withdraw</h3>
               <p>Redeem your YvAUSD tokens back to AUSD plus yields</p>
               
+
               <div className="input-group">
                 <input
                   type="number"
@@ -313,7 +315,6 @@ export const VaultInterface: React.FC = () => {
                   min="0"
                   step="0.000001"
                 />
-                
                 <button 
                   onClick={handleWithdraw}
                   disabled={!isValidAmount(withdrawAmount) || isWritePending || isConfirming}
@@ -322,8 +323,16 @@ export const VaultInterface: React.FC = () => {
                   {isWritePending && isValidAmount(withdrawAmount) ? 'Withdrawing...' : 'Withdraw'}
                 </button>
               </div>
+              {/* Error if withdraw amount exceeds balance */}
+              {isValidAmount(withdrawAmount) &&
+                (typeof yvausdBalance === 'bigint') &&
+                Number(withdrawAmount) > Number(formatUnits(yvausdBalance, 6)) && (
+                  <div style={{ color: 'red', marginTop: 8, fontSize: 14 }}>
+                    Error: You do not have enough YvAUSD to withdraw this amount.
+                  </div>
+              )}
 
-              {withdrawAmount && previewWithdraw?.toString() && isValidAmount(withdrawAmount) && (
+              {withdrawAmount && typeof previewWithdraw === 'bigint' && isValidAmount(withdrawAmount) && (
                 <div className="preview">
                   You'll receive: {formatUnits(previewWithdraw, 6)} AUSD
                 </div>

@@ -4,7 +4,7 @@ A simple, clean interface for interacting with the Yearn AUSD vault on Katana Ma
 
 ## Features
 
-- 🔗 **Wallet Connection**: MetaMask integration via ConnectKit
+- 🔗 **Wallet Connection**: MetaMask integration via Wagmi
 - 💰 **Vault Operations**: Approve, Deposit, and Withdraw AUSD
 - 📊 **Real-time Data**: View balances, allowances, and vault stats
 - 🎨 **Clean UI**: Light theme with subtle design
@@ -23,22 +23,8 @@ A simple, clean interface for interacting with the Yearn AUSD vault on Katana Ma
 cd examples/ausd-yearnvault
 
 # Install required packages
-bun install --legacy-peer-deps
+bun install
 ```
-
-### 3. Environment Setup
-
-Create a `.env` file in your project root:
-
-```env
-REACT_APP_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id_here
-```
-
-**Get WalletConnect Project ID:**
-1. Visit [WalletConnect Cloud](https://cloud.walletconnect.com)
-2. Sign up/login
-3. Create a new project
-4. Copy the Project ID
 
 ### 4. MetaMask Katana Mainnet Setup
 
@@ -154,10 +140,6 @@ cast send 0x93Fec6639717b6215A48E5a72a162C50DCC40d68 "deposit(uint256,address)" 
    - Verify Katana mainnet RPC is working
    - Try refreshing the page
 
-4. **Missing WalletConnect Project ID**
-   - Check your `.env` file exists and has the correct variable name
-   - Restart the development server after adding environment variables
-
 ### Getting Test ETH
 
 You'll need ETH for gas fees on Katana mainnet. Contact the Katana team or check their documentation for faucet information.
@@ -168,7 +150,7 @@ The project uses:
 - **React 18** with TypeScript
 - **Wagmi v2** for Ethereum interactions
 - **Viem** for low-level blockchain operations
-- **ConnectKit** for wallet connection UI
+- **Wagmi** for wallet connection UI
 - **TanStack Query** for data fetching and caching
 
 The code is structured to be simple and maintainable:
