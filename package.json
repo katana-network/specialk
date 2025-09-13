@@ -34,7 +34,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
     "solc": "^0.8.30",
-    "viem": "^2.37.5",
+    "viem": "^2.23.13",
     "zod": "^3.22.4"
   },
   "devDependencies": {
