@@ -1,9 +1,10 @@
 import { defineChain } from "viem";
+import {CHAIN_IDS} from '../../../../utils/mapping'
 
 const clientId = import.meta.env.VITE_CLIENT
 
 export const katana = defineChain({
-    id: 747474,
+    id: CHAIN_IDS.KATANA,
     name: "katana",
     nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
     rpcUrls: {
@@ -16,7 +17,7 @@ export const katana = defineChain({
 });
 
 export const tatara = defineChain({
-    id: 129399,
+    id: CHAIN_IDS.TATARA,
     name: "tatara",
     nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
     rpcUrls: {

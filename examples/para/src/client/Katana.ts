@@ -11,7 +11,7 @@ import {
     createParaViemClient,
 } from "@getpara/viem-v2-integration";
 import para from "./Para";
-import { getContractAddress } from "../../../../utils/addresses"
+import { CONTRACT_ADDRESSES } from "../../../../utils/mapping"
 import { katana } from "./Chains";
 
 interface ITransaction {
@@ -54,7 +54,7 @@ export async function initialize(para: ParaWeb) {
 }
 
 export const madeTransaction = async ({ to, amount }: ITransaction) => {
-    const ausdAddress = getContractAddress('AUSD', katana.id);
+    const ausdAddress = CONTRACT_ADDRESSES['IAUSD'].katana
 
     if (!ausdAddress) {
         console.log('no')
