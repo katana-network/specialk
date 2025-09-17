@@ -288,12 +288,15 @@ The following convenience commands are available via Bun scripts in
   bun run forge:test
   ```
 
-- **forge:deploy**: Deploy a Foundry script target using a wrapper around `forge script`
+- **forge:deploy**: Deploy a Foundry script target using a wrapper around
+  `forge script`
 
   Defaults if not provided:
 
 - **RPC URL**: `http://localhost:8545`
-- **Private key**: `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` (unlocked Anvil demo account)
+- **Private key**:
+  `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` (unlocked
+  Anvil demo account)
 
   Chain-aware usage (the `@script/` prefix is optional):
 
@@ -324,7 +327,8 @@ The following convenience commands are available via Bun scripts in
 - The wrapper auto-adds `--broadcast` unless you already provided it.
 - Extra flags are forwarded to `forge script` as-is.
 - Script path is normalized to `forge/script/...` under the `forge/` workspace.
-- When using `--sig`, put it after a literal `--` and quote the signature to avoid shell parsing:
+- When using `--sig`, put it after a literal `--` and quote the signature to
+  avoid shell parsing:
 
     ```sh
     bun run forge:deploy -- @script/DaikatanaPayments.s.sol:DaikatanaPaymentsScript \
@@ -455,6 +459,75 @@ const originContracts = addresses.getAllOriginContracts();
 
 The address mapping is generated from the `@custom:tatara`, `@custom:katana`, and
 `@custom:bokuto` doccomments in the contract files.
+
+---
+
+### 8️⃣ **Forkable Examples**
+
+You can replace the default demo app in `src/` with any example from `examples/`.
+
+Commands:
+
+```bash
+# List available examples
+bun run fork --list
+
+# Fork an example and build the app
+bun run fork wrapping --yes
+
+# Skip the build step (you can run `bun run build` later)
+bun run fork ausd-yearnvault --yes --no-build
+```
+
+Behavior:
+
+- Backs up your current `src/` to `.fork-backups/src-<timestamp>`
+- Clears `src/` and copies `examples/<name>` into `src/`
+- Runs `bun run build` unless `--no-build` is provided
+
+Telemetry (centralized and optional):
+
+If you want telemetry to include which example was forked, set `PHONEHOME_META`
+when running the command. This augments the `prefork` pre-script event with
+metadata.
+
+```bash
+# Preferred JSON format
+PHONEHOME_META='{"example":"wrapping"}' bun run fork wrapping --yes
+
+# Or simple key=value list (comma-separated allowed)
+PHONEHOME_META='example=wrapping' bun run fork wrapping --yes
+```
+
+Notes:
+
+- Telemetry is still governed by the same consent and env flags described below
+- The fork script itself contains no telemetry logic; all analytics go through `utils/phonehome.ts`
+
+## Anonymous telemetry (opt-in)
+
+On first run of any `bun run` script, the starter kit may ask:
+
+> "Help improve Katana Starter Kit by sending anonymous usage (event name,
+> version, OS)? [y/N]"
+
+- If you opt in, a local `.phonehome/config.json` is created with:
+  - `consent`: `yes` or `no`
+  - `repoId`: random ID for this clone
+  - `deviceId`: random ID for this device
+- The `deviceId` is generated once per machine and cached, so multiple clones on
+  the same device share the same ID. No personal data is collected.
+- Telemetry is non-blocking and offline-safe: events are queued in
+  `.phonehome/queue` and occasionally flushed in the background with strict
+  timeouts.
+
+Control via environment variables:
+
+- `KATANA_PHONEHOME=0` disables telemetry
+- `KATANA_PHONEHOME=1` enables telemetry
+- Telemetry is automatically disabled in CI and when `DO_NOT_TRACK=1`.
+
+You can change your choice anytime by editing `.phonehome/config.json`.
 
 ---
 

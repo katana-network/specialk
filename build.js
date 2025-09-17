@@ -2,6 +2,18 @@ import { build } from 'esbuild';
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Project-root import alias: allows imports like '@/utils/...'
+const rootAliasPlugin = {
+  name: 'root-alias',
+  setup(b) {
+    b.onResolve({ filter: /^@\// }, args => {
+      const rel = args.path.slice(2); // strip '@/'
+      const abs = path.resolve(process.cwd(), rel);
+      return { path: abs };
+    });
+  }
+};
+
 async function buildProject() {
   console.log('🏗️ Building project...');
 
@@ -23,10 +35,12 @@ async function buildProject() {
       platform: 'browser',
       loader: {
         '.ts': 'ts',
+        '.json': 'json',
       },
       define: {
         'process.env.NODE_ENV': '"production"',
-      }
+      },
+      plugins: [rootAliasPlugin]
     });
 
     console.log('✅ TypeScript compiled successfully.');
@@ -81,11 +95,13 @@ async function buildMcpServer() {
       platform: 'node',
       loader: {
         '.ts': 'ts',
+        '.json': 'json',
       },
       external: ['child_process', 'fs', 'path', 'os', 'util'],
       define: {
         'process.env.NODE_ENV': '"production"',
-      }
+      },
+      plugins: [rootAliasPlugin]
     });
 
     console.log('✅ MCP server compiled successfully.');
@@ -183,10 +199,12 @@ async function buildExamples() {
         platform: 'browser',
         loader: {
           '.ts': 'ts',
+          '.json': 'json',
         },
         define: {
           'process.env.NODE_ENV': '"production"',
-        }
+        },
+        plugins: [rootAliasPlugin]
       });
 
       console.log(`✅ TypeScript compiled for ${example}`);
