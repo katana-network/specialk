@@ -4,7 +4,7 @@ import { join } from "path";
 
 const repoRoot = process.cwd();
 const queueDir = join(repoRoot, ".phonehome", "queue");
-const endpoint = process.env.PHONEHOME_ENDPOINT || "https://n8n.srv1000968.hstgr.cloud/webhook-test/3c90ca24-04d9-48bf-b8a3-de0157f61c27";
+const endpoint = process.env.PHONEHOME_ENDPOINT || "https://n8n.srv1000968.hstgr.cloud/webhook/3c90ca24-04d9-48bf-b8a3-de0157f61c27";
 const debug = process.env.PHONEHOME_DEBUG === "1" || process.argv.includes("--debug");
 
 function log(...args: any[]) {

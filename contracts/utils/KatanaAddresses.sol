@@ -361,7 +361,7 @@ library KatanaAddresses {
      * @return The ISushiTickLens contract address
      */
     function getSushiTickLensAddress() internal pure returns (address) {
-        return 0x35dc3e13469e980c37b6f288bbb9822b1f9bd435;
+        return 0x35DC3E13469E980c37b6F288BBb9822B1f9bD435;
     }
 
     /**
@@ -377,7 +377,7 @@ library KatanaAddresses {
      * @return The ISushiV2Factory contract address
      */
     function getSushiV2FactoryAddress() internal pure returns (address) {
-        return 0x72d111b4d6f31b38919ae39779f570b747d6acd9;
+        return 0x72D111b4d6f31B38919ae39779f570b747d6Acd9;
     }
 
     /**
@@ -581,6 +581,14 @@ library KatanaAddresses {
     }
 
     /**
+     * @notice Returns the address of IYvAUSD
+     * @return The IYvAUSD contract address
+     */
+    function getYvAUSDAddress() internal pure returns (address) {
+        return 0x93Fec6639717b6215A48E5a72a162C50DCC40d68;
+    }
+
+    /**
      * @notice Returns the address of Multicall
      * @return The Multicall contract address
      */
@@ -609,7 +617,7 @@ library KatanaAddresses {
      * @return The SushiV3PositionManager contract address
      */
     function getSushiV3PositionManagerAddress() internal pure returns (address) {
-        return 0x2659c6085d26144117d904c46b48b6d180393d27;
+        return 0x2659C6085D26144117D904C46B48B6d180393d27;
     }
 
     /**
@@ -617,7 +625,7 @@ library KatanaAddresses {
      * @return The UniswapV2Router02 contract address
      */
     function getUniswapV2Router02Address() internal pure returns (address) {
-        return 0x69cc349932ae18ed406eeb917d79b9b3033fb68e;
+        return 0x69cC349932ae18ED406eeB917d79b9b3033fB68E;
     }
 
 }

@@ -71,6 +71,32 @@ bun run build:abi
 bun run build:contractdir
 ```
 
+### Forkable Examples
+```bash
+# List available examples
+bun run fork --list
+
+# Fork an example into src/ and build
+bun run fork wrapping --yes
+
+# Skip build (build later with bun run build)
+bun run fork ausd-yearnvault --yes --no-build
+```
+
+Behavior:
+- Backs up current `src/` to `.fork-backups/src-<timestamp>`
+- Replaces `src/` with `examples/<name>`
+- Runs `bun run build` unless `--no-build` is provided
+
+Telemetry (centralized):
+- To attribute which example was forked, pass metadata via env:
+```bash
+PHONEHOME_META='{"example":"wrapping"}' bun run fork wrapping --yes
+# or
+PHONEHOME_META='example=wrapping' bun run fork wrapping --yes
+```
+- No custom telemetry in the script; `prefork` runs `utils/phonehome.ts`
+
 ### MCP Server for AI Development
 ```bash
 # Build MCP server for AI-assisted development

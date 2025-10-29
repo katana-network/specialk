@@ -1,10 +1,10 @@
 import { createPublicClient, createWalletClient, http, custom, formatEther, formatUnits, parseUnits, PublicClient, WalletClient } from 'viem';
-import { addresses, CHAIN_IDS } from '../../utils/addresses/index.js';
+import { addresses, CHAIN_IDS } from '@/utils/addresses/index.ts';
 
 // Import ABIs from their respective locations
-import AUSD_ABI from '../../abis/tokens/IAUSD.json';
-import WETH_ABI from '../../abis/vb/tokens/IbvbEth.json';
-import MORPHO_BLUE_ABI from '../../abis/morpho/IMorphoBlue.json';
+import AUSD_ABI from '@/abis/tokens/IAUSD.json';
+import WETH_ABI from '@/abis/vb/tokens/IbvbEth.json';
+import MORPHO_BLUE_ABI from '@/abis/morpho/IMorphoBlue.json';
 
 // Chain information
 const CHAIN_INFO = {

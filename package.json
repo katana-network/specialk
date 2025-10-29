@@ -6,7 +6,7 @@
     "prebuild": "bun utils/phonehome.ts --event build",
     "build": "bun build.js",
     "predev": "bun utils/phonehome.ts --event dev",
-    "dev": "cd dist && npx http-server",
+    "dev": "npx http-server dist",
     "prestart:anvil": "bun utils/phonehome.ts --event start:anvil",
     "start:anvil": "chmod +x scripts/start_anvil.sh && scripts/start_anvil.sh",
     "preverify:anvil": "bun utils/phonehome.ts --event verify:anvil",
@@ -28,8 +28,12 @@
     "preforge:deploy": "bun utils/phonehome.ts --event forge:deploy",
     "forge:deploy": "bash scripts/forge-deploy.sh",
     "build:all": "bun run forge:deps && bun run build:addressutils && bun run build:abi && bun run build:contractdir && bun run build && bun run build:mcpserver",
+    "predeploy:arns": "bun utils/phonehome.ts --event deploy:arns",
+    "deploy:arns": "bun run build:all && permaweb-deploy --arns-name $ARNS_NAME --sig-type ethereum",
     "prestart:mcp": "bun utils/phonehome.ts --event start:mcp",
-    "start:mcp": "bun dist-mcp/index.js"
+    "start:mcp": "bun dist-mcp/index.js",
+    "prefork": "bun utils/phonehome.ts --event fork",
+    "fork": "bun scripts/fork_example.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
@@ -38,8 +42,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "esbuild": "^0.24.0",
     "@types/node": "^20.11.25",
+    "esbuild": "^0.24.0",
+    "permaweb-deploy": "^2.5.1",
     "typescript": "^5.4.2",
     "bun-types": "latest"
   },

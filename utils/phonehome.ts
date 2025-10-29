@@ -80,6 +80,49 @@ function getPkgVersion(): string {
   try { return JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")).version ?? "0.0.0"; } catch { return "0.0.0"; }
 }
 
+function tryParseJson<T = any>(txt: string): T | null {
+  try { return JSON.parse(txt) as T; } catch { return null; }
+}
+
+function parseKeyValueList(txt: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const part of txt.split(/[;,]/)) {
+    const p = part.trim();
+    if (!p) continue;
+    const eq = p.indexOf("=");
+    if (eq === -1) continue;
+    const k = p.slice(0, eq).trim();
+    const v = p.slice(eq + 1).trim();
+    if (k) out[k] = v;
+  }
+  return out;
+}
+
+function parseMetaFromArgs(argv: string[]): Record<string, string> {
+  const meta: Record<string, string> = {};
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--meta") {
+      const val = argv[i + 1] || "";
+      const eq = val.indexOf("=");
+      if (eq !== -1) {
+        const k = val.slice(0, eq).trim();
+        const v = val.slice(eq + 1).trim();
+        if (k) meta[k] = v;
+      }
+      i++;
+    }
+  }
+  return meta;
+}
+
+function parseMetaFromEnv(): Record<string, string> {
+  const env = process.env.PHONEHOME_META;
+  if (!env) return {};
+  const asJson = tryParseJson<Record<string, string>>(env);
+  if (asJson && typeof asJson === "object") return asJson;
+  return parseKeyValueList(env);
+}
+
 async function maybeSpawnFlusher() {
   try {
     const files = await readdir(queueDir);
@@ -116,6 +159,12 @@ async function main() {
 
   if (!shouldTrack(cfg.consent)) return;
 
+  // Build metadata (centralized; pre-scripts can enrich via env or argv)
+  const meta: Record<string, any> = {
+    ...parseMetaFromEnv(),
+    ...parseMetaFromArgs(process.argv.slice(2)),
+  };
+
   const payload = {
     event: eventName,
     repoId: cfg.repoId,
@@ -128,6 +177,7 @@ async function main() {
       ci: Boolean(process.env.CI || process.env.GITHUB_ACTIONS)
     },
     ts: new Date().toISOString(),
+    meta,
   };
 
   // Write event to queue; do not await network
