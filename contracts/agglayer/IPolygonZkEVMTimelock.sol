@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 /**
  * @title IPolygonZkEVMTimelock
  * @notice Interface for the PolygonZkEVMTimelock contract which manages governance actions with time delays
- * @custom:tatara 0xdbC6981a11fc2B000c635bFA7C47676b25C87D39
  * @custom:tags agglayer,polygon,governance,timelock,zkevm
  */
 interface IPolygonZkEVMTimelock {

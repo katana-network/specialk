@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title IMultiSend
  * @dev Interface for the MultiSend contract on Katana
  * @notice This contract allows batching multiple transactions into a single transaction
- * @custom:tatara 0x998739BFdAAdde7C933B942a68053933098f9EDa
+ * @custom:bokuto 0x998739BFdAAdde7C933B942a68053933098f9EDa
  */
 interface IMultiSend {
     /**

@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title ICreate2Deployer
  * @dev Interface for the Create2Deployer contract on Katana
  * @notice Helper contract for using CREATE2 opcode with additional safety features and utilities
- * @custom:tatara 0x13b0D85CcB8bf860b6b79AF3029fCA081AE9beF2
+ * @custom:bokuto 0x13b0D85CcB8bf860b6b79AF3029fCA081AE9beF2
  */
 interface ICreate2Deployer {
     /**

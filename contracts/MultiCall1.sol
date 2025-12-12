@@ -5,7 +5,6 @@ pragma solidity ^0.8.12;
 /// @author Michael Elliot <mike@makerdao.com>
 /// @author Joshua Levine <joshua@makerdao.com>
 /// @author Nick Johnson <arachnid@notdot.net>
-/// @custom:tatara 0x4e1d97344FFa4B55A2C6335574982aa9cB627C4F
 /// @custom:katana 0x1F4c1E0afBeb5b5B86d7722549274434b29884F6
 /// @custom:bokuto 0x1a593e35B50A6BD65f23aa022C910FF0Cef58ACd
 /// @custom:tags utility,multicall,batch

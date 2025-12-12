@@ -3,13 +3,13 @@ pragma solidity ^0.8.28;
 
 import {Script, console} from "../lib/forge-std/src/Script.sol";
 import { IAgoraFaucet } from "contracts/IAgoraFaucet.sol";
-import { TataraAddresses } from "contracts/utils/TataraAddresses.sol";
+import { BokutoAddresses } from "contracts/utils/BokutoAddresses.sol";
 
 contract CounterScript is Script {
     IAgoraFaucet public agoraFaucet;
 
     function setUp() public {
-        agoraFaucet = IAgoraFaucet(TataraAddresses.getAgoraFaucetAddress());
+        agoraFaucet = IAgoraFaucet(BokutoAddresses.getAgoraFaucetAddress());
     }
 
     function run() public {

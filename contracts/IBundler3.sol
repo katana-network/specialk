@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
  * @notice Interface for the Bundler3 contract, which enables batching multiple calls in a single transaction
  * @author Morpho Labs
  * @custom:contact security@morpho.org
- * @custom:tatara 0xD0bDf3E62F6750Bd83A50b4001743898Af287009
+ * @custom:bokuto 0xD0bDf3E62F6750Bd83A50b4001743898Af287009
  * @custom:tags morpho,bundler,batch,utility
  */
 interface IBundler3 {

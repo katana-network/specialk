@@ -5,7 +5,6 @@ pragma solidity >=0.7.0 <0.9.0;
  * @title ISushiV3Factory
  * @notice Interface for SushiSwap V3 Factory contract
  * @dev Factory for creating SushiSwap V3 pools
- * @custom:tatara 0x9B3336186a38E1b6c21955d112dbb0343Ee061eE
  * @custom:katana 0x203e8740894c8955cB8950759876d7E7E45E04c1
  * @custom:tags sushi,defi,amm,factory,v3
  */

@@ -7,7 +7,6 @@ pragma solidity ^0.8.4;
  * @notice Interface for Sushi's V2 Router
  * @dev Router for SushiSwap V2
  * @custom:katana 0x69cc349932ae18ed406eeb917d79b9b3033fb68e
- * @custom:tatara 0x57bffa72db682f7eb6c132dae03ff36bbeb0c459
  * @custom:tags sushi,swap,dex,defi,v2
  */
 interface UniswapV2Router02 {

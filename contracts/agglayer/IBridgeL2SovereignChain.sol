@@ -4,8 +4,6 @@ pragma solidity ^0.8.0;
 /**
  * @title IBridgeL2SovereignChain
  * @notice Interface for the BridgeL2SovereignChain contract which handles cross-chain message passing
- * @dev Proxy. Implementation address tatara: 0x8BD36ca1A55e389335004872aA3C3Be0969D3aA7
- * @custom:tatara 0x528e26b25a34a4A5d0dbDa1d57D318153d2ED582
  * @custom:tags agglayer,bridge,polygon,crosschain,sovereign
  */
 interface IBridgeL2SovereignChain {

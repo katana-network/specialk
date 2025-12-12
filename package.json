@@ -1,7 +1,7 @@
 {
   "name": "katana-development-starter-kit",
   "version": "0.1.0",
-  "description": "Development starter kit for Katana and Tatara",
+  "description": "Development starter kit for Katana and Bokuto",
   "scripts": {
     "prebuild": "bun utils/phonehome.ts --event build",
     "build": "bun build.js",

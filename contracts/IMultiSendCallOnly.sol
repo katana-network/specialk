@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title IMultiSendCallOnly
  * @dev Interface for the MultiSendCallOnly contract on Katana
  * @notice This contract allows batching multiple transactions into a single transaction, but only allows CALL operations (no delegatecall)
- * @custom:tatara 0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B
+ * @custom:bokuto 0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B
  */
 interface IMultiSendCallOnly {
     /**

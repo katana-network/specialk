@@ -9,7 +9,6 @@ import "./IMetaMorpho.sol";
  * @notice Interface for PublicAllocator, which enables permissionless reallocation of MetaMorpho vaults
  * @author Morpho Labs
  * @custom:contact security@morpho.org
- * @custom:tatara 0x8FfD3815919081bDb60CD8079C68444331B65042
  * @custom:tags morpho,defi,allocator,liquidity
  */
 interface IPublicAllocator {

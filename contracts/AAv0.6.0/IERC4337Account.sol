@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 /**
  * @title ERC-4337 v0.6.0 Account Interface
  * @notice Interface for accounts that can be validated by the EntryPoint
- * @custom:tatara Used by EntryPoint at 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
  * @custom:tags account-abstraction,erc4337,account,v0.6.0
  */
 interface IAccount {

@@ -5,7 +5,7 @@
 ## 🚀 Introduction
 
 Welcome to the **Katana Development Starter Kit**! This repository serves as
-your launchpad for building on **Katana** and its testnets **Tatara** and **Bokuto**.
+your launchpad for building on **Katana** and its testnet **Bokuto**.
 
 This kit provides:
 
@@ -72,24 +72,6 @@ or novel DeFi protocols**, this starter kit helps you bootstrap your project
 
 ---
 
-### Tatara
-
-| Property                | Value                                                                 |
-|-------------------------|-----------------------------------------------------------------------|
-| **Network Name**        | Tatara Network (aka Katana Testnet)                                   |
-| **Chain ID**            | `129399`                                                              |
-| **RPC URL**             | `https://rpc.tatara.katanarpc.com/<apikey>`                           |
-| **Block Explorer**      | [https://explorer.tatara.katana.network/](https://explorer.tatara.katana.network/) |
-| **Vault Bridge Faucet** | [https://faucet-api.polygon.technology/api-docs/](https://faucet-api.polygon.technology/api-docs/) |
-| **Bridge UI**           | [https://portal-staging.polygon.technology/bridge](https://portal-staging.polygon.technology/bridge) |
-| **Gas Token**           | ETH                                                                   |
-| **Block Time**          | 1 second                                                              |
-| **Gas Block Limit**     | 60M units                                                             |
-| **Gas Pricing**         | EIP1559                                                               |
-| **Data Availability**   | EIP4844                                                               |
-
----
-
 ## 🛠 Setup & Installation
 
 ### 1️⃣ **Install Dependencies**
@@ -143,7 +125,6 @@ defaults.
 
 ```bash
 # Copy and customize based on your available RPC endpoints
-TATARA_RPC_URL=https://rpc.tatara.katanarpc.com
 KATANA_RPC_URL=https://rpc.katana.network/
 BOKUTO_RPC_URL=https://rpc-bokuto.katanarpc.com
 ```
@@ -151,9 +132,6 @@ BOKUTO_RPC_URL=https://rpc-bokuto.katanarpc.com
 #### Terminal 1: Start Anvil Fork
 
 ```sh
-# Fork Tatara testnet
-bun run start:anvil tatara
-
 # Or fork Bokuto testnet
 bun run start:anvil bokuto
 
@@ -179,7 +157,7 @@ See [scripts/README.md](scripts/README.md) for more details.
 ### 4️⃣ **Example dApp**
 
 The starter kit includes a simple example dApp that automatically detects and
-connects to any of the supported local chain forks (Tatara, Katana, or Bokuto)
+connects to any of the supported local chain forks (Katana or Bokuto)
 and displays information about key contracts available on that chain.
 
 To run the example:
@@ -188,7 +166,7 @@ To run the example:
 
    ```sh
    # Fork any supported chain
-   bun run start:anvil tatara   # or bokuto/katana
+   bun run start:anvil bokuto   # or katana
    ```
 
 2. In a new terminal, build the dApp:
@@ -244,7 +222,7 @@ To use the MCP server:
    Replace `/absolute_path_to_starter_kit/` with absolute path to your clone of
    the starter kit.
 
-2. Launch the local chain with `bun run start:anvil tatara` (or `bokuto`/`katana`).
+2. Launch the local chain with `bun run start:anvil bokuto` (or `katana`).
 
 3. The `PRIVATE_KEY` and `RPC_URL` environment variables are optional. If not
    provided, the RPC URL will default to `http://localhost:8545`.
@@ -307,8 +285,7 @@ The following convenience commands are available via Bun scripts in
   # Katana mainnet (reads KATANA_RPC_URL and KATANA_DEPLOYER_KEY from .env)
   bun run forge:deploy -- @script/DaikatanaPayments.s.sol:DaikatanaPaymentsScript --chain katana
 
-  # Tatara/Bokuto testnets
-  bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain tatara
+  # Bokuto testnet
   bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain bokuto
 
   # Override only the private key while keeping chain RPC from .env
@@ -359,7 +336,7 @@ Obtain the etherscan key [in the API dash](https://etherscan.io/apidashboard).
 ### 7️⃣ **Contract Address Mapping**
 
 The kit includes a utility to generate a JavaScript mapping of all contract
-addresses for Tatara testnet, Katana mainnet, and Bokuto testnet. This
+addresses for Katana mainnet and Bokuto testnet. This
 makes it easy to access contract addresses in your frontend code without
 hardcoding them. The system also handles **origin chain addresses** for
 cross-chain operations like Vault Bridge.
@@ -390,9 +367,9 @@ The improved API provides a cleaner interface with automatic "I" prefix handling
 import { addresses, CHAINS } from '../utils/addresses';
 
 // Set the chain context (by name or ID)
-addresses.setChain('tatara');
+addresses.setChain('bokuto');
 // or
-addresses.setChain(CHAINS.tatara);
+addresses.setChain(CHAINS.bokuto);
 
 // Get contract addresses - automatically handles I prefix
 const wethAddress = addresses.getAddress('WETH');      // Finds IWETH
@@ -415,7 +392,7 @@ const wethOnKatana = addresses.getAddressForChain('WETH', 'katana');
 
 For cross-chain operations (like Vault Bridge), you often need addresses from
 the **origin chain** (Ethereum/Sepolia) while operating in a **destination
-chain** context (Katana/Bokuto/Tatara). The address system handles this
+chain** context (Katana/Bokuto). The address system handles this
 automatically:
 
 ```javascript
@@ -444,20 +421,19 @@ const originContracts = addresses.getAllOriginContracts();
 
 - **Katana context** → Origin addresses from **Ethereum**
 - **Bokuto context** → Origin addresses from **Sepolia**
-- **Tatara context** → Origin addresses from **Sepolia**
 
 ### Features
 
 - **Automatic I-prefix handling**: Try `WETH` and it will find `IWETH`
 - **Chain context management**: Set once, use everywhere
 - **Origin chain support**: Access origin chain addresses for cross-chain operations
-- **Context-aware addressing**: Katana context → Ethereum origins, Bokuto/Tatara
+- **Context-aware addressing**: Katana context → Ethereum origins, Bokuto
   → Sepolia origins
 - **Better error messages**: Shows available contracts when not found
 - **Type-safe**: Full TypeScript support with address types
 - **Dual address types**: Regular (destination) and origin addresses in one API
 
-The address mapping is generated from the `@custom:tatara`, `@custom:katana`, and
+The address mapping is generated from the `@custom:katana` and
 `@custom:bokuto` doccomments in the contract files.
 
 ---

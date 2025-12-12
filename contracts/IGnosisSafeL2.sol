@@ -7,7 +7,7 @@ import "./IGnosisSafe.sol";
  * @title IGnosisSafeL2
  * @dev Interface for the Gnosis Safe L2 multisignature wallet on Katana
  * @notice This contract extends IGnosisSafe with L2-specific optimizations and events
- * @custom:tatara 0xfb1bffC9d739B8D520DaF37dF666da4C687191EA
+ * @custom:bokuto 0xfb1bffC9d739B8D520DaF37dF666da4C687191EA
  */
 interface IGnosisSafeL2 is IGnosisSafe {
     /**
