@@ -6,7 +6,6 @@ pragma solidity ^0.8.0;
  * @notice Interface for MetaMorpho Factory, which creates MetaMorpho vaults for Morpho Blue
  * @author Morpho Labs
  * @custom:contact security@morpho.org
- * @custom:tatara 0x505619071bdCDeA154f164b323B6C42Fc14257f7
  * @custom:tags morpho,defi,factory,vault,metamorpho
  */
 interface IMetaMorphoFactory {

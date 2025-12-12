@@ -160,7 +160,6 @@ function generateMarkdown(contract) {
 function networkAddressExplorerUrl(network, address) {
   try {
     const lower = String(network).toLowerCase();
-    if (lower === 'tatara') return `https://explorer.tatara.katana.network/address/${address}`;
     if (lower === 'bokuto') return `https://explorer-bokuto.katanarpc.com/address/${address}`;
     if (lower === 'katana') return `https://katanascan.com/address/${address}`;
     return null;
@@ -190,7 +189,6 @@ function normalizeOriginAddress(network, entry) {
 function inferOriginChainFromNetwork(network) {
   const lower = String(network).toLowerCase();
   if (lower === 'katana') return 'ethereum';
-  if (lower === 'tatara') return 'sepolia';
   if (lower === 'bokuto') return 'sepolia';
   return 'ethereum';
 }

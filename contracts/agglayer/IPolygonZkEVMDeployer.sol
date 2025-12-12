@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 /**
  * @title IPolygonZkEVMDeployer
  * @notice Interface for the PolygonZkEVMDeployer contract which manages deployments of rollup components
- * @custom:tatara 0x36810012486fc134D0679c07f85fe5ba5A087D8C
  * @custom:tags agglayer,polygon,deployment,zkevm,rollup
  */
 interface IPolygonZkEVMDeployer {

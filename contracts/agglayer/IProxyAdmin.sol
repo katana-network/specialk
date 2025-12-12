@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 /**
  * @title IProxyAdmin
  * @notice Interface for the ProxyAdmin contract which manages transparent proxy contracts
- * @custom:tatara 0x85cEB41028B1a5ED2b88E395145344837308b251
  * @custom:tags agglayer,polygon,proxy,admin,governance
  */
 interface IProxyAdmin {

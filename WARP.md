@@ -4,11 +4,10 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-This is the **Katana Development Starter Kit**, a comprehensive development environment for building on Katana blockchain and its testnets (Tatara and Bokuto). The kit provides a complete stack for DeFi protocol development including smart contracts, frontend applications, and blockchain interaction utilities.
+This is the **Katana Development Starter Kit**, a comprehensive development environment for building on Katana blockchain and its testnet Bokuto. The kit provides a complete stack for DeFi protocol development including smart contracts, frontend applications, and blockchain interaction utilities.
 
 ### Key Networks
 - **Katana Mainnet**: Chain ID 747474, RPC: https://rpc.katana.network/
-- **Tatara Testnet**: Chain ID 129399, RPC: https://rpc.tatara.katanarpc.com
 - **Bokuto Testnet**: Chain ID 737373, RPC: https://rpc-bokuto.katanarpc.com
 
 ## Essential Commands
@@ -28,7 +27,6 @@ bun run build:all
 ### Development Workflow
 ```bash
 # Start local chain fork (choose one)
-bun run start:anvil tatara    # Fork Tatara testnet
 bun run start:anvil katana    # Fork Katana mainnet  
 bun run start:anvil bokuto    # Fork Bokuto testnet
 
@@ -52,7 +50,6 @@ bun run forge:test
 
 # Deploy contracts (supports chain-aware deployment)
 bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain local
-bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain tatara
 bun run forge:deploy -- @script/Counter.s.sol:CounterScript --chain katana
 
 # Set up Foundry dependencies (automatic during build:all)
@@ -111,7 +108,7 @@ bun run start:mcp
 ### Multi-Chain Address System
 The project features a sophisticated address management system that handles both destination chain contracts and origin chain addresses for cross-chain operations:
 
-- **Destination Addresses**: Contracts deployed on Katana/Tatara/Bokuto
+- **Destination Addresses**: Contracts deployed on Katana/Bokuto
 - **Origin Addresses**: Contracts on Ethereum/Sepolia used for Vault Bridge operations
 - **Dynamic Resolution**: Automatically handles 'I' prefix for interfaces (e.g., `WETH` → `IWETH`)
 
@@ -125,7 +122,6 @@ All contract interfaces are stored in the `contracts/` directory with doccomment
 
 ```solidity
 /**
- * @custom:tatara 0x1234567890123456789012345678901234567890
  * @custom:katana 0x2345678901234567890123456789012345678901
  * @custom:bokuto sepolia:0x3456789012345678901234567890123456789012
  */
@@ -161,7 +157,7 @@ Provides AI-assisted development through Foundry MCP server at `utils/mcp-server
 import { addresses, CHAINS } from '../utils/addresses';
 
 // Set chain context
-addresses.setChain('tatara');
+addresses.setChain('bokuto');
 
 // Get contract addresses (automatic I-prefix handling)
 const wethAddress = addresses.getAddress('WETH');      // Finds IWETH
@@ -184,7 +180,7 @@ Use the chain-aware deployment wrapper:
 bun run forge:deploy -- @script/MyScript.s.sol:MyScript --chain local
 
 # Testnet deployment (reads from .env)
-bun run forge:deploy -- @script/MyScript.s.sol:MyScript --chain tatara
+bun run forge:deploy -- @script/MyScript.s.sol:MyScript --chain bokuto
 ```
 
 ### Adding New Contracts
@@ -198,12 +194,10 @@ bun run forge:deploy -- @script/MyScript.s.sol:MyScript --chain tatara
 ### Required Environment Variables (.env)
 ```bash
 # RPC endpoints (customize to avoid rate limiting)
-TATARA_RPC_URL=https://rpc.tatara.katanarpc.com
 KATANA_RPC_URL=https://rpc.katana.network/
 BOKUTO_RPC_URL=https://rpc-bokuto.katanarpc.com
 
 # Deployment keys (set for live deployments)
-TATARA_DEPLOYER_KEY=0x...
 KATANA_DEPLOYER_KEY=0x...
 BOKUTO_DEPLOYER_KEY=0x...
 LOCAL_DEPLOYER_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
@@ -230,7 +224,7 @@ For AI-assisted development with Cursor, add to `.cursor/mcp.json`:
 
 - **Always use chain forks for development**: Start anvil fork before running the dApp
 - **Address system is dynamic**: No need to hardcode addresses, use the address management system
-- **Origin vs Destination**: Understand the difference between origin chain addresses (Ethereum/Sepolia) and destination chain addresses (Katana/Tatara/Bokuto)
+- **Origin vs Destination**: Understand the difference between origin chain addresses (Ethereum/Sepolia) and destination chain addresses (Katana/Bokuto)
 - **Build order matters**: Run `build:addressutils` before other build steps when adding new contracts
 - **MCP server requires absolute paths**: Use full paths in MCP configuration files
 

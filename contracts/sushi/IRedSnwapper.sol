@@ -5,7 +5,6 @@ pragma solidity ^0.8.10;
  * @title IRedSnwapper
  * @notice Interface for Sushi'sRedSnwapper
  * @dev RedSnwapper is a facade for the execution router contracts (RouteProcessor), and handles single & multi token swaps.
- * @custom:tatara 0xAC4c6e212A361c968F1725b4d055b47E63F80b75
  * @custom:katana 0xAC4c6e212A361c968F1725b4d055b47E63F80b75
  * @custom:tags sushi,swap,dex,defi
  */

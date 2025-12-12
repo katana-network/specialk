@@ -7,7 +7,7 @@ import "./IYearnVault.sol";
  * @title IYvAUSD
  * @notice Interface for the Yearn AUSD ERC4626 vault
  * @dev This vault accepts AUSD and issues yvAUSD tokens
- * @custom:tatara 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60
+ * @custom:bokuto 0xAe4b2FCf45566893Ee5009BA36792D5078e4AD60
  * @custom:tags yearn,defi,vault,ausd,yield
  */
 interface IYvAUSD is IYearnVault {

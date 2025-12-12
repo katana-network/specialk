@@ -8114,7 +8114,7 @@ server.tool(
   "katana_contracts",
   "Get information about Katana contract addresses",
   {
-    network: z.enum(["katana", "tatara"]).describe("Which network to get addresses for (katana = mainnet, tatara = testnet)"),
+    network: z.enum(["katana", "bokuto"]).describe("Which network to get addresses for (katana = mainnet, bokuto = testnet)"),
     contractName: z.string().optional().describe("Specific contract to get the address for (e.g., 'WETH', 'MorphoBlue')")
   },
   async ({ network, contractName }) => {
@@ -8400,7 +8400,7 @@ server.tool(
   "Look up contract addresses by contract name or symbol, checking both README.md and addresses.ts",
   {
     contractName: z.string().describe("The name or symbol of the contract to look up (e.g., 'AUSD', 'MorphoBlue')"),
-    chainId: z.number().optional().describe("Chain ID to use for looking up addresses (defaults to Tatara testnet if not specified)")
+    chainId: z.number().optional().describe("Chain ID to use for looking up addresses (defaults to Bokuto testnet if not specified)")
   },
   async ({ contractName, chainId }) => {
     try {
@@ -8417,8 +8417,8 @@ server.tool(
           isError: true
         };
       }
-      const contractRegex = new RegExp(`"${contractName}":\\s*{\\s*"tatara":\\s*"(0x[a-fA-F0-9]+)"`, "i");
-      const exactContractRegex = new RegExp(`"${contractName}":\\s*{\\s*"tatara":\\s*"(0x[a-fA-F0-9]+)"`, "g");
+      const contractRegex = new RegExp(`"${contractName}":\\s*{\\s*"bokuto":\\s*"(0x[a-fA-F0-9]+)"`, "i");
+      const exactContractRegex = new RegExp(`"${contractName}":\\s*{\\s*"bokuto":\\s*"(0x[a-fA-F0-9]+)"`, "g");
       const tokenRegex = new RegExp(`"${contractName}":\\s*{`, "i");
       const readmePath = path.join(process.cwd(), "interfaces", "README.md");
       let readmeContent;
@@ -8433,7 +8433,7 @@ server.tool(
       let contractAddressFromTS = null;
       try {
         const { CHAIN_IDS, getContractAddress } = await import(addressesPath);
-        const effectiveChainId = chainId || CHAIN_IDS.TATARA;
+        const effectiveChainId = chainId || CHAIN_IDS.BOKUTO;
         contractAddressFromTS = getContractAddress(contractName, effectiveChainId);
         if (!contractAddressFromTS) {
           contractAddressFromTS = getContractAddress(`I${contractName}`, effectiveChainId);
@@ -8517,7 +8517,7 @@ server.tool(
     contractName: z.string().describe("The name or symbol of the contract (e.g., 'AUSD', 'MorphoBlue')"),
     functionName: z.string().describe("Function name to call (e.g., 'totalSupply', 'balanceOf')"),
     args: z.array(z.string()).optional().describe("Function arguments"),
-    chainId: z.number().optional().describe("Chain ID to use (defaults to Tatara testnet if not specified)"),
+    chainId: z.number().optional().describe("Chain ID to use (defaults to Bokuto testnet if not specified)"),
     rpcUrl: z.string().optional().describe("JSON-RPC URL (default: http://localhost:8545)"),
     blockNumber: z.string().optional().describe("Block number (e.g., 'latest', 'earliest', or a number)"),
     from: z.string().optional().describe("Address to perform the call as")
@@ -8530,12 +8530,12 @@ server.tool(
       let functionSignature = null;
       try {
         const { CHAIN_IDS, getContractAddress } = await import(addressesPath);
-        const effectiveChainId = chainId || CHAIN_IDS.TATARA;
+        const effectiveChainId = chainId || CHAIN_IDS.BOKUTO;
         contractAddress = getContractAddress(contractName, effectiveChainId) || getContractAddress(`I${contractName}`, effectiveChainId) || (contractName.startsWith("I") ? getContractAddress(contractName.substring(1), effectiveChainId) : null);
       } catch (error) {
         try {
           const addressesContent = await fs.readFile(addressesPath, "utf8");
-          const contractRegex = new RegExp(`"${contractName}":\\s*{\\s*"tatara":\\s*"(0x[a-fA-F0-9]+)"`, "i");
+          const contractRegex = new RegExp(`"${contractName}":\\s*{\\s*"bokuto":\\s*"(0x[a-fA-F0-9]+)"`, "i");
           const match = addressesContent.match(contractRegex);
           if (match && match[1]) {
             contractAddress = match[1];

@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title IDeterministicDeploymentProxy
  * @dev Interface for Deterministic Deployment Proxy on Katana
  * @notice This contract enables deploying other contracts at the same address across different EVM chains
- * @custom:tatara 0x4e59b44847b379578588920cA78FbF26c0B4956C
+ * @custom:bokuto 0x4e59b44847b379578588920cA78FbF26c0B4956C
  */
 interface IDeterministicDeploymentProxy {
     /**

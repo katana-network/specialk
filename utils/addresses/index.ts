@@ -7,7 +7,6 @@ import { CONTRACT_ADDRESSES, ORIGIN_CONTRACT_ADDRESSES, CHAIN_IDS } from './mapp
  * Chain IDs for all supported networks
  */
 export interface ChainIds {
-  TATARA: number;
   KATANA: number;
   BOKUTO: number;
 }
@@ -17,7 +16,6 @@ export interface ChainIds {
  */
 export interface ContractAddresses {
   [contractName: string]: {
-    tatara: `0x${string}` | null;
     katana: `0x${string}` | null;
     bokuto: `0x${string}` | null;
   };
@@ -29,13 +27,12 @@ export { CHAIN_IDS };
 /**
  * Supported chain names
  */
-export type ChainName = 'tatara' | 'katana' | 'bokuto';
+export type ChainName = 'katana' | 'bokuto';
 
 /**
  * Map chain names to their IDs
  */
 export const CHAINS = {
-  tatara: CHAIN_IDS.TATARA,
   katana: CHAIN_IDS.KATANA,
   bokuto: CHAIN_IDS.BOKUTO,
 } as const;
@@ -52,8 +49,6 @@ function getContractAddress(contractName: string, chainId: number): `0x${string}
   }
   
   switch (chainId) {
-    case CHAIN_IDS.TATARA:
-      return CONTRACT_ADDRESSES[contractName].tatara as `0x${string}` | null;
     case CHAIN_IDS.KATANA:
       return CONTRACT_ADDRESSES[contractName].katana as `0x${string}` | null;
     case CHAIN_IDS.BOKUTO:
@@ -75,8 +70,6 @@ function getOriginContractAddress(contractName: string, chainId: number): `0x${s
   }
   
   switch (chainId) {
-    case CHAIN_IDS.TATARA:
-      return ORIGIN_CONTRACT_ADDRESSES[contractName].tatara as `0x${string}` | null;
     case CHAIN_IDS.KATANA:
       return ORIGIN_CONTRACT_ADDRESSES[contractName].katana as `0x${string}` | null;
     case CHAIN_IDS.BOKUTO:
@@ -96,8 +89,8 @@ class AddressManager {
    * Set the current chain context
    * @param chainIdOrName - Chain ID or name to set as context
    * @example
-   * addresses.setChain(CHAINS.tatara);
-   * addresses.setChain('tatara');
+   * addresses.setChain(CHAINS.bokuto);
+   * addresses.setChain('bokuto');
    * addresses.setChain(129399);
    */
   setChain(chainIdOrName: number | ChainName): void {
@@ -146,7 +139,7 @@ class AddressManager {
    * @returns The contract address
    * @throws Error if chain not set or contract not found
    * @example
-   * addresses.setChain('tatara');
+   * addresses.setChain('bokuto');
    * const wethAddress = addresses.getAddress('WETH'); // Automatically tries 'IWETH' if 'WETH' not found
    */
   getAddress(contractName: string): `0x${string}` {

@@ -5,7 +5,6 @@ pragma solidity ^0.8.0;
  * @title IGlobalExitRootManagerL2SovereignChain
  * @notice Interface for the GlobalExitRootManagerL2SovereignChain contract which manages exit roots
  * @dev Proxy. Implementation address: 0x282a631D9F3Ef04Bf1A44B4C9e8bDC8EB278917f
- * @custom:tatara 0xa40d5f56745a118d0906a34e69aec8c0db1cb8fa
  * @custom:tags agglayer,bridge,polygon,exit-root,sovereign
  */
 interface IGlobalExitRootManagerL2SovereignChain {

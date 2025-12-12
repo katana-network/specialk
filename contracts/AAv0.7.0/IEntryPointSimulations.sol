@@ -6,7 +6,6 @@ import "./IEntryPoint.sol";
 /**
  * @title IEntryPointSimulations Interface (v0.7.0)
  * @notice Extended simulation interface for EntryPoint
- * @custom:tatara 0x0000000071727De22E5E9d8BAf0edAc6f37da032
  * @custom:tags account-abstraction,erc4337,simulation,v0.7.0
  */
 interface IEntryPointSimulations is IEntryPoint {

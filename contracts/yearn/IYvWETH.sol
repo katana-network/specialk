@@ -7,7 +7,7 @@ import "./IYearnVault.sol";
  * @title IYvWETH
  * @notice Interface for the Yearn WETH ERC4626 vault
  * @dev This vault accepts WETH and issues yvWETH tokens
- * @custom:tatara 0xccc0fc2e34428120f985b460b487eb79e3c6fa57
+ * @custom:bokuto 0xccc0fc2e34428120f985b460b487eb79e3c6fa57
  * @custom:tags yearn,defi,vault,weth,yield
  */
 interface IYvWETH is IYearnVault {

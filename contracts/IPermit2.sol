@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title IPermit2
  * @notice Comprehensive interface for Uniswap's Permit2 system, combining allowance transfers and signature-based transfers
  * @dev Unifies functionality from multiple Permit2 interfaces for token approvals and transfers
- * @custom:tatara 0x000000000022D473030F116dDEE9F6B43aC78BA3
+ * @custom:bokuto 0x000000000022D473030F116dDEE9F6B43aC78BA3
  * @custom:tags utility,permit,erc20,signature,uniswap
  */
 interface IPermit2 {

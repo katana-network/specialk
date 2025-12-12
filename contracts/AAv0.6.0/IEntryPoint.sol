@@ -8,7 +8,6 @@ import "./IERC4337Account.sol";
  * @title IEntryPoint v0.6.0
  * @notice Account-Abstraction (EIP-4337) singleton EntryPoint
  * @dev Only one instance required on each chain
- * @custom:tatara 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
  * @custom:tags account-abstraction,erc4337,entrypoint,v0.6.0
  */
 interface IEntryPoint is IStakeManager, INonceManager {

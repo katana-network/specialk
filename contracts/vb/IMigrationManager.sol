@@ -7,7 +7,7 @@ pragma solidity ^0.8.20;
  * @notice Interface for the Migration Manager contract. This is deployed on the
    origin chain - for "Katana" this means Ethereum, for "Bokuto" this means
    Sepolia. The address for each context is different, and indicated in custom
-   tags. Tatara does not have a MigrationManager.
+   tags.
  * @custom:bokuto sepolia:0x16B46094cb1eE593181Ba2d997E77E88D7E9Ab8F
  * @custom:katana ethereum:0x417d01B64Ea30C4E163873f3a1f77b727c689e02
  * @custom:tags vaultbridge,migration,manager,bridge

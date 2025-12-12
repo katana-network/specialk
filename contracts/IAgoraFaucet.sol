@@ -6,7 +6,7 @@ pragma solidity ^0.8.4;
  * @title IAgoraFaucet
  * @notice Interface for Agora test token faucet
  * @dev Provides testnet token distribution functionality
- * @custom:tatara 0xd236c18D274E54FAccC3dd9DDA4b27965a73ee6C
+ * @custom:bokuto 0xd236c18D274E54FAccC3dd9DDA4b27965a73ee6C
  * @custom:tags testnet,faucet,utility
  */
 interface IAgoraFaucet {

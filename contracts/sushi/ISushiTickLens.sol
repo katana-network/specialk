@@ -7,7 +7,6 @@ pragma solidity ^0.8.4;
  * @notice Interface for Sushi's Tick Lens which provides functions for fetching chunks of tick data for a pool
  * @dev This avoids the waterfall of fetching the tick bitmap, parsing the bitmap to know which ticks to fetch, and then sending additional multicalls to fetch the tick data
  * @custom:katana 0x35dc3e13469e980c37b6f288bbb9822b1f9bd435
- * @custom:tatara 0xb46e319390de313b8cc95ea5aa30c7bbfd79da94
  * @custom:tags sushi,swap,dex,defi,v3
  */
 interface ISushiTickLens {

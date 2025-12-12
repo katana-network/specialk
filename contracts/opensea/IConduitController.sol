@@ -5,7 +5,6 @@ pragma solidity ^0.8.0;
  * @title IConduitController
  * @notice Interface for OpenSea's Conduit Controller system that enables deploying and managing conduits
  * @dev Conduits allow registered callers (channels) to transfer approved ERC20/721/1155 tokens on their behalf
- * @custom:tatara 0x00000000F9490004C11Cef243f5400493c00Ad63
  * @custom:katana 0x00000000F9490004C11Cef243f5400493c00Ad63
  * @custom:bokuto 0x00000000F9490004C11Cef243f5400493c00Ad63
  * @custom:tags opensea,nft,marketplace,conduit,controller

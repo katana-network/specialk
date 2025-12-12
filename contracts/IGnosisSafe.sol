@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title IGnosisSafe
  * @dev Interface for the Gnosis Safe multisignature wallet on Katana
  * @notice This contract enables multisig wallet functionality with support for ERC191 signatures
- * @custom:tatara 0x69f4D1788e39c87893C980c06EdF4b7f686e2938
+ * @custom:bokuto 0x69f4D1788e39c87893C980c06EdF4b7f686e2938
  * @custom:tags gnosis,multisig,wallet,security
  */
 interface IGnosisSafe {

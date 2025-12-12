@@ -7,7 +7,6 @@ pragma solidity ^0.8.4;
  * @notice Interface for Sushi's V2 Factory
  * @dev Factory for creating SushiSwap V2 pools
  * @custom:katana 0x72d111b4d6f31b38919ae39779f570b747d6acd9
- * @custom:tatara 0xb45e53277a7e0f1d35f2a77160e91e25507f1763
  * @custom:tags sushi,swap,dex,defi,v2
  */
 interface ISushiV2Factory {

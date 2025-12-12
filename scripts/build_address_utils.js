@@ -11,11 +11,10 @@ const JS_UTILS_DIR = join(process.cwd(), 'utils', 'addresses');
 const JS_OUTPUT_PATH = join(JS_UTILS_DIR, 'mapping.ts');
 
 // Supported networks
-const NETWORKS = ['tatara', 'katana', 'bokuto'];
+const NETWORKS = ['katana', 'bokuto'];
 
 // Chain IDs for each network
 const CHAIN_IDS = {
-  tatara: 129399,
   katana: 747474,
   bokuto: 737373,
 };
@@ -298,7 +297,6 @@ function generateTypeScriptMapping(networkContracts, originNetworkContracts) {
   
   allContractNames.forEach(contractName => {
     addressMapping[contractName] = {
-      tatara: networkContracts.tatara[contractName] || null,
       katana: networkContracts.katana[contractName] || null,
       bokuto: networkContracts.bokuto[contractName] || null
     };
@@ -309,7 +307,6 @@ function generateTypeScriptMapping(networkContracts, originNetworkContracts) {
   
   allOriginContractNames.forEach(contractName => {
     originAddressMapping[contractName] = {
-      tatara: originNetworkContracts.tatara[contractName]?.address || null,
       katana: originNetworkContracts.katana[contractName]?.address || null,
       bokuto: originNetworkContracts.bokuto[contractName]?.address || null
     };
@@ -322,7 +319,6 @@ function generateTypeScriptMapping(networkContracts, originNetworkContracts) {
 // Add this file to .gitignore
 
 export const CHAIN_IDS = {
-  TATARA: ${CHAIN_IDS.tatara},
   KATANA: ${CHAIN_IDS.katana},
   BOKUTO: ${CHAIN_IDS.bokuto}
 } as const;
@@ -332,10 +328,9 @@ ${Object.entries(addressMapping)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([name, addrs]) => {
     // Simple string values, typing will be in index.ts
-    const tatara = addrs.tatara ? `"tatara": "${addrs.tatara}"` : '"tatara": null';
     const katana = addrs.katana ? `"katana": "${addrs.katana}"` : '"katana": null';
     const bokuto = addrs.bokuto ? `"bokuto": "${addrs.bokuto}"` : '"bokuto": null';
-    return `  "${name}": { ${tatara}, ${katana}, ${bokuto} }`;
+    return `  "${name}": { ${katana}, ${bokuto} }`;
   })
   .join(',\n')}
 } as const;
@@ -345,10 +340,9 @@ ${Object.entries(originAddressMapping)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([name, addrs]) => {
     // Simple string values, typing will be in index.ts
-    const tatara = addrs.tatara ? `"tatara": "${addrs.tatara}"` : '"tatara": null';
     const katana = addrs.katana ? `"katana": "${addrs.katana}"` : '"katana": null';
     const bokuto = addrs.bokuto ? `"bokuto": "${addrs.bokuto}"` : '"bokuto": null';
-    return `  "${name}": { ${tatara}, ${katana}, ${bokuto} }`;
+    return `  "${name}": { ${katana}, ${bokuto} }`;
   })
   .join(',\n')}
 } as const;
@@ -383,13 +377,11 @@ function main() {
   // Parse files and extract addresses
   console.log('Extracting addresses from doccomments...');
   const networkContracts = {
-    tatara: {},
     katana: {},
     bokuto: {}
   };
 
   const originNetworkContracts = {
-    tatara: {},
     katana: {},
     bokuto: {}
   };

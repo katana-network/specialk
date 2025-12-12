@@ -1,7 +1,7 @@
 # Katana Contract Interfaces
 
 This folder contains Solidity interfaces for all core contracts deployed on
-**Katana**, **Tatara** (testnet), and **Bokuto** (testnet). These interfaces
+**Katana** and **Bokuto** (testnet). These interfaces
 provide a unified way to interact with the diverse ecosystem of DeFi protocols,
 bridges, oracles, and utilities available across the Katana network.
 
@@ -17,7 +17,6 @@ access to contract addresses:
 
 ```solidity
 import "./utils/KatanaAddresses.sol";
-import "./utils/TataraAddresses.sol";
 import "./utils/BokutoAddresses.sol";
 
 contract MyDapp {
@@ -524,7 +523,7 @@ ausd.transfer(recipient, amount);
 
 For cross-chain operations, some contracts exist on **origin chains**
 (Ethereum/Sepolia) while being used in the context of **destination chains**
-(Katana/Bokuto/Tatara):
+(Katana/Bokuto):
 
 ```solidity
 // Access origin chain addresses from destination chain context
@@ -544,7 +543,7 @@ contract VaultBridgeIntegration {
 **Chain Context Mapping:**
 
 - **Katana context** → Origin addresses from **Ethereum**
-- **Bokuto/Tatara context** → Origin addresses from **Sepolia**
+- **Bokuto context** → Origin addresses from **Sepolia**
 
 ## 🏗️ Examples
 
@@ -562,7 +561,7 @@ showing how to:
 Contract addresses are automatically extracted from the `@custom:network`
 doccomments in each interface file. To add a new contract:
 
-1. Create the interface file with proper `@custom:tatara`, `@custom:katana`,
+1. Create the interface file with proper `@custom:katana`,
    `@custom:bokuto` tags
 2. Run `bun run build:addressutils` to regenerate address utilities
 3. Use the new contract in your applications via the address management system

@@ -12,6 +12,5 @@ broadcast = 'broadcast'
 
 [rpc_endpoints]
 katana = "https://rpc.katana.network"
-tatara = "https://rpc.tatara.katanarpc.com"
 bokuto = "https://rpc-bokuto.katanarpc.com"
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

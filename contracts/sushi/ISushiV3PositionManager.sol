@@ -3,7 +3,6 @@
 pragma solidity >=0.7.0 <0.9.0;
 pragma experimental ABIEncoderV2;
 
-/// @custom:tatara 0x1400feFD6F9b897970f00Df6237Ff2B8b27Dc82C
 /// @custom:katana 0x2659c6085d26144117d904c46b48b6d180393d27
 /// @custom:tags sushi,swap,dex,defi,v3
 interface SushiV3PositionManager {

@@ -8,7 +8,6 @@ import MORPHO_BLUE_ABI from '@/abis/morpho/IMorphoBlue.json';
 
 // Chain information
 const CHAIN_INFO = {
-  [CHAIN_IDS.TATARA]: { name: 'Tatara', symbol: 'ETH' },
   [CHAIN_IDS.KATANA]: { name: 'Katana', symbol: 'ETH' },
   [CHAIN_IDS.BOKUTO]: { name: 'Bokuto', symbol: 'ETH' }
 };
@@ -166,7 +165,7 @@ function displayRpcError(customMessage?: string) {
       <h4>⚠️ Connection Error</h4>
       ${customMessage ? `<p>${customMessage}</p>` : ''}
       <p>Make sure you've started a local chain fork with:</p>
-      <pre>bun run start:anvil tatara   # or bokuto/katana</pre>
+      <pre>bun run start:anvil bokuto   # or bokuto/katana</pre>
       <p>Your local RPC should be running at http://localhost:8545</p>
     </div>
   `;
