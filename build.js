@@ -1,18 +1,7 @@
 import { build } from 'esbuild';
 import fs from 'node:fs';
 import path from 'node:path';
-
-// Project-root import alias: allows imports like '@/utils/...'
-const rootAliasPlugin = {
-  name: 'root-alias',
-  setup(b) {
-    b.onResolve({ filter: /^@\// }, args => {
-      const rel = args.path.slice(2); // strip '@/'
-      const abs = path.resolve(process.cwd(), rel);
-      return { path: abs };
-    });
-  }
-};
+import { execSync } from 'node:child_process';
 
 async function buildProject() {
   console.log('🏗️ Building project...');
@@ -35,12 +24,10 @@ async function buildProject() {
       platform: 'browser',
       loader: {
         '.ts': 'ts',
-        '.json': 'json',
       },
       define: {
         'process.env.NODE_ENV': '"production"',
-      },
-      plugins: [rootAliasPlugin]
+      }
     });
 
     console.log('✅ TypeScript compiled successfully.');
@@ -95,13 +82,11 @@ async function buildMcpServer() {
       platform: 'node',
       loader: {
         '.ts': 'ts',
-        '.json': 'json',
       },
       external: ['child_process', 'fs', 'path', 'os', 'util'],
       define: {
         'process.env.NODE_ENV': '"production"',
-      },
-      plugins: [rootAliasPlugin]
+      }
     });
 
     console.log('✅ MCP server compiled successfully.');
@@ -182,57 +167,147 @@ async function buildExamples() {
     fs.mkdirSync(outputPath, { recursive: true });
     
     try {
-      // Check if main.ts exists
+      // Detect example type
       const mainTsPath = path.join(examplePath, 'main.ts');
-      if (!fs.existsSync(mainTsPath)) {
-        console.log(`⚠️  Skipping ${example}: no main.ts found`);
+      const reactIndexPath = path.join(examplePath, 'src', 'index.tsx');
+
+      const isTsSingleFile = fs.existsSync(mainTsPath);
+      const isReactTsx = fs.existsSync(reactIndexPath);
+
+      if (!isTsSingleFile && !isReactTsx) {
+        console.log(`⚠️  Skipping ${example}: no entry found (expected main.ts or src/index.tsx)`);
         continue;
       }
 
-      // Build TypeScript for this example
-      await build({
-        entryPoints: [mainTsPath],
-        outfile: path.join(outputPath, 'main.js'),
+      // If the example is a React app with its own package.json, ensure deps are installed
+      const examplePkgPath = path.join(examplePath, 'package.json');
+      const hasPackageJson = fs.existsSync(examplePkgPath);
+      const nodeModulesPath = path.join(examplePath, 'node_modules');
+      if (isReactTsx && hasPackageJson && !fs.existsSync(nodeModulesPath)) {
+        try {
+          console.log(`📦 Installing dependencies for ${example} (bun install)...`);
+          execSync('bun install --no-progress', { cwd: examplePath, stdio: 'inherit' });
+          console.log(`✅ Dependencies installed for ${example}`);
+        } catch (installErr) {
+          console.warn(`⚠️  Failed to install dependencies for ${example}. Continuing with build...`);
+        }
+      }
+
+      // Common esbuild options
+      const esbuildCommon = {
+        outfile: path.resolve(outputPath, 'main.js'),
         bundle: true,
         minify: true,
         format: 'esm',
         platform: 'browser',
+        absWorkingDir: path.resolve(examplePath),
         loader: {
           '.ts': 'ts',
-          '.json': 'json',
+          '.tsx': 'tsx',
+          '.css': 'css',
         },
+        jsx: 'automatic',
+        jsxImportSource: 'react',
         define: {
           'process.env.NODE_ENV': '"production"',
+          'process.env.REACT_APP_WALLETCONNECT_PROJECT_ID': JSON.stringify(process.env.REACT_APP_WALLETCONNECT_PROJECT_ID || ''),
         },
-        plugins: [rootAliasPlugin]
-      });
+      };
 
-      console.log(`✅ TypeScript compiled for ${example}`);
-
-      // Copy HTML file if it exists
-      const htmlPath = path.join(examplePath, 'index.html');
-      if (fs.existsSync(htmlPath)) {
-        fs.copyFileSync(htmlPath, path.join(outputPath, 'index.html'));
-        console.log(`✅ HTML copied for ${example}`);
-      }
-
-      // Copy CSS file if it exists
-      const cssPath = path.join(examplePath, 'style.css');
-      if (fs.existsSync(cssPath)) {
-        fs.copyFileSync(cssPath, path.join(outputPath, 'style.css'));
-        console.log(`✅ CSS copied for ${example}`);
-      }
-
-      // Copy any images directory if it exists
-      const imagesDir = path.join(examplePath, 'images');
-      if (fs.existsSync(imagesDir)) {
-        const targetImagesDir = path.join(outputPath, 'images');
-        fs.mkdirSync(targetImagesDir, { recursive: true });
-        
-        fs.readdirSync(imagesDir).forEach(file => {
-          fs.copyFileSync(path.join(imagesDir, file), path.join(targetImagesDir, file));
+      if (isTsSingleFile) {
+        await build({
+          entryPoints: ['main.ts'],
+          ...esbuildCommon,
         });
-        console.log(`✅ Images copied for ${example}`);
+        console.log(`✅ TypeScript compiled for ${example}`);
+
+        // Copy HTML file if it exists
+        const htmlPath = path.join(examplePath, 'index.html');
+        if (fs.existsSync(htmlPath)) {
+          fs.copyFileSync(htmlPath, path.join(outputPath, 'index.html'));
+          console.log(`✅ HTML copied for ${example}`);
+        }
+
+        // Copy CSS file if it exists
+        const cssPath = path.join(examplePath, 'style.css');
+        if (fs.existsSync(cssPath)) {
+          fs.copyFileSync(cssPath, path.join(outputPath, 'style.css'));
+          console.log(`✅ CSS copied for ${example}`);
+        }
+
+        // Copy any images directory if it exists
+        const imagesDir = path.join(examplePath, 'images');
+        if (fs.existsSync(imagesDir)) {
+          const targetImagesDir = path.join(outputPath, 'images');
+          fs.mkdirSync(targetImagesDir, { recursive: true });
+          fs.readdirSync(imagesDir).forEach(file => {
+            fs.copyFileSync(path.join(imagesDir, file), path.join(targetImagesDir, file));
+          });
+          console.log(`✅ Images copied for ${example}`);
+        }
+      } else if (isReactTsx) {
+        // Build React example from src/index.tsx
+        const tsconfigPath = path.resolve(examplePath, 'tsconfig.json');
+        await build({
+          entryPoints: ['src/index.tsx'],
+          tsconfig: fs.existsSync(tsconfigPath) ? tsconfigPath : undefined,
+          ...esbuildCommon,
+        });
+        console.log(`✅ React example compiled for ${example}`);
+
+        // Copy public assets
+        const publicDir = path.join(examplePath, 'public');
+        if (fs.existsSync(publicDir)) {
+          // Copy everything except index.html (we'll transform it below)
+          fs.readdirSync(publicDir).forEach(file => {
+            const srcPath = path.join(publicDir, file);
+            const destPath = path.join(outputPath, file);
+            if (file.toLowerCase() === 'index.html') return;
+            const stat = fs.statSync(srcPath);
+            if (stat.isDirectory()) {
+              fs.cpSync(srcPath, destPath, { recursive: true });
+            } else {
+              fs.copyFileSync(srcPath, destPath);
+            }
+          });
+          console.log(`✅ Public assets copied for ${example}`);
+        }
+
+        // Copy all .css files from src/ to output directory (for React examples)
+        const srcDir = path.join(examplePath, 'src');
+        if (fs.existsSync(srcDir)) {
+          const cssFiles = fs.readdirSync(srcDir).filter(f => f.endsWith('.css'));
+          for (const cssFile of cssFiles) {
+            fs.copyFileSync(path.join(srcDir, cssFile), path.join(outputPath, cssFile));
+            console.log(`✅ src/${cssFile} copied for ${example}`);
+          }
+        }
+
+        // Transform and write index.html
+        const publicIndexHtml = path.join(publicDir, 'index.html');
+        const cssFiles = fs.existsSync(srcDir) ? fs.readdirSync(srcDir).filter(f => f.endsWith('.css')) : [];
+        if (fs.existsSync(publicIndexHtml)) {
+          let html = fs.readFileSync(publicIndexHtml, 'utf8');
+          // Replace CRA placeholders and inject script tag
+          html = html.replace(/%PUBLIC_URL%/g, '.');
+          // Inject CSS links if not present
+          for (const cssFile of cssFiles) {
+            if (!html.includes(cssFile)) {
+              html = html.replace('</head>', `  <link rel="stylesheet" href="./${cssFile}">\n  </head>`);
+            }
+          }
+          if (!/main\.js/.test(html)) {
+            html = html.replace('</body>', '  <script type="module" src="./main.js"></script>\n  </body>');
+          }
+          fs.writeFileSync(path.join(outputPath, 'index.html'), html);
+          console.log(`✅ HTML generated for ${example}`);
+        } else {
+          // Fallback basic HTML
+          let cssLinks = cssFiles.map(cssFile => `    <link rel="stylesheet" href="./${cssFile}">`).join('\n');
+          const basicHtml = `<!doctype html>\n<html>\n  <head>\n    <meta charset="utf-8"/>\n    <meta name="viewport" content="width=device-width, initial-scale=1"/>\n    <title>${example}</title>\n${cssLinks}\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="./main.js"></script>\n  </body>\n</html>`;
+          fs.writeFileSync(path.join(outputPath, 'index.html'), basicHtml);
+          console.log(`✅ HTML created for ${example}`);
+        }
       }
 
       // Create a README for this example
@@ -276,4 +351,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
 }
 
-export { buildProject, buildMcpServer, buildExamples }; 
+export { buildProject, buildMcpServer, buildExamples };
